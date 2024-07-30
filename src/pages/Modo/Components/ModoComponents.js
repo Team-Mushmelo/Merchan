@@ -8,14 +8,14 @@ export function Ponto({ estado }) {
             <View style={{ flex: 0.2, justifyContent: "center", flexDirection: "row" }}>
 
                 <View style={[estilosPontos.pontos, { backgroundColor: '#BE00B0', marginRight: 10 }]}></View>
-                <View style={[estilosPontos.pontos, { backgroundColor: "#00000000", borderColor: '#BE00B0', borderWidth: 2.5 }]}></View>
+                <View style={[estilosPontos.pontos, { backgroundColor: "#00000000", borderColor: '#BE00B0', borderWidth: 1.5 }]}></View>
 
             </View>
         );
     } else {
         return (<View style={{ flex: 0.2, justifyContent: "center", flexDirection: "row" }}>
 
-            <View style={[estilosPontos.pontos, { backgroundColor: "#00000000", borderColor: '#BE00B0', borderWidth: 2.5 }]}></View>
+            <View style={[estilosPontos.pontos, { backgroundColor: "#00000000", borderColor: '#BE00B0', borderWidth: 1.5 }]}></View>
             <View style={[estilosPontos.pontos, { backgroundColor: '#BE00B0', marginRight: 10 }]}></View>
             <LogoImagem ></LogoImagem>
         </View>
@@ -69,12 +69,12 @@ const { width } = Dimensions.get('window'); // Obtém a largura da tela
 export function GrupoBotoes() {
     return (
         <View style={styles.Fundo}>
-            <Pressable style={[styles.card, { backgroundColor: '#BE00B0', }]}>
+            <Pressable style={[styles.card, { backgroundColor: '#BE00B0', width:'50%', }]}>
                 <Image style={styles.cardImg} source={LogoBranco} />
                 <Text style={styles.TextBotao}>LIGHT MODE</Text>
             </Pressable>
 
-            <Pressable style={[styles.card, { backgroundColor: '#40173D', }]}>
+            <Pressable style={[styles.card, { backgroundColor: '#40173D', width:'50%' }]}>
                 <Image style={styles.cardImg} source={LogoBranco} />
                 <Text style={styles.TextBotao}>DARK MODE</Text>
             </Pressable>
@@ -100,9 +100,10 @@ const styles = StyleSheet.create({
     cardImg: {
         width: width * 0.17, // 10% da largura da tela
         height: width * 0.11, // Mantendo proporção 1:1
-        marginRight: 10,
+        marginRight: 1,
     },
     TextBotao: {
+        marginleft: 10,
         fontSize: 18,
         width: width * 0.15,
         fontWeight: 'bold',

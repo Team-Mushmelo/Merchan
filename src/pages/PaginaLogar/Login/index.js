@@ -48,17 +48,28 @@ export default function Login({ setIsCriarConta, setIsLogado }) {
           <Text style={{ fontSize: 17 }}>Não tem uma conta?</Text>
           <Text style={{ color: '#BE00B0', fontSize: 17 }}> Cadastre-se</Text>
         </Pressable>
-
-      </View>
-
-      <View style={styles.caixa3}>
+ <View style={styles.caixa3}>
         <Hr posicao={'Vertical'} />
         <Text>OU</Text>
         <Hr posicao={'Vertical'} />
 
-      </View>
 
-    </View>
+      
+      
+
+</View>
+      <View style={{ justifyContent: 'center',}}>
+     <Pressable onPress={() => setIsCriarConta(true)} style={{ flexDirection: "row", justifyContent: 'center', textAlign: 'center',  width: 300, height:50, borderWidth: 1, borderColor: '#40173d', borderRadius: 25, }}>
+          <Text style={{ fontSize: 17, }}>Não tem uma conta?</Text>
+          <Text style={{ color: '#BE00B0', fontSize: 17 }}> Cadastre-se</Text>
+        </Pressable>
+      </View>
+      </View>
+      </View>
+     
+
+
+   
   );
 }
 

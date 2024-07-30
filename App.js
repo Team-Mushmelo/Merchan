@@ -40,7 +40,7 @@ function App() {
   } else {
     return (
       <>
-        <StatusBar translucent backgroundColor={'#00000000'} />
+        <StatusBar translucent backgroundColor={'#00000000'}/>
         <NavigationContainer >
           <Stack.Navigator screenOptions={{ headerShown: false }}>
 
