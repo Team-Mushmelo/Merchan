@@ -17,3 +17,5 @@ USAR O COMANDO:
 npm install
 
 vai baixar todas as dependencias
+
+npx expo start
