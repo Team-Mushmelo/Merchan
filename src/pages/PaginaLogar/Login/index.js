@@ -48,28 +48,34 @@ export default function Login({ setIsCriarConta, setIsLogado }) {
           <Text style={{ fontSize: 17 }}>Não tem uma conta?</Text>
           <Text style={{ color: '#BE00B0', fontSize: 17 }}> Cadastre-se</Text>
         </Pressable>
- <View style={styles.caixa3}>
-        <Hr posicao={'Vertical'} />
-        <Text>OU</Text>
-        <Hr posicao={'Vertical'} />
+        <View style={styles.caixa3}>
+
+          <Hr posicao={'Vertical'} />
+          <Text>OU</Text>
+          <Hr posicao={'Vertical'} />
+
+        </View>
 
 
-      
-      
 
-</View>
-      <View style={{ justifyContent: 'center',}}>
-     <Pressable onPress={() => setIsCriarConta(true)} style={{ flexDirection: "row", justifyContent: 'center', textAlign: 'center',  width: 300, height:50, borderWidth: 1, borderColor: '#40173d', borderRadius: 25, }}>
-          <Text style={{ fontSize: 17, }}>Não tem uma conta?</Text>
-          <Text style={{ color: '#BE00B0', fontSize: 17 }}> Cadastre-se</Text>
+      </View>
+      <View style={{ justifyContent: 'center', flexDirection: 'row', }}>
+        <Pressable onPress={() => setIsCriarConta(true)} style={{ flexDirection: 'row', display: 'flex', textAlign: 'center', justifyContent: 'center', width: 300, height: 70, borderWidth: 1, borderColor: '#BE00B0', borderRadius: 25, }}>
+
+          <Text style={{ color: '#BE00B0', fontSize: 17, marginTop: 20, }} > Continue com o Google</Text>
         </Pressable>
       </View>
+
+      <View style={{ justifyContent: 'center', flexDirection: 'row', margin: 15 }}> <Pressable onPress={() => setIsCriarConta(true)} style={{ flexDirection: 'row', display: 'flex', textAlign: 'center', justifyContent: 'center', width: 300, height: 70, borderWidth: 1, borderColor: '#BE00B0', borderRadius: 25, }}> <Text style={{ color: '#BE00B0', fontSize: 17, marginTop: 20, }} >
+        Continue com a Apple</Text>
+      </Pressable>
       </View>
-      </View>
-     
+
+    </View >
 
 
-   
+
+
   );
 }
 
@@ -104,6 +110,7 @@ const styles = StyleSheet.create({
   caixa3: {
     flex: 2,
     flexDirection: 'row',
+
   },
 
   input: {

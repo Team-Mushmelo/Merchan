@@ -43,14 +43,14 @@ export default function Criar({ setIsLogado, setIsCriarConta }) {
           </View>
 
         </View>
-
+        <Botao texto={'CONTINUAR'} tipo={1} onPress={() => setIsLogado(true)} />
       </View>
 
       <View style={styles.caixa3}>
 
-        <Botao texto={'CONTINUAR'} tipo={1} onPress={() => setIsLogado(true)} />
 
-        <Pressable onPress={() => setIsCriarConta(false)} style={{ flexDirection: "row", justifyContent: 'center',  }}>
+
+        <Pressable onPress={() => setIsCriarConta(false)} style={{ flexDirection: "row", justifyContent: 'center', }}>
           <Text style={{ fontSize: 17 }}>Já tem uma conta?</Text>
           <Text style={{ color: '#BE00B0', fontSize: 17 }}> Acesse!</Text>
         </Pressable>
