@@ -3,18 +3,12 @@ import { View, Text, StyleSheet } from 'react-native';
 
 function HomeScreen() {
   return (
-    <View style={styles.container}>
-      <Text>Home Screen</Text>
+    <View style={{ backgroundColor: '#fff', height: '100%' }}>
+      <Text style={{ textAlign: 'left', margin: 10, fontSize: 25, color: '#BE00B0' }}>MERCHAN</Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-});
+
 
 export default HomeScreen;
