@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+
 function inicio() {
   return (
     <View style={{ backgroundColor: '#fff', height: '100%' }}>
