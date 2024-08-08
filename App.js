@@ -31,6 +31,7 @@ function MeuApp() {
 function App() {
   const [isLogado, setIsLogado] = useState(false);
 
+
   let [fontsLoaded] = useFonts({
     'OpenSansRegular': OpenSans_400Regular,
     'OpenSansBold': OpenSans_700Bold,

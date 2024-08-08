@@ -20,7 +20,7 @@ function Modo({ navigation }) {
 
                 <View style={styles.BotoesInferiores}>
                     <Botao texto={'CONTINUAR'} tipo={1} onPress={() => navigation.navigate('PaginaLogar')} />
-                    <Botao texto={'PULAR'} tipo={2} />
+                    <Botao texto={'PULAR'} tipo={2} onPress={() => navigation.navigate('PaginaLogar')} />
                 </View>
 
                 <Ponto estado={0} />

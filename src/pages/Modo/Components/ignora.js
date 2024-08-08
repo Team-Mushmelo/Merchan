@@ -1,6 +1,7 @@
 import { StyleSheet, View, Image, Text, Pressable, Dimensions } from 'react-native';
 
 //Ponto
+const [isDark, setIsDark,] = useState(false);
 export function Ponto({ estado }) {
     if (estado == 0) {
         return (
@@ -60,6 +61,7 @@ const estiloTopo = StyleSheet.create({
 
 })
 
+
 //Grupo de Botões
 import LogoBranco from '../../../imgs/LogoB.png';
 
@@ -68,12 +70,12 @@ const { width } = Dimensions.get('window'); // Obtém a largura da tela
 export function GrupoBotoes() {
     return (
         <View style={styles.Fundo}>
-            <Pressable style={[styles.card, styles.FundoBtnLight]}>
+            <Pressable style={[styles.card, { backgroundColor: '#BE00B0', width:'50%' }]}>
                 <Image style={styles.cardImg} source={LogoBranco} />
                 <Text style={styles.TextBotao}>LIGHT MODE</Text>
             </Pressable>
 
-            <Pressable style={[styles.card, styles.FundoBtnDark ]}>
+            <Pressable style={[styles.card, { backgroundColor: '#40173D', width:'50%' }]}>
                 <Image style={styles.cardImg} source={LogoBranco} />
                 <Text style={styles.TextBotao}>DARK MODE</Text>
             </Pressable>
@@ -81,14 +83,12 @@ export function GrupoBotoes() {
     );
 }
 
-
+if(isDark){
 
 const styles = StyleSheet.create({
     //Modo escuro
-    FundoBtnLight:{ backgroundColor: '#BE00B0', width:'50%' },
 
-
-    FundoBtnDark:{ backgroundColor: '#170215', width:'50%' },
+    FundoBotao:{ backgroundColor: '#40173D', width:'50%' },
 
     Fundo: {
         flex: 1.5,
@@ -118,3 +118,37 @@ const styles = StyleSheet.create({
         color: '#fff', // Adicione cor branca para contraste
     },
 });
+}else{
+        
+const styles = StyleSheet.create({
+    //ModoClaro
+    Fundoc: { backgroundColor: '#BE00B0', width:'50%' },
+    Fundo: { 
+        flex: 1.5,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        margin: 5,
+    },
+    card: {
+        width: width * 0.48, // 45% da largura da tela
+        borderRadius: 50,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+    },
+    cardImg: {
+        width: width * 0.17, // 10% da largura da tela
+        height: width * 0.11, // Mantendo proporção 1:1
+        marginRight: 1,
+    },
+    TextBotao: {
+        marginleft: 10,
+        fontSize: 18,
+        width: width * 0.15,
+        fontWeight: 'bold',
+        flexWrap: 'wrap',
+        color: '#fff', // Adicione cor branca para contraste
+    },
+});
+}
