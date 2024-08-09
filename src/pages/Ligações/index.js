@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-export default function Home() {
+export default function Ligacoes() {
 return(
 <View style={styles.container}>
-<Text style={styles.text}> Página Home </Text>
+<Text style={styles.text}> Página Ligações </Text>
 </View>
 );
 }

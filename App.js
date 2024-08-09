@@ -17,10 +17,48 @@ import HomeScreen from './src/pages/Home';
 
 import { Image, SafeAreaView, StatusBar, View } from 'react-native';
 
+
+
+import Routes from './src/Routes';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MeuApp() {
+
+
+
+
+
+
+
+<NavigationContainer>
+<Routes/>
+</NavigationContainer>
+
+
+
+
+
+
+
+
+
+
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Home" component={HomeScreen} />
