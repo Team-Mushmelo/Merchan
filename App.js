@@ -50,6 +50,7 @@ function MeuApp() {
 
 
 
+  return (
 <NavigationContainer>
 <Tab.Screen name='Home' component={HomeScreen} />
 <Tab.Screen name='Comunidade' component={Comunidade} />
@@ -58,19 +59,6 @@ function MeuApp() {
 <Tab.Screen name='Perfil' component={Perfil} />
 </NavigationContainer>
 
-
-
-
-
-
-
-
-
-
-  return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-    </Tab.Navigator>
   );
 }
 
