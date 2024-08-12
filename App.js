@@ -13,14 +13,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import PaginaLogar from './src/pages/PaginaLogar/'
 import Modo from './src/pages/Modo';
-import HomeScreen from './src/pages/Home';
+
 
 import { Image, SafeAreaView, StatusBar, View } from 'react-native';
 
 
+import HomeScreen from './src/pages/Home';
+import Comunidade from './src/pages/Comunidade';
 
-import Routes from './src/Routes';
+import Ligações from './src/pages/Ligações';
+import Lives from './src/pages/Lives';
 
+import Perfil from './src/pages/Perfil';
 
 
 
@@ -47,7 +51,11 @@ function MeuApp() {
 
 
 <NavigationContainer>
-<Routes/>
+<Tab.Screen name='Home' component={HomeScreen} />
+<Tab.Screen name='Comunidade' component={Comunidade} />
+<Tab.Screen name='Ligações' component={Ligações} />
+<Tab.Screen name='Lives' component={Lives} />
+<Tab.Screen name='Perfil' component={Perfil} />
 </NavigationContainer>
 
 
