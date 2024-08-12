@@ -51,13 +51,13 @@ function MeuApp() {
 
 
   return (
-<NavigationContainer>
+<Tab.Navigator>
 <Tab.Screen name='Home' component={HomeScreen} />
 <Tab.Screen name='Comunidade' component={Comunidade} />
 <Tab.Screen name='Ligações' component={Ligações} />
 <Tab.Screen name='Lives' component={Lives} />
 <Tab.Screen name='Perfil' component={Perfil} />
-</NavigationContainer>
+</Tab.Navigator>
 
   );
 }
