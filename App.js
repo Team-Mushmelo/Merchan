@@ -26,7 +26,7 @@ import Lives from './src/pages/Lives';
 
 import Perfil from './src/pages/Perfil';
 
-
+import {Entypo, Feather, MaterialIcons, FontAwesome} from '@expo/vector-icons';
 
 
 
@@ -51,13 +51,64 @@ function MeuApp() {
 
 
   return (
-<Tab.Navigator>
-<Tab.Screen name='Home' component={HomeScreen} />
-<Tab.Screen name='Comunidade' component={Comunidade} />
-<Tab.Screen name='Ligações' component={Ligações} />
-<Tab.Screen name='Lives' component={Lives} />
-<Tab.Screen name='Perfil' component={Perfil} />
-</Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: '#fcfcfc',
+          paddingBottom: 5,
+          paddingTop: 5,
+          borderTop: 'none',
+        },
+        tabBarActiveTintColor: '#40173d',
+        tabBarInactiveTintColor: '#a481a1',
+      }}
+    >
+      <Tab.Screen
+        name='Home'
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <Entypo name='home' size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='Comunidade'
+        component={Comunidade}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <Entypo name='users' size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='Ligações'
+        component={Ligações}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <Entypo name='sound' size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='Lives'
+        component={Lives}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <Entypo name='video' size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='Perfil'
+        component={Perfil}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <Entypo name='user' size={size} color={color} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
 
   );
 }
