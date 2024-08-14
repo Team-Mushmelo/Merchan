@@ -51,6 +51,9 @@ function MeuApp() {
 
 
   return (
+    
+    
+
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
@@ -70,6 +73,7 @@ function MeuApp() {
           tabBarIcon: ({ size, color }) => (
             <Entypo name='home' size={size} color={color} />
           ),
+          headerTitle: "MERCHAN"
         }}
       />
       <Tab.Screen
@@ -79,6 +83,7 @@ function MeuApp() {
           tabBarIcon: ({ size, color }) => (
             <Entypo name='users' size={size} color={color} />
           ),
+          headerTitle: "MERCHAN"
         }}
       />
       <Tab.Screen
@@ -88,6 +93,7 @@ function MeuApp() {
           tabBarIcon: ({ size, color }) => (
             <Entypo name='sound' size={size} color={color} />
           ),
+          headerTitle: "MERCHAN"
         }}
       />
       <Tab.Screen
@@ -97,6 +103,7 @@ function MeuApp() {
           tabBarIcon: ({ size, color }) => (
             <Entypo name='video' size={size} color={color} />
           ),
+          headerTitle: "MERCHAN"
         }}
       />
       <Tab.Screen
@@ -106,9 +113,11 @@ function MeuApp() {
           tabBarIcon: ({ size, color }) => (
             <Entypo name='user' size={size} color={color} />
           ),
+          headerTitle: "MERCHAN"
         }}
       />
     </Tab.Navigator>
+    
 
   );
 }
