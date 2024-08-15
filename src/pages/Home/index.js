@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     carouselWrapper: {
-      // Ajuste para não sobrepor o botão flutuante
+        marginTop: 10, // Ajuste para não sobrepor o botão flutuante
         paddingHorizontal: 10,
         width: '100%',
     },
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 20,
         right: 20,
-        backgroundColor: '#007bff',
+        backgroundColor: '#bf0cb1',
         borderRadius: 50,
         padding: 15,
         elevation: 5,
