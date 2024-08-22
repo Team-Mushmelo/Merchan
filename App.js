@@ -18,7 +18,7 @@ import Modo from './src/pages/Modo';
 import { Image, SafeAreaView, StatusBar, View } from 'react-native';
 
 
-import HomeScreen from './src/pages/Home';
+import HomeScreen from './src/pages/Home/index copy';
 import Comunidade from './src/pages/Comunidade';
 
 import Ligações from './src/pages/Ligações';
@@ -39,21 +39,12 @@ import {Entypo, Feather, MaterialIcons, FontAwesome} from '@expo/vector-icons';
 
 
 
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MeuApp() {
-
-
-
-
-
-
-
   return (
-    
-    
-
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
@@ -117,8 +108,6 @@ function MeuApp() {
         }}
       />
     </Tab.Navigator>
-    
-
   );
 }
 

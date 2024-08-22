@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, FlatList, Image, Dimensions, TouchableOpacity, Alert } from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker'; // Importando react-native-image-picker
+import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
-const { width } = Dimensions.get('window');
+import Carousel from './Components/Carousel'; // Ajuste o caminho conforme necessário
 
 export default function Home() {
-    const [items, setItems] = useState([]);
+    const [items1, setItems1] = useState([]);
+    const [items2, setItems2] = useState([]);
+    const [items3, setItems3] = useState([]);
+    const [items4, setItems4] = useState([]);
 
-    const pickImage = () => {
+    const pickImage = (setItems) => {
         launchImageLibrary({ mediaType: 'photo', quality: 1 }, response => {
             if (response.didCancel) {
                 console.log('Usuário cancelou a seleção');
@@ -16,37 +18,55 @@ export default function Home() {
                 Alert.alert('Erro', response.errorMessage);
             } else {
                 const newItem = {
-                    id: (items.length + 1).toString(),
-                    type: 'image',
+                    id: (new Date()).toISOString(), // Use um ID único
                     uri: response.assets[0].uri,
                 };
-                setItems([...items, newItem]);
+                setItems(prevItems => [...prevItems, newItem]);
             }
         });
     };
 
-    const renderItem = ({ item }) => (
-        <View style={styles.itemContainer}>
-            <Image source={{ uri: item.uri }} style={styles.image} />
-        </View>
-    );
-
     return (
         <View style={styles.container}>
-            <View style={styles.carouselWrapper}>
-                <FlatList
-                    data={items}
-                    keyExtractor={(item) => item.id}
-                    horizontal
-                    renderItem={renderItem}
-                    contentContainerStyle={styles.flatListContent}
-                    showsHorizontalScrollIndicator={false}
-                />  
-            <TouchableOpacity style={styles.floatingButton} onPress={pickImage}>
-                <Icon name="add" size={30} color="#fff" />
-            </TouchableOpacity>
+            <View style={styles.carouselContainer}>
+                <Carousel items={items1} />
+                <TouchableOpacity
+                    style={[styles.floatingButton, { top: 20 }]} // Ajuste a posição se necessário
+                    onPress={() => pickImage(setItems1)}
+                >
+                    <Icon name="add" size={30} color="#fff" />
+                </TouchableOpacity>
             </View>
-          
+
+            <View style={styles.carouselContainer}>
+                <Carousel items={items2} />
+                <TouchableOpacity
+                    style={[styles.floatingButton, { top: 100 }]} // Ajuste a posição se necessário
+                    onPress={() => pickImage(setItems2)}
+                >
+                    <Icon name="add" size={30} color="#fff" />
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.carouselContainer}>
+                <Carousel items={items3} />
+                <TouchableOpacity
+                    style={[styles.floatingButton, { top: 180 }]} // Ajuste a posição se necessário
+                    onPress={() => pickImage(setItems3)}
+                >
+                    <Icon name="add" size={30} color="#fff" />
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.carouselContainer}>
+                <Carousel items={items4} />
+                <TouchableOpacity
+                    style={[styles.floatingButton, { top: 260 }]} // Ajuste a posição se necessário
+                    onPress={() => pickImage(setItems4)}
+                >
+                    <Icon name="add" size={30} color="#fff" />
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
@@ -56,31 +76,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
-    carouselWrapper: {
-        marginTop: 10, // Ajuste para não sobrepor o botão flutuante
-        paddingHorizontal: 10,
-        width: '100%',
-    },
-    flatListContent: {
-        alignItems: 'center',
-    },
-    itemContainer: {
-        backgroundColor: '#e2dada',
-        height: 100,
-        borderRadius: 15,
-        width: width * 0.4,
-        margin: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    image: {
-        width: '100%',
-        height: '100%',
-        borderRadius: 15,
+    carouselContainer: {
+        marginVertical: 10,
     },
     floatingButton: {
         position: 'absolute',
-        top: 20,
         right: 20,
         backgroundColor: '#bf0cb1',
         borderRadius: 50,
@@ -90,8 +90,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 3,
-        zIndex: 1, 
-        alignContent: 'center',
-        justifyContent:'center'// Garante que o botão fique sobre outros elementos
+        zIndex: 1,
     },
 });
