@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TextInput, TouchableOpacity, Text, Alert, Dimensions } from 'react-native';
 
+import {Entypo, Feather, MaterialIcons, FontAwesome} from '@expo/vector-icons';
+
 const { width } = Dimensions.get('window');
 
 export default function Perfil() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
+    const [description, setDescription] = useState('');
     const [gender, setGender] = useState('');
 
     const handleSave = () => {
-        if (!name || !email || !phone || !gender) {
+        if (!name || !email || !description || !gender) {
             Alert.alert('Erro', 'Por favor, preencha todos os campos.');
             return;
         }
-        // Implementar a lógica de salvamento aqui
+    
         Alert.alert('Perfil Atualizado', 'Seu perfil foi atualizado com sucesso.');
     };
 
@@ -22,17 +24,17 @@ export default function Perfil() {
         <View style={styles.container}>
             <View style={styles.formContainer}>
                 <View style={styles.inputContainer}>
-                    <Text style={styles.icon}>👤</Text>
+              
                     <TextInput
                         style={styles.input}
                         value={name}
                         onChangeText={setName}
-                        placeholder="Digite seu nome"
+                        placeholder="Digite seu apelido"
                     />
                 </View>
                 
                 <View style={styles.inputContainer}>
-                    <Text style={styles.icon}>📧</Text>
+               
                     <TextInput
                         style={styles.input}
                         value={email}
@@ -43,18 +45,7 @@ export default function Perfil() {
                 </View>
                 
                 <View style={styles.inputContainer}>
-                    <Text style={styles.icon}>📞</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={phone}
-                        onChangeText={setPhone}
-                        placeholder="Digite seu telefone"
-                        keyboardType="phone-pad"
-                    />
-                </View>
-                
-                <View style={styles.inputContainer}>
-                    <Text style={styles.icon}>🚻</Text>
+                 
                     <TextInput
                         style={styles.input}
                         value={gender}
@@ -63,9 +54,20 @@ export default function Perfil() {
                     />
                 </View>
 
+                <View style={styles.inputContainer}>
+                 
+                    <TextInput
+                        style={styles.input}
+                        value={description}
+                        onChangeText={setDescription}
+                        placeholder="Digite uma descrição"
+                    />
+                </View>
+                <View style={{float: 'right', width: 'auto', }}>
                 <TouchableOpacity style={styles.button} onPress={handleSave}>
-                    <Text style={styles.buttonText}>Salvar</Text>
+                <Entypo name='pencil'/>
                 </TouchableOpacity>
+                </View>
             </View>
         </View>
     );
@@ -78,6 +80,10 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     formContainer: {
+        backgroundColor: '#ebe8e2',
+        borderColor: '#a481a1',
+        borderWidth: 1,
+        borderRadius: 50,
         flex: 1,
         justifyContent: 'center',
     },
@@ -89,20 +95,17 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         paddingHorizontal: 10,
     },
-    icon: {
-        fontSize: 20,
-        marginRight: 10,
-    },
     input: {
         flex: 1,
         height: 40,
         fontSize: 16,
     },
     button: {
-        backgroundColor: '#007bff',
         padding: 15,
-        borderRadius: 5,
+        borderRadius: 50,
         alignItems: 'center',
+        width: 10,
+        float: 'right',
     },
     buttonText: {
         color: '#fff',
