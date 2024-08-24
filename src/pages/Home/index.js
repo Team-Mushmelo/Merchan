@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Carousel from './Components/Carousel'; // Ajuste o caminho conforme necessário
+import Carousel from './Components/carrossel';
+// Ajuste o caminho conforme necessário
 
 export default function Home() {
     const [items1, setItems1] = useState([]);
