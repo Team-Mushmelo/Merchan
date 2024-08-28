@@ -33,8 +33,25 @@ export default function Home() {
 
         <View style={styles.container}>
 
-           
-            <View style={styles.carouselContainer}>
+             <View style={{
+                  fontSize: 14,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingTop: 10,
+                  marginLeft: 10,
+                  marginRight: 10,
+                  marginTop: 10,
+                  marginBottom: 0,
+                  borderBottomWidth: 0.5,
+                  borderBottomColor: '#000',
+                  fontFamily: 'OpenSansRegular',
+                 }}>Exemplo
+            </View>
+
+
+            <View style={styles.carouselContainer}> 
+                
+              
                 <View style={{
                     justifyContent: 'center', 
                     alignItems: 'center', 
@@ -42,13 +59,7 @@ export default function Home() {
                     margin: 10,
                     paddingLeft: 10,
                  }}>
-            <View style={{
-                  fontSize: 14,
-                  padding: 10,
-                  fontFamily: 'OpenSansRegular',
-                 }}>
-                exemplo
-            </View>
+           
                 <TouchableOpacity
                     style={[styles.floatingButton, { top: 0 }]} // Ajuste a posição se necessário
                     onPress={() => pickImage(setItems1)}
@@ -63,7 +74,20 @@ export default function Home() {
             </View>
 
 
-
+            <View style={{
+                  fontSize: 14,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingTop: 10,
+                  marginLeft: 10,
+                  marginRight: 10,
+                  marginTop: 10,
+                  marginBottom: 0,
+                  borderBottomWidth: 0.5,
+                  borderBottomColor: '#000',
+                  fontFamily: 'OpenSansRegular',
+                 }}>Exemplo
+            </View>
 
             <View style={styles.carouselContainer}>
                 <View style={{
@@ -88,6 +112,20 @@ export default function Home() {
             </View>
 
 
+            <View style={{
+                  fontSize: 14,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingTop: 10,
+                  marginLeft: 10,
+                  marginRight: 10,
+                  marginTop: 10,
+                  marginBottom: 0,
+                  borderBottomWidth: 0.5,
+                  borderBottomColor: '#000',
+                  fontFamily: 'OpenSansRegular',
+                 }}>Exemplo
+            </View>
             
             <View style={styles.carouselContainer}>
                 <View style={{
@@ -111,7 +149,20 @@ export default function Home() {
             </View>
             </View>
 
-
+            <View style={{
+                  fontSize: 14,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingTop: 10,
+                  marginLeft: 10,
+                  marginRight: 10,
+                  marginTop: 10,
+                  marginBottom: 0,
+                  borderBottomWidth: 0.5,
+                  borderBottomColor: '#000',
+                  fontFamily: 'OpenSansRegular',
+                 }}>Exemplo
+            </View>
             
             <View style={styles.carouselContainer}>
                 <View style={{
