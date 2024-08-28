@@ -10,6 +10,8 @@ export default function Home() {
     const [items2, setItems2] = useState([]);
     const [items3, setItems3] = useState([]);
     const [items4, setItems4] = useState([]);
+    const [items5, setItems5] = useState([]);
+    const [items6, setItems6] = useState([]);
 
     const pickImage = (setItems) => {
         launchImageLibrary({ mediaType: 'photo', quality: 1 }, response => {
@@ -28,47 +30,113 @@ export default function Home() {
     };
 
     return (
+
         <View style={styles.container}>
+
+           
             <View style={styles.carouselContainer}>
-                <Carousel items={items1} />
+                <View style={{
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    height: 100,
+                    margin: 10,
+                    paddingLeft: 10,
+                 }}>
+            <View style={{
+                  fontSize: 14,
+                  padding: 10,
+                  fontFamily: 'OpenSansRegular',
+                 }}>
+                exemplo
+            </View>
                 <TouchableOpacity
-                    style={[styles.floatingButton, { top: 20 }]} // Ajuste a posição se necessário
+                    style={[styles.floatingButton, { top: 0 }]} // Ajuste a posição se necessário
                     onPress={() => pickImage(setItems1)}
                 >
-                    <Icon name="add" size={30} color="#fff" />
+                    <Icon name="add" size={25} color="#fff" />
                 </TouchableOpacity>
+                </View>
+
+             <View style={{ flex:5, }}> 
+                <Carousel items={items1}></Carousel>
+            </View>
             </View>
 
+
+
+
             <View style={styles.carouselContainer}>
-                <Carousel items={items2} />
+                <View style={{
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    height: 100,
+                    margin: 10,
+                    paddingLeft: 10,
+                 }}>
+
                 <TouchableOpacity
-                    style={[styles.floatingButton, { top: 100 }]} // Ajuste a posição se necessário
+                    style={[styles.floatingButton, { top: 0 }]} // Ajuste a posição se necessário
                     onPress={() => pickImage(setItems2)}
                 >
-                    <Icon name="add" size={30} color="#fff" />
+                    <Icon name="add" size={25} color="#fff" />
                 </TouchableOpacity>
+                </View>
+
+             <View style={{ flex:5, }}> 
+                <Carousel items={items2}></Carousel>
+            </View>
             </View>
 
+
+            
             <View style={styles.carouselContainer}>
-                <Carousel items={items3} />
+                <View style={{
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    height: 100,
+                    margin: 10,
+                    paddingLeft: 10,
+                 }}>
+
                 <TouchableOpacity
-                    style={[styles.floatingButton, { top: 180 }]} // Ajuste a posição se necessário
+                    style={[styles.floatingButton, { top: 0 }]} // Ajuste a posição se necessário
                     onPress={() => pickImage(setItems3)}
                 >
-                    <Icon name="add" size={30} color="#fff" />
+                    <Icon name="add" size={25} color="#fff" />
                 </TouchableOpacity>
+                </View>
+
+             <View style={{ flex:5, }}> 
+                <Carousel items={items3}></Carousel>
+            </View>
             </View>
 
+
+            
             <View style={styles.carouselContainer}>
-                <Carousel items={items4} />
+                <View style={{
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    height: 100,
+                    margin: 10,
+                    paddingLeft: 10,
+                 }}>
+
                 <TouchableOpacity
-                    style={[styles.floatingButton, { top: 260 }]} // Ajuste a posição se necessário
+                    style={[styles.floatingButton, { top: 0 }]} // Ajuste a posição se necessário
                     onPress={() => pickImage(setItems4)}
                 >
-                    <Icon name="add" size={30} color="#fff" />
+                    <Icon name="add" size={25} color="#fff" />
                 </TouchableOpacity>
+                </View>
+
+             <View style={{ flex:5, }}> 
+                <Carousel items={items4}></Carousel>
+            </View>
             </View>
         </View>
+
+        
     );
 }
 
@@ -76,21 +144,24 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        padding: 10,
     },
     carouselContainer: {
-        marginVertical: 10,
+
+        flexDirection: 'row',
+        
     },
     floatingButton: {
-        position: 'absolute',
-        right: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 60,
+        height: 60,
         backgroundColor: '#bf0cb1',
         borderRadius: 50,
-        padding: 15,
-        elevation: 5,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 3,
-        zIndex: 1,
+
+     
     },
 });
