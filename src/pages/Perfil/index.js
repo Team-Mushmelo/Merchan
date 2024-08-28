@@ -65,7 +65,7 @@ export default function Perfil() {
                 </View>
                 <View style={{float: 'right', width: 'auto', }}>
                 <TouchableOpacity style={styles.button} onPress={handleSave}>
-                <Entypo name='pencil'/>
+                <Entypo name='pencil' size={25} color="#40173d"/>
                 </TouchableOpacity>
                 </View>
             </View>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     },
     formContainer: {
         backgroundColor: '#ebe8e2',
-        borderColor: '#a481a1',
+        borderColor: '#40173d',
         borderWidth: 1,
         borderRadius: 50,
         flex: 1,
