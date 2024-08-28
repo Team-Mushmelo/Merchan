@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
 import Botao from '../../../Component/Botao';
 import Hr from '../../../Component/Hr';
 
-export default function Login({ setIsCriarConta, setIsLogado }) {
+export default function Login({ setIsCriarConta, setIsLogado,navigation }) {
   return (
     <View style={styles.container}>
 
@@ -33,7 +33,10 @@ export default function Login({ setIsCriarConta, setIsLogado }) {
 
             <Text style={styles.inpTitulo}>Senha</Text>
             <TextInput style={styles.input} placeholder='Digite o sua senha' secureTextEntry autoComplete='password' placeholderTextColor='#A481A1' />
-
+            
+            <Pressable onPress={() => navigation.navigate('Recuperacao')} >
+            <Text style={{ color: '#BE00B0', fontSize: 17 }}> Esqueceu a senha?</Text>
+            </Pressable>
           </View>
 
         </View>

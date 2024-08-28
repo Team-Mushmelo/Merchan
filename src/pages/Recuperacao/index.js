@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 
 
-export default function Recuperacao() {
+export default function Recuperacao({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.caixa1}>
@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
         //backgroundColor: "blue",
         flex: 1,
         paddingHorizontal: 20,
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
     },
 
     caixa2: {
         backgroundColor: "blue",
-        flex: 5,
+        flex: 7,
     },
 
     text: {
