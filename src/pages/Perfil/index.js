@@ -80,13 +80,10 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     formContainer: {
-
-        backgroundColor: '#ebe8e2',
+        backgroundColor: '#dadada',
         borderColor: '#40173d',
-
         borderWidth: 1,
         borderRadius: 50,
-        height: 500,
         flex: 1,
         justifyContent: 'center',
     },
@@ -99,8 +96,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     input: {
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#000',
         flex: 1,
         height: 40,
         fontSize: 16,
