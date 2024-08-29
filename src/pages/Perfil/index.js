@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TextInput, TouchableOpacity, Text, Alert, Dimensions } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import {Entypo, Feather, MaterialIcons, FontAwesome} from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
 export default function Perfil() {
-    const [item, setItem] = useState([]);
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [description, setDescription] = useState('');
@@ -21,25 +21,6 @@ export default function Perfil() {
         Alert.alert('Perfil Atualizado', 'Seu perfil foi atualizado com sucesso.');
     };
 
-    const pickImage = (setItem) => {
-        launchImageLibrary({ mediaType: 'photo', quality: 1 }, response => {
-            if (response.didCancel) {
-                console.log('Usuário cancelou a seleção');
-            } else if (response.errorCode) {
-                Alert.alert('Erro', response.errorMessage);
-            } else {
-                const newItem = {
-                    id: (new Date()).toISOString(),
-                    uri: response.assets[0].uri,
-                };
-                setItems(prevItems => [...prevItems, newItem]);
-            }
-        });
-    };
-
-
-
-
 
 
 
@@ -49,32 +30,10 @@ export default function Perfil() {
     return (
         <View style={styles.container}>
 
+            
+
 
             <View style={styles.formContainer}>
-
-
-
-            <TouchableOpacity
-                    style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: 60,
-                        height: 60,
-                        backgroundColor: '#bf0cb1',
-                        borderRadius: 50,
-                        shadowColor: '#000',
-                        shadowOpacity: 0.3,
-                        shadowRadius: 3,
-                    }}
-                    onPress={() => pickImage(setItem)}
-
-                >
-                     <Icon name="add" size={25} color="#fff" />
-                </TouchableOpacity>
-
-
-
-
                 <View style={styles.inputContainer}>
               
                     <TextInput
