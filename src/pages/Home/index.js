@@ -133,6 +133,7 @@ export default function Home() {
                     alignItems: 'center', 
                     height: 100,
                     margin: 10,
+                    flex: 1,
                     paddingLeft: 10,
                  }}>
 

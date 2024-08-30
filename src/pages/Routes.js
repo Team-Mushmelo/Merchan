@@ -20,6 +20,7 @@ export default function Routes() {
                     paddingBottom: 5,
                     paddingTop: 5,
                     borderTop: 'none',
+                    fontFamily: 'sarala',
                 },
                 tabBarActiveTintColor: '#40173d',
                 tabBarInactiveTintColor: '#a481a1',
@@ -51,6 +52,16 @@ export default function Routes() {
                 options={{
                     tabBarIcon: ({ size, color }) => (
                         <Entypo name='sound' size={size} color={color} />
+                    ),
+                    headerTitle: "MERCHAN",
+                }}
+            />
+              <Tab.Screen
+                name='Pesquisa'
+                component={SearchBar}
+                options={{
+                    tabBarIcon: ({ size, color }) => (
+                        <Entypo name='magnifying-glass' size={size} color={color} />
                     ),
                     headerTitle: "MERCHAN",
                 }}

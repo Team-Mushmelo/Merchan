@@ -1,22 +1,56 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import Carousel from '../Home/Components/carrossel';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function Comunidade() {
+    const [items1, setItems1] = useState([]);
     const [feed, setFeed] = useState([
-        { id: '1', nome: 'xxxxx', idade: 23, email: 'xxxxx@etec.sp.gov.br' },
-        { id: '2', nome: 'xxxxx', idade: 15, email: 'xxxxx@etec.sp.gov.br' },
-        { id: '3', nome: 'xxxxx', idade: 19, email: 'xxxxx@etec.sp.gov.br' },
-        { id: '4', nome: 'xxxxx', idade: 50, email: 'xxxxx@etec.sp.gov.br' },
-        { id: '5', nome: 'xxxxx', idade: 35, email: 'xxxxx@etec.sp.gov.br' },
+        {nome: 'xxxxx',},
+        {nome: 'xxxxx',},
+        {nome: 'xxxxx',},
+        {nome: 'xxxxx',},
+        {nome: 'xxxxx',},
     ]);
 
     return (
+<View style={{backgroundColor: '#fff', height: 'auto', flex: 1,}}>
+<View style={styles.carouselContainer}> 
+                
+              
+                <View style={{
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    height: 100,
+                    margin: 10,
+                    paddingLeft: 10,
+                 }}>
+           
+                <TouchableOpacity
+                    style={[styles.floatingButton, { top: 0 }]} // Ajuste a posição se necessário
+                    onPress={() => pickImage(setItems1)}
+                >
+                    <Icon name="add" size={25} color="#fff" />
+                </TouchableOpacity>
+                </View>
+
+             <View style={{ flex:5, }}> 
+                <Carousel items={items1}></Carousel>
+            </View>
+            </View>
+      
         <View style={styles.container}>
+                
+
+
+
             <FlatList
                 data={feed}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.nome}
                 renderItem={({ item }) => <Dados data={item} />}
             />
+        </View>
+        
         </View>
     );
 }
@@ -24,27 +58,51 @@ export default function Comunidade() {
 function Dados({ data }) {
     return (
         <View style={styles.areaDados}>
-            <Text style={styles.textoDados}>ID: {data.id}</Text>
-            <Text style={styles.textoDados}>Nome: {data.nome}</Text>
-            <Text style={styles.textoDados}>Idade: {data.idade}</Text>
-            <Text style={styles.textoDados}>E-mail: {data.email}</Text>
+            <Text style={styles.textoDados}>nome: {data.nome}</Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+   
     container: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor:'#fff'
     },
     areaDados: {
-        backgroundColor: '#222',
-        height: 200,
-        marginBottom: 15,
+        marginTop: 15,
+        backgroundColor: '#ebe8e2',
+        height: 100,
+        marginBottom: 5,
+        borderRadius:25,
         padding: 10,
+        width: 400,
+        borderWidth: 1,
+        borderColor: '#40173d',
     },
     textoDados: {
-        color: '#fff',
+        color: '#40173d',
         fontSize: 20,
         padding: 5,
+    },
+    carouselContainer: {
+
+        flexDirection: 'row',
+        
+    },
+    floatingButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 60,
+        height: 60,
+        backgroundColor: '#bf0cb1',
+        borderRadius: 50,
+        shadowColor: '#000',
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+
+     
     },
 });
