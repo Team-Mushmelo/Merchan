@@ -7,7 +7,7 @@ import Comunidade from './Comunidade';
 import Ligações from './Ligações';
 import Lives from './Lives';
 import Perfil from './Perfil';
-import SearchBar from "../search";
+import SearchBar from "./search";
 
 const Tab = createBottomTabNavigator();
 
