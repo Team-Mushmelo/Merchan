@@ -88,16 +88,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        width: 400,
         padding: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     formContainer: {
 
-        backgroundColor: '#ebe8e2',
+        backgroundColor: '#cdcdcd',
         borderColor: '#40173d',
         borderWidth: 1,
         borderRadius: 50,
-        height: 500,
-        flex: 1,
+        width: 359,
+        height: 400,
         justifyContent: 'center',
     },
     inputContainer: {
