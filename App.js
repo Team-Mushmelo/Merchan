@@ -16,7 +16,7 @@ import Preferencias from './src/pages/Preferencias';
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [isLogado, setIsLogado] = useState(false);
+  const [user, setUser] = useState(false);
 
   let [fontsLoaded] = useFonts({
     'OpenSansRegular': OpenSans_400Regular,
@@ -41,7 +41,7 @@ export default function App() {
                 <Stack.Screen name="Preferencias" component={Preferencias} />
                 <Stack.Screen name="Recuperacao" component={Recuperacao} />
                 <Stack.Screen name="PaginaLogar">
-                  {(props) => <PaginaLogar {...props} setIsLogado={setIsLogado} />}
+                  {(props) => <PaginaLogar {...props} setUser={setUser} />}
                 </Stack.Screen>
               </>
             ) : (

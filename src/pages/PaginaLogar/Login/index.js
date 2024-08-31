@@ -1,9 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
 import Botao from '../../../Component/Botao';
 import Hr from '../../../Component/Hr';
 
-export default function Login({ setIsCriarConta, setIsLogado,navigation }) {
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../../services/firebaseConfig';
+
+export default function Login({ setIsCriarConta, setIsLogado, navigation, setUser }) {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const handleLogin = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+
+        const user = userCredential.user;
+        console.log(user)
+        setUser(user)
+        //setIsCriarConta(true);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      });
+  }
   return (
     <View style={styles.container}>
 
@@ -25,17 +46,27 @@ export default function Login({ setIsCriarConta, setIsLogado,navigation }) {
           <View style={{ margin: 10 }}>
 
             <Text style={styles.inpTitulo}>Email</Text>
-            <TextInput style={styles.input} placeholder='Digite o seu email' keyboardType='email-address' autoComplete='email' placeholderTextColor='#A481A1' />
+            <TextInput style={styles.input}
+              placeholder='Digite o seu email'
+              keyboardType='email-address'
+              autoComplete='email'
+              onChangeText={(val) => { setEmail(val) }}
+              placeholderTextColor='#A481A1' />
 
           </View>
 
           <View style={{ margin: 10 }}>
 
             <Text style={styles.inpTitulo}>Senha</Text>
-            <TextInput style={styles.input} placeholder='Digite o sua senha' secureTextEntry autoComplete='password' placeholderTextColor='#A481A1' />
-            
+            <TextInput style={styles.input}
+             placeholder='Digite o sua senha'
+              secureTextEntry
+              autoComplete='password' 
+              onChangeText={(val) => { setPassword(val) }}
+              placeholderTextColor='#A481A1' />
+
             <Pressable onPress={() => navigation.navigate('Recuperacao')} >
-            <Text style={{ color: '#BE00B0', fontSize: 17 }}> Esqueceu a senha?</Text>
+              <Text style={{ color: '#BE00B0', fontSize: 17 }}> Esqueceu a senha?</Text>
             </Pressable>
           </View>
 
@@ -47,7 +78,7 @@ export default function Login({ setIsCriarConta, setIsLogado,navigation }) {
 
         <Botao texto={'CONTINUAR'} tipo={1} onPress={() => setIsLogado(true)} />
 
-        <Pressable onPress={() => setIsCriarConta(true)} style={{ flexDirection: "row", justifyContent: 'center' }}>
+        <Pressable onPress={() =>handleLogin() /*setIsCriarConta(true)*/} style={{ flexDirection: "row", justifyContent: 'center' }}>
           <Text style={{ fontSize: 17 }}>Não tem uma conta?</Text>
           <Text style={{ color: '#BE00B0', fontSize: 17 }}> Cadastre-se</Text>
         </Pressable>
