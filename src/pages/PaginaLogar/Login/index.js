@@ -4,9 +4,11 @@ import Botao from '../../../Component/Botao';
 import Hr from '../../../Component/Hr';
 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../services/firebaseConfig';
+import { auth, firestore } from '../../../services/firebaseConfig';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
-export default function Login({ setIsCriarConta, setIsLogado, navigation, setUser }) {
+
+export default function Login({ setIsCriarConta, navigation, setUser }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -15,9 +17,15 @@ export default function Login({ setIsCriarConta, setIsLogado, navigation, setUse
       .then((userCredential) => {
 
         const user = userCredential.user;
+        setDoc(doc(firestore, "user", user.uid), {
+          email: email,
+          nome: "nomee",
+        });
+
+
         console.log(user)
         setUser(user)
-        //setIsCriarConta(true);
+
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -59,9 +67,9 @@ export default function Login({ setIsCriarConta, setIsLogado, navigation, setUse
 
             <Text style={styles.inpTitulo}>Senha</Text>
             <TextInput style={styles.input}
-             placeholder='Digite o sua senha'
+              placeholder='Digite o sua senha'
               secureTextEntry
-              autoComplete='password' 
+              autoComplete='password'
               onChangeText={(val) => { setPassword(val) }}
               placeholderTextColor='#A481A1' />
 
@@ -76,9 +84,9 @@ export default function Login({ setIsCriarConta, setIsLogado, navigation, setUse
 
       <View style={styles.caixa2}>
 
-        <Botao texto={'CONTINUAR'} tipo={1} onPress={() => setIsLogado(true)} />
+        <Botao texto={'CONTINUAR'} tipo={1} onPress={() => handleLogin()} />
 
-        <Pressable onPress={() =>handleLogin() /*setIsCriarConta(true)*/} style={{ flexDirection: "row", justifyContent: 'center' }}>
+        <Pressable onPress={() => setIsCriarConta(true)} style={{ flexDirection: "row", justifyContent: 'center' }}>
           <Text style={{ fontSize: 17 }}>Não tem uma conta?</Text>
           <Text style={{ color: '#BE00B0', fontSize: 17 }}> Cadastre-se</Text>
         </Pressable>

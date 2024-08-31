@@ -35,7 +35,7 @@ export default function App() {
         <StatusBar translucent backgroundColor={'#00000000'} />
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {!isLogado ? (
+            {!user ? (
               <>
                 <Stack.Screen name='Modo' component={Modo} />
                 <Stack.Screen name="Preferencias" component={Preferencias} />
