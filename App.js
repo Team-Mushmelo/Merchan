@@ -5,7 +5,7 @@ import { StatusBar, SafeAreaView, Image } from 'react-native';
 
 import Logo from './assets/splash.png';
 import { useFonts, OpenSans_400Regular, OpenSans_700Bold,} from '@expo-google-fonts/open-sans';
-import { Bungee_400Regular } from '@expo-google-fonts/bungee';
+
 //paginas principais
 import Routes from './src/pages/Routes';
 import PaginaLogar from './src/pages/PaginaLogar/';
@@ -21,7 +21,6 @@ export default function App() {
   let [fontsLoaded] = useFonts({
     'OpenSansRegular': OpenSans_400Regular,
     'OpenSansBold': OpenSans_700Bold,
-    'BungeeRegular': Bungee_400Regular, 
   });
 
   if (!fontsLoaded) {

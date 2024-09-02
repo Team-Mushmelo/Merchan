@@ -1,3 +1,5 @@
+import React from 'react';
+import { StyleSheet, View } from 'react-native'; // Corrigido para importar View de 'react-native'
 import { SearchBar } from 'react-native-elements';
 
 export default class App extends React.Component {
@@ -13,11 +15,22 @@ export default class App extends React.Component {
     const { search } = this.state;
 
     return (
-      <SearchBar
-        placeholder="Type Here..."
-        onChangeText={this.updateSearch}
-        value={search}
-      />
+      <View style={styles.container}> {/* Corrigido para usar 'styles.container' */}
+        <SearchBar
+          placeholder="Type Here..."
+          onChangeText={this.updateSearch}
+          value={search}
+        />
+      </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    width: '100%',
+    height: '100%',
+  },
+});
