@@ -17,13 +17,18 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "versionCode": 2
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    
+    "extra": {
+      "eas": {
+        "projectId": "7bb1fd53-b856-422a-b7d9-c23bc89aa296"
+      }
+    },
     "plugins": [
       "expo-font"
     ]
