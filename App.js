@@ -25,7 +25,7 @@ export default function App() {
 
   if (!fontsLoaded) {
     return (
-      <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItem: "center", backgroundColor: "#BE00B0" }}>
+      <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#BE00B0" }}>
         <Image source={Logo} style={{ width: '100%', height: "100%" }} />
       </SafeAreaView>
     );

@@ -90,17 +90,15 @@ export default function Login({ setIsCriarConta, navigation, setUser }) {
           <Text style={{ fontSize: 17 }}>Não tem uma conta?</Text>
           <Text style={{ color: '#BE00B0', fontSize: 17 }}> Cadastre-se</Text>
         </Pressable>
-        <View style={styles.caixa3}>
 
+        <View style={styles.caixa3}>
           <Hr posicao={'Vertical'} />
           <Text>OU</Text>
           <Hr posicao={'Vertical'} />
-
         </View>
 
-
-
       </View>
+      
       <View style={{ justifyContent: 'center', flexDirection: 'row', }}>
         <Pressable onPress={() => setIsCriarConta(true)} style={{ flexDirection: 'row', display: 'flex', textAlign: 'center', justifyContent: 'center', width: 300, height: 70, borderWidth: 1, borderColor: '#BE00B0', borderRadius: 25, }}>
 
@@ -108,16 +106,15 @@ export default function Login({ setIsCriarConta, navigation, setUser }) {
         </Pressable>
       </View>
 
-      <View style={{ justifyContent: 'center', flexDirection: 'row', margin: 15 }}> <Pressable onPress={() => setIsCriarConta(true)} style={{ flexDirection: 'row', display: 'flex', textAlign: 'center', justifyContent: 'center', width: 300, height: 70, borderWidth: 1, borderColor: '#BE00B0', borderRadius: 25, }}> <Text style={{ color: '#BE00B0', fontSize: 17, marginTop: 20, }} >
-        Continue com a Apple</Text>
+      <View style={{ justifyContent: 'center', flexDirection: 'row', margin: 15 }}>
+         <Pressable onPress={() => setIsCriarConta(true)} 
+         style={{ flexDirection: 'row', display: 'flex', textAlign: 'center', justifyContent: 'center', width: 300, height: 70, borderWidth: 1, borderColor: '#BE00B0', borderRadius: 25, }}>
+
+           <Text style={{ color: '#BE00B0', fontSize: 17, marginTop: 20, }} >  Continue com a Apple</Text>
       </Pressable>
       </View>
 
     </View >
-
-
-
-
   );
 }
 
