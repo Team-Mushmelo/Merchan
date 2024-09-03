@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native'; // Corrigido para importar View de 'react-native'
+import { StyleSheet, View, } from 'react-native'; 
 import { SearchBar } from 'react-native-elements';
 
 export default class App extends React.Component {
@@ -15,7 +15,7 @@ export default class App extends React.Component {
     const { search } = this.state;
 
     return (
-      <View style={styles.container}> {/* Corrigido para usar 'styles.container' */}
+      <View style={styles.container}> {}
         <SearchBar
           placeholder="Type Here..."
           onChangeText={this.updateSearch}
