@@ -1,9 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
+
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, firestore } from '../../../services/firebaseConfig';
+import { doc, setDoc } from 'firebase/firestore';
 
 import Botao from '../../../Component/Botao';
 
-export default function Criar({ setIsLogado, setIsCriarConta }) {
+export default function Criar({ setUser, setIsCriarConta }) {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [nome, setNome] = useSate();
+
+  const handleLogin = () => {
+    createUserWithEmailAndPassword(auth, email, password, nome)
+      .then((userCredential) => {
+
+        const user = userCredential.user;
+        setDoc(doc(firestore, "user", user.uid), {
+          email: email,
+          nome: nome,
+        });
+
+
+        console.log(user)
+        setUser(user)
+
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      });
+  }
   return (
     <View style={styles.container}>
 
@@ -24,26 +53,43 @@ export default function Criar({ setIsLogado, setIsCriarConta }) {
           <View style={{ margin: 10 }}>
 
             <Text style={styles.inpTitulo}>Nome</Text>
-            <TextInput style={styles.input} placeholder='Digite o seu nome' keyboardType='default' autoComplete='name' placeholderTextColor='#A481A1' />
+            <TextInput
+              style={styles.input}
+              placeholder='Digite o seu nome'
+              onChangeText={(val) => { setNome(val) }}
+              keyboardType='default' autoComplete='name'
+              placeholderTextColor='#A481A1' />
 
           </View>
 
           <View style={{ margin: 10 }}>
 
             <Text style={styles.inpTitulo}>Email</Text>
-            <TextInput style={styles.input} placeholder='Digite o seu email' keyboardType='email-address' autoComplete='email' placeholderTextColor='#A481A1' />
+            <TextInput
+              style={styles.input}
+              placeholder='Digite o seu email'
+              keyboardType='email-address'
+              onChangeText={(val) => { setEmail(val) }}
+              autoComplete='email'
+              placeholderTextColor='#A481A1' />
 
           </View>
 
           <View style={{ margin: 10 }}>
 
             <Text style={styles.inpTitulo}>Senha</Text>
-            <TextInput style={styles.input} placeholder='Digite o sua senha' secureTextEntry autoComplete='password' placeholderTextColor='#A481A1' />
+            <TextInput
+              style={styles.input}
+              placeholder='Digite o sua senha'
+              secureTextEntry
+              autoComplete='password'
+              onChangeText={(val) => { setPassword(val) }}
+              placeholderTextColor='#A481A1' />
 
           </View>
 
         </View>
-        <Botao texto={'CONTINUAR'} tipo={1} onPress={() => setIsLogado(true)} />
+        <Botao texto={'CONTINUAR'} tipo={1} onPress={() => handleLogin()} />
       </View>
 
       <View style={styles.caixa3}>

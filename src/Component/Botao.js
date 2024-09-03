@@ -1,44 +1,38 @@
 import { useState } from 'react';
 import { StyleSheet, Pressable, Text } from 'react-native';
 
-
 export default function Botao({ texto, onPress, style, textStyle, tipo }) {
-    let textoStyle;
-    let BotaoStyle;
     const [isPressed, setIsPressed] = useState(false);
 
-    if (tipo == 2) {
-        BotaoStyle = estilos.botaoTipo2;
-        textStyle = estilos.textoTipo2;
-    } else if (tipo == 1) {
-        BotaoStyle = estilos.botaoTipo1;
-        textStyle = estilos.textoTipo1;
-    }
+    const BotaoStyle = tipo === 2 ? estilos.botaoTipo2 : estilos.botaoTipo1;
+    textStyle = tipo === 2 ? estilos.textoTipo2 : estilos.textoTipo1;
 
-    return <Pressable style={[estilos.botao, style, BotaoStyle, { opacity: isPressed ? 0.5 : 1 }]} onPress={onPress}>
-        <Text style={[estilos.textoBotao, textStyle, textoStyle]}> {texto} </Text>
-    </Pressable>
-
-
+    return (
+        <Pressable
+            style={[estilos.botao, style, BotaoStyle, { opacity: isPressed ? 0.5 : 1 }]}
+            onPress={onPress}
+            onPressIn={() => setIsPressed(true)}
+            onPressOut={() => setIsPressed(false)}
+        >
+            <Text style={[estilos.textoBotao, textStyle]}>{texto}</Text>
+        </Pressable>
+    );
 }
 
 const estilos = StyleSheet.create({
     botao: {
         paddingVertical: 10,
         margin: 15,
-        borderRadius: 50,       
+        borderRadius: 50,
         justifyContent: "center",
     },
     textoBotao: {
-        
         textAlign: 'center',
         fontSize: 18,
-        
         lineHeight: 59,
         fontWeight: 'bold',
         flexWrap: 'wrap'
     },
-
     botaoTipo1: {
         backgroundColor: '#BE00B0',
     },
@@ -48,9 +42,7 @@ const estilos = StyleSheet.create({
     textoTipo1: {
         color: 'white',
     },
-
     textoTipo2: {
         color: '#A481A1',
     }
-
-})
+});

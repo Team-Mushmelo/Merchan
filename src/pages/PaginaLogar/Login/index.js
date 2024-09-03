@@ -125,25 +125,14 @@ const styles = StyleSheet.create({
   },
 
   caixa1: {
-
-    //backgroundColor: 'blue',
-
     flex: 0.6,
-
     paddingLeft: 20,
-
   },
 
   caixa2: {
-
-    // backgroundColor: 'yellow',
-
     flex: 2,
-
     paddingTop: 10,
-
     padding: 20,
-
   },
 
   caixa3: {
@@ -153,47 +142,28 @@ const styles = StyleSheet.create({
   },
 
   input: {
-
     height: 50,
-
     borderWidth: 0,
-
     backgroundColor: '#EBE8E2',
-
     alignItems: 'center',
-
     fontSize: 20,
-
     padding: 10,
-
     borderRadius: 20
-
   },
 
   botaoContinuar: {
-
     backgroundColor: '#BE00B0',
-
     width: '100%',
-
     height: 50,
-
     borderRadius: 100,
-
     justifyContent: 'center',
-
     alignItems: 'center',
-
   },
 
   inpTitulo: {
-
     color: '#40173D',
-
     fontSize: 16,
-
     fontWeight: 'bold'
-
   },
 
 });
