@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
 import Botao from '../../../Component/Botao';
 import Hr from '../../../Component/Hr';
@@ -47,7 +47,12 @@ export default function Login({ setIsCriarConta, navigation, setUser }) {
           <View style={{ margin: 10 }}>
 
             <Text style={styles.inpTitulo}>Email</Text>
-            <TextInput style={styles.input} placeholder='Digite o seu email' keyboardType='email-address' autoComplete='email' placeholderTextColor='#A481A1' />
+            <TextInput style={styles.input} 
+            placeholder='Digite o seu email'
+             keyboardType='email-address'
+              autoComplete='email' 
+              onChangeText={(val) => { setEmail(val) }}
+              placeholderTextColor='#A481A1' />
 
           </View>
 

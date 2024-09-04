@@ -3,7 +3,7 @@ import Login from './Login';
 
 import { useState } from 'react';
 
-export default function PaginaLogar({ setUser, navigation, setLoginFeito }) {
+export default function PaginaLogar({ navigation, setLoginFeito }) {
     const [user, setUser] = useState(false);
     const [isCriarConta, setIsCriarConta] = useState(false);
 
