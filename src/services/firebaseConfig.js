@@ -1,25 +1,24 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth, setPersistence, browserLocalPersistence } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getReactNativePersistence } from 'firebase/auth';
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from "firebase/firestore";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: API_KEY,
-  authDomain: AUTH_DOMAIN,
-  projectId: PROJECT_ID,
-  storageBucket: STORAGE_BUCKET,
-  messagingSenderId: MESSAGING_SENDER_ID,
-  appId: APP_ID,
-  measurementId: MEASUREMENT_ID
+    apiKey: "AIzaSyCVgCh7jg2HJDvZuUjam-YzaPTmZhiyK6Y",
+    authDomain: "merchan-app-react.firebaseapp.com",
+    projectId: "merchan-app-react",
+    storageBucket: "merchan-app-react.appspot.com",
+    messagingSenderId: "491864034158",
+    appId: "1:491864034158:web:c124a623863116ca69cf7f",
+    measurementId: "G-2DN1N6F8ME"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firestore and Auth
 export const firestore = getFirestore(app);
 export const auth = getAuth(app);
-
-// Configure persistence
-setPersistence(auth, getReactNativePersistence(AsyncStorage));

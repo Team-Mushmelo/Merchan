@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
+
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, firestore } from '../../../services/firebaseConfig';
 import { doc, setDoc } from 'firebase/firestore';
 
 import Botao from '../../../Component/Botao';
 
-export default function Criar({ setUser, setIsCriarConta }) {
+export default function Criar({ setUser, setIsCriarConta,  navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [nome, setNome] = useState('');
@@ -21,7 +22,7 @@ export default function Criar({ setUser, setIsCriarConta }) {
         });
 
         console.log(user);
-        setUser(user);
+        navigation.navigate('Preferencias');
       })
       .catch((error) => {
         const errorMessage = error.message;

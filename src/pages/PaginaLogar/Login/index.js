@@ -3,9 +3,8 @@ import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
 import Botao from '../../../Component/Botao';
 import Hr from '../../../Component/Hr';
 
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, firestore } from '../../../services/firebaseConfig';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../../services/firebaseConfig';
 
 
 export default function Login({ setIsCriarConta, navigation, setUser }) {
@@ -13,19 +12,13 @@ export default function Login({ setIsCriarConta, navigation, setUser }) {
   const [password, setPassword] = useState();
 
   const handleLogin = () => {
-    createUserWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-
+        // Signed in 
         const user = userCredential.user;
-        setDoc(doc(firestore, "user", user.uid), {
-          email: email,
-          nome: "nomee",
-        });
-
-
-        console.log(user)
-        setUser(user)
-
+        console.log(user);
+        setUser(user);
+        // ...
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -98,7 +91,7 @@ export default function Login({ setIsCriarConta, navigation, setUser }) {
         </View>
 
       </View>
-      
+
       <View style={{ justifyContent: 'center', flexDirection: 'row', }}>
         <Pressable onPress={() => setIsCriarConta(true)} style={{ flexDirection: 'row', display: 'flex', textAlign: 'center', justifyContent: 'center', width: 300, height: 70, borderWidth: 1, borderColor: '#BE00B0', borderRadius: 25, }}>
 
@@ -107,11 +100,11 @@ export default function Login({ setIsCriarConta, navigation, setUser }) {
       </View>
 
       <View style={{ justifyContent: 'center', flexDirection: 'row', margin: 15 }}>
-         <Pressable onPress={() => setIsCriarConta(true)} 
-         style={{ flexDirection: 'row', display: 'flex', textAlign: 'center', justifyContent: 'center', width: 300, height: 70, borderWidth: 1, borderColor: '#BE00B0', borderRadius: 25, }}>
+        <Pressable onPress={() => setIsCriarConta(true)}
+          style={{ flexDirection: 'row', display: 'flex', textAlign: 'center', justifyContent: 'center', width: 300, height: 70, borderWidth: 1, borderColor: '#BE00B0', borderRadius: 25, }}>
 
-           <Text style={{ color: '#BE00B0', fontSize: 17, marginTop: 20, }} >  Continue com a Apple</Text>
-      </Pressable>
+          <Text style={{ color: '#BE00B0', fontSize: 17, marginTop: 20, }} >  Continue com a Apple</Text>
+        </Pressable>
       </View>
 
     </View >
