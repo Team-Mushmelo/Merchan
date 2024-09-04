@@ -39,12 +39,13 @@ export default function App() {
             {!isLogado ? (
               <>
             
-                <Stack.Screen name="Preferencias" component={Preferencias} />
+               
                 <Stack.Screen name='Modo' component={Modo} />
                 <Stack.Screen name="Recuperacao" component={Recuperacao} />
                 <Stack.Screen name="PaginaLogar">
                   {(props) => <PaginaLogar {...props} setIsLogado={setIsLogado} />}
                 </Stack.Screen>
+                <Stack.Screen name="Preferencias" component={Preferencias} />
                 <Stack.Screen name="FinalLogin" component={FinalLogin}/>
               </>
             ) : (
