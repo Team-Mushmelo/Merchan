@@ -3,18 +3,18 @@ import { View, Text, TouchableOpacity, FlatList, StyleSheet, ImageBackground } f
 import Botao from "../../Component/Botao";
 
 const preferencias = [
-    { id: "1", nome: "TERROR" },
-    { id: "2", nome: "SUSPENSE" },
-    { id: "3", nome: "AVENTURA" },
-    { id: "4", nome: "MAGIA", imagem: require("../../imgs/magia.jpg") },
-    { id: "5", nome: "COSPLAY" },
-    { id: "6", nome: "CYBERPUNK" },
-    { id: "7", nome: "FICÇÃO" },
-    { id: "8", nome: "EVENTOS" },
-    { id: "9", nome: "COOP" },
-    { id: "10", nome: "STREAM" },
-    { id: "11", nome: "RPG" },
-    { id: "12", nome: "INDIES" },
+    { id: "1", nome: "TERROR", imagem: require("../../imgs/terror.png") },
+    { id: "2", nome: "SUSPENSE", imagem: require("../../imgs/suspense.png") },
+    { id: "3", nome: "AVENTURA", imagem: require("../../imgs/aventura.png") },
+    { id: "4", nome: "MAGIA", imagem: require("../../imgs/magia.png") },
+    { id: "5", nome: "COSPLAY", imagem: require("../../imgs/cosplay.jpg") },
+    { id: "6", nome: "CYBERPUNK", imagem: require("../../imgs/cyberpunk.png") },
+    { id: "7", nome: "FICÇÃO", imagem: require("../../imgs/ficção.jpg") },
+    { id: "8", nome: "EVENTOS", imagem: require("../../imgs/evento.png") },
+    { id: "9", nome: "COOP", imagem: require("../../imgs/coop.png") },
+    { id: "10", nome: "STREAM", imagem: require("../../imgs/stream.jpg") },
+    { id: "11", nome: "RPG", imagem: require("../../imgs/rpg.png") },
+    { id: "12", nome: "INDIES", imagem: require("../../imgs/indie.png") },
 ];
 
 const Preferencias = () => {
@@ -30,21 +30,22 @@ const Preferencias = () => {
 
     const renderPreferencia = ({ item }) => (
         <TouchableOpacity
-          style={[
-            styles.botaoPreferencia,
-            selecionadas.includes(item.id) && styles.selecionado
-          ]}
-          onPress={() => alternarPreferencia(item.id)}
+            style={[
+                styles.botaoPreferencia,
+                selecionadas.includes(item.id) && styles.selecionado
+            ]}
+            onPress={() => alternarPreferencia(item.id)}
         >
-          <ImageBackground
-            source={item.imagem}
-            style={styles.imagemFundo}
-            imageStyle={{ borderRadius: 8 }}
-          >
-            <Text style={styles.textoPreferencia}>{item.nome}</Text>
-          </ImageBackground>
+            <ImageBackground
+                source={item.imagem}
+                style={styles.imagemFundo}
+                imageStyle={{ borderRadius: 8 }}
+                resizeMode="cover"
+            >
+                <Text style={styles.textoPreferencia}>{item.nome}</Text>
+            </ImageBackground>
         </TouchableOpacity>
-      );
+    );
 
     return (
         <View style={styles.container}>
@@ -61,8 +62,8 @@ const Preferencias = () => {
                     keyExtractor={item => item.id}
                     numColumns={2}
                     columnWrapperStyle={styles.row}
-                /> 
-                </View>
+                />
+            </View>
             <View style={styles.caixa3}>
                 <Botao texto={"CONTINUAR"} tipo={1} />
             </View>
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
     caixa3: {
 
         flex: 1.5,
-        padding:5,
+        padding: 5,
     },
     botaoPreferencia: {
         flex: 1,
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "#DCDCDC",
         borderRadius: 8,
-      
+
         margin: 8,
         borderWidth: 0, // Sem borda inicialmente
         borderColor: "transparent", // Cor da borda transparente
@@ -117,18 +118,18 @@ const styles = StyleSheet.create({
         borderColor: "#800080", // Cor roxa
     },
     textoPreferencia: {
-        color: "  rgba(0, 0, 0, 0.856)",
+        color: "white",
         fontWeight: "bold",
         textAlign: "center",
-    },  
+    },
     imagemFundo: {
-        padding: 28,
+        
         width: "100%",
         height: 100,
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 8,
-      },
+    },
 
 });
 
