@@ -3,22 +3,25 @@ import { View, StyleSheet, Image, Dimensions } from "react-native";
 
 const windowWidth = Dimensions.get('window').width;
 
-export default function FinalLogin({navigation}) {
-    useEffect(() => {
-        // Redireciona após 5 segundos
-        const timer = setTimeout(() => {
-            navigation.navigate('Modo'); // Nome da tela de destino
-        }, 1400);
+export default function FinalLogin({ navigation, setLoginFeito }) {
 
-        // Limpa o timer quando o componente for desmontado
+    useEffect(() => {
+        // Aguarda 3 segundos antes de redirecionar para a tela principal
+        const timer = setTimeout(() => {
+           setLoginFeito(true)
+        }, 1000); // 3000 milissegundos = 3 segundos
+
+        // Limpa o timer caso o componente seja desmontado
         return () => clearTimeout(timer);
     }, []);
+
     return (
         <View style={estilo.container}>
             <Image style={estilo.login} source={require("../../imgs/final_login.png")} />
         </View>
-    )
+    );
 }
+
 const estilo = StyleSheet.create({
     container: {
         flex: 1,
@@ -31,5 +34,4 @@ const estilo = StyleSheet.create({
         width: (windowWidth * .8),
         height: (windowWidth * .8),
     }
-}
-)
+});

@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
 import Botao from '../../../Component/Botao';
 import Hr from '../../../Component/Hr';
@@ -6,26 +6,24 @@ import Hr from '../../../Component/Hr';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../services/firebaseConfig';
 
-
 export default function Login({ setIsCriarConta, navigation, setUser }) {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in 
         const user = userCredential.user;
         console.log(user);
-        setUser(user);
-        // ...
+
+        // Navega para a tela de splash após o login bem-sucedido
+        navigation.navigate('FinalLogin');
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage);
+        console.log(error.message);
       });
   }
+
   return (
     <View style={styles.container}>
 
@@ -47,10 +45,10 @@ export default function Login({ setIsCriarConta, navigation, setUser }) {
           <View style={{ margin: 10 }}>
 
             <Text style={styles.inpTitulo}>Email</Text>
-            <TextInput style={styles.input} 
-            placeholder='Digite o seu email'
-             keyboardType='email-address'
-              autoComplete='email' 
+            <TextInput style={styles.input}
+              placeholder='Digite o seu email'
+              keyboardType='email-address'
+              autoComplete='email'
               onChangeText={(val) => { setEmail(val) }}
               placeholderTextColor='#A481A1' />
 
@@ -67,7 +65,7 @@ export default function Login({ setIsCriarConta, navigation, setUser }) {
               placeholderTextColor='#A481A1' />
 
             <Pressable onPress={() => navigation.navigate('Recuperacao')} >
-            <Text style={{ color: '#BE00B0', fontSize: 17 }}> Esqueceu a senha?</Text>
+              <Text style={{ color: '#BE00B0', fontSize: 17 }}> Esqueceu a senha?</Text>
             </Pressable>
           </View>
 

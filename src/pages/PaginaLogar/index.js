@@ -9,7 +9,7 @@ export default function PaginaLogar({ navigation, setLoginFeito }) {
 
 
     if (!isCriarConta) {
-        setLoginFeito(user);
+        
         return (
             <Login setUser={setUser} setIsCriarConta={setIsCriarConta} navigation={navigation} />
         );

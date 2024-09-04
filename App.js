@@ -43,7 +43,10 @@ export default function App() {
                 {(props) => <PaginaLogar {...props} setLoginFeito={setLoginFeito} />}
               </Stack.Screen>
               <Stack.Screen name='Preferencias' component={Preferencias} />
-              <Stack.Screen name="FinalLogin" component={FinalLogin} />
+              <Stack.Screen name="FinalLogin" >
+                {(props) => <FinalLogin {...props} setLoginFeito={setLoginFeito} />}
+              </Stack.Screen>
+
             </>
           ) : (
             <Stack.Screen name='MeuApp' component={Routes} />
