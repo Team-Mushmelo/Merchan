@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar, SafeAreaView, Image } from 'react-native';
 import Logo from './assets/splash.png';
-import { useFonts, OpenSans_400Regular, OpenSans_700Bold } from '@expo-google-fonts/open-sans';
+import { useFonts, OpenSans_400Regular, OpenSans_700Bold, } from '@expo-google-fonts/open-sans';
 
 // Páginas principais
 import Routes from './src/pages/Routes';
@@ -11,13 +11,12 @@ import PaginaLogar from './src/pages/PaginaLogar/';
 import Modo from './src/pages/Modo';
 import Recuperacao from './src/pages/Recuperacao';
 import Preferencias from './src/pages/Preferencias';
+import FinalLogin from './src/pages/Final_Login';
 
 const Stack = createStackNavigator();
 
 export default function App() {
-
   const [loginFeito, setLoginFeito] = useState(false);
-
   let [fontsLoaded] = useFonts({
     'OpenSansRegular': OpenSans_400Regular,
     'OpenSansBold': OpenSans_700Bold,
@@ -39,11 +38,12 @@ export default function App() {
           {!loginFeito ? (
             <>
               <Stack.Screen name='Modo' component={Modo} />
-              <Stack.Screen name='Preferencias' component={Preferencias} />
               <Stack.Screen name='Recuperacao' component={Recuperacao} />
               <Stack.Screen name='PaginaLogar'>
                 {(props) => <PaginaLogar {...props} setLoginFeito={setLoginFeito} />}
               </Stack.Screen>
+              <Stack.Screen name='Preferencias' component={Preferencias} />
+              <Stack.Screen name="FinalLogin" component={FinalLogin} />
             </>
           ) : (
             <Stack.Screen name='MeuApp' component={Routes} />

@@ -1,88 +1,99 @@
-import React from "react";
-import { StyleSheet, TextInput, View, Keyboard, Button } from "react-native";
-import { Feather, Entypo } from "@expo/vector-icons";
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList} from 'react-native';
 
-const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setCLicked}) => {
-  return (
-    <View style={styles.container}>
-      <View
-        style={
-          clicked
-            ? styles.searchBar__clicked
-            : styles.searchBar__unclicked
-        }
-      >
-        {/* search Icon */}
-        <Feather
-          name="search"
-          size={20}
-          color="black"
-          style={{ marginLeft: 1 }}
-        />
-        {/* Input field */}
-        <TextInput
-          style={styles.input}
-          placeholder="Search"
-          value={searchPhrase}
-          onChangeText={setSearchPhrase}
-          onFocus={() => {
-            setClicked(true);
-          }}
-        />
-        {/* cross Icon, depending on whether the search bar is clicked or not */}
-        {clicked && (
-          <Entypo name="cross" size={20} color="black" style={{ padding: 1 }} onPress={() => {
-              setSearchPhrase("")
-          }}/>
-        )}
-      </View>
-      {/* cancel button, depending on whether the search bar is clicked or not */}
-      {clicked && (
-        <View>
-          <Button
-            title="Cancel"
-            onPress={() => {
-              Keyboard.dismiss();
-              setClicked(false);
-            }}
-          ></Button>
+export default function Ligacoes() {
+    const [items1, setItems1] = useState([]);
+    const [feed, setFeed] = useState([
+        {nome: 'xxxxx',},
+        {nome: 'xxxxx',},
+        {nome: 'xxxxx',},
+        {nome: 'xxxxx',},
+        {nome: 'xxxxx',},
+    ]);
+
+    return (
+<View style={{backgroundColor: '#fff', height: 'auto', flex: 1,}}>
+                
+              
+          
+      
+        <View style={styles.container}>
+        <View style={{
+                  fontSize: 14,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingTop: 10,
+                  marginLeft: 10,
+                  marginRight: 10,
+                  marginTop: 10,
+                  marginBottom: 0,
+                  borderBottomWidth: 0.5,
+                  borderBottomColor: '#40173d',
+                  fontFamily: 'OpenSansRegular',
+                 }}>Ultimas Ligações
+            </View>
+
+
+
+            <FlatList
+                data={feed}
+                keyExtractor={(item) => item.nome}
+                renderItem={({ item }) => <Dados data={item} />}
+            />
         </View>
-      )}
-    </View>
-  );
-};
-export default SearchBar;
+        
+        </View>
+    );
+}
 
-// styles
+function Dados({ data }) {
+    return (
+        <View style={styles.areaDados}>
+            <Text style={styles.textoDados}>nome: {data.nome}</Text>
+        </View>
+    );
+}
+
 const styles = StyleSheet.create({
-  container: {
-    margin: 15,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row",
-    width: "90%",
+   
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor:'#fff'
+    },
+    areaDados: {
+        marginTop: 15,
+        backgroundColor: '#ebe8e2',
+        height: 100,
+        marginBottom: 5,
+        borderRadius:25,
+        padding: 10,
+        width: 400,
+        borderWidth: 1,
+        borderColor: '#40173d',
+    },
+    textoDados: {
+        color: '#40173d',
+        fontSize: 20,
+        padding: 5,
+    },
+    carouselContainer: {
 
-  },
-  searchBar__unclicked: {
-    padding: 10,
-    flexDirection: "row",
-    width: "95%",
-    backgroundColor: "#d9dbda",
-    borderRadius: 15,
-    alignItems: "center",
-  },
-  searchBar__clicked: {
-    padding: 10,
-    flexDirection: "row",
-    width: "80%",
-    backgroundColor: "#d9dbda",
-    borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "space-evenly",
-  },
-  input: {
-    fontSize: 20,
-    marginLeft: 10,
-    width: "90%",
-  },
+        flexDirection: 'row',
+        
+    },
+    floatingButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 60,
+        height: 60,
+        backgroundColor: '#bf0cb1',
+        borderRadius: 50,
+        shadowColor: '#000',
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+
+     
+    },
 });
