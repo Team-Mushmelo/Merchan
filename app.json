@@ -17,7 +17,8 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "versionCode": 2
       }
     },
     "web": {
@@ -25,7 +26,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "8e081a68-45a2-4830-b2a3-b4d9fc91fe50"
+        "projectId": "7bb1fd53-b856-422a-b7d9-c23bc89aa296"
       }
     },
     "plugins": [

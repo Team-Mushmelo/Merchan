@@ -3,7 +3,29 @@ import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
 import Botao from '../../../Component/Botao';
 import Hr from '../../../Component/Hr';
 
-export default function Login({ setIsCriarConta, setIsLogado,navigation }) {
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../../services/firebaseConfig';
+
+
+export default function Login({ setIsCriarConta, navigation, setUser }) {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log(user);
+        setUser(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      });
+  }
   return (
     <View style={styles.container}>
 
@@ -32,8 +54,13 @@ export default function Login({ setIsCriarConta, setIsLogado,navigation }) {
           <View style={{ margin: 10 }}>
 
             <Text style={styles.inpTitulo}>Senha</Text>
-            <TextInput style={styles.input} placeholder='Digite o sua senha' secureTextEntry autoComplete='password' placeholderTextColor='#A481A1' />
-            
+            <TextInput style={styles.input}
+              placeholder='Digite o sua senha'
+              secureTextEntry
+              autoComplete='password'
+              onChangeText={(val) => { setPassword(val) }}
+              placeholderTextColor='#A481A1' />
+
             <Pressable onPress={() => navigation.navigate('Recuperacao')} >
             <Text style={{ color: '#BE00B0', fontSize: 17 }}> Esqueceu a senha?</Text>
             </Pressable>
@@ -45,23 +72,21 @@ export default function Login({ setIsCriarConta, setIsLogado,navigation }) {
 
       <View style={styles.caixa2}>
 
-        <Botao texto={'CONTINUAR'} tipo={1} onPress={() => setIsLogado(true)} />
+        <Botao texto={'CONTINUAR'} tipo={1} onPress={() => handleLogin()} />
 
         <Pressable onPress={() => setIsCriarConta(true)} style={{ flexDirection: "row", justifyContent: 'center' }}>
           <Text style={{ fontSize: 17 }}>Não tem uma conta?</Text>
           <Text style={{ color: '#BE00B0', fontSize: 17 }}> Cadastre-se</Text>
         </Pressable>
-        <View style={styles.caixa3}>
 
+        <View style={styles.caixa3}>
           <Hr posicao={'Vertical'} />
           <Text>OU</Text>
           <Hr posicao={'Vertical'} />
-
         </View>
 
-
-
       </View>
+
       <View style={{ justifyContent: 'center', flexDirection: 'row', }}>
         <Pressable onPress={() => setIsCriarConta(true)} style={{ flexDirection: 'row', display: 'flex', textAlign: 'center', justifyContent: 'center', width: 300, height: 70, borderWidth: 1, borderColor: '#BE00B0', borderRadius: 25, }}>
 
@@ -69,16 +94,15 @@ export default function Login({ setIsCriarConta, setIsLogado,navigation }) {
         </Pressable>
       </View>
 
-      <View style={{ justifyContent: 'center', flexDirection: 'row', margin: 15 }}> <Pressable onPress={() => setIsCriarConta(true)} style={{ flexDirection: 'row', display: 'flex', textAlign: 'center', justifyContent: 'center', width: 300, height: 70, borderWidth: 1, borderColor: '#BE00B0', borderRadius: 25, }}> <Text style={{ color: '#BE00B0', fontSize: 17, marginTop: 20, }} >
-        Continue com a Apple</Text>
-      </Pressable>
+      <View style={{ justifyContent: 'center', flexDirection: 'row', margin: 15 }}>
+        <Pressable onPress={() => setIsCriarConta(true)}
+          style={{ flexDirection: 'row', display: 'flex', textAlign: 'center', justifyContent: 'center', width: 300, height: 70, borderWidth: 1, borderColor: '#BE00B0', borderRadius: 25, }}>
+
+          <Text style={{ color: '#BE00B0', fontSize: 17, marginTop: 20, }} >  Continue com a Apple</Text>
+        </Pressable>
       </View>
 
     </View >
-
-
-
-
   );
 }
 
@@ -89,25 +113,14 @@ const styles = StyleSheet.create({
   },
 
   caixa1: {
-
-    //backgroundColor: 'blue',
-
     flex: 0.6,
-
     paddingLeft: 20,
-
   },
 
   caixa2: {
-
-    // backgroundColor: 'yellow',
-
     flex: 2,
-
     paddingTop: 10,
-
     padding: 20,
-
   },
 
   caixa3: {
@@ -117,47 +130,28 @@ const styles = StyleSheet.create({
   },
 
   input: {
-
     height: 50,
-
     borderWidth: 0,
-
     backgroundColor: '#EBE8E2',
-
     alignItems: 'center',
-
     fontSize: 20,
-
     padding: 10,
-
     borderRadius: 20
-
   },
 
   botaoContinuar: {
-
     backgroundColor: '#BE00B0',
-
     width: '100%',
-
     height: 50,
-
     borderRadius: 100,
-
     justifyContent: 'center',
-
     alignItems: 'center',
-
   },
 
   inpTitulo: {
-
     color: '#40173D',
-
     fontSize: 16,
-
     fontWeight: 'bold'
-
   },
 
 });
