@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
-
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, firestore } from '../../../services/firebaseConfig';
 import { doc, setDoc } from 'firebase/firestore';
@@ -8,95 +7,80 @@ import { doc, setDoc } from 'firebase/firestore';
 import Botao from '../../../Component/Botao';
 
 export default function Criar({ setUser, setIsCriarConta }) {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [nome, setNome] = useSate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [nome, setNome] = useState('');
 
   const handleLogin = () => {
-    createUserWithEmailAndPassword(auth, email, password, nome)
+    createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-
         const user = userCredential.user;
-        setDoc(doc(firestore, "user", user.uid), {
+        setDoc(doc(firestore, 'user', user.uid), {
           email: email,
           nome: nome,
         });
 
-
-        console.log(user)
-        setUser(user)
-
+        console.log(user);
+        setUser(user);
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorMessage);
       });
-  }
+  };
+
   return (
     <View style={styles.container}>
-
-
       <View style={styles.caixa1}>
-
         <View style={{ paddingBottom: 5, borderBottomWidth: 2, borderColor: '#40173D', height: '100%', marginRight: 40, justifyContent: 'flex-end' }}>
           <Text style={{ color: 'black', fontSize: 25, fontWeight: 'bold' }}>Seja Bem-Vindo! criar </Text>
         </View>
-
       </View>
 
       <View style={styles.caixa2}>
-
         <View>
-
           <Text style={{ color: '#A481A1', fontSize: 16, fontWeight: 'bold', }}>Faça seu Cadastro!</Text>
           <View style={{ margin: 10 }}>
-
             <Text style={styles.inpTitulo}>Nome</Text>
             <TextInput
               style={styles.input}
               placeholder='Digite o seu nome'
-              onChangeText={(val) => { setNome(val) }}
-              keyboardType='default' autoComplete='name'
-              placeholderTextColor='#A481A1' />
-
+              onChangeText={(val) => { setNome(val); }}
+              keyboardType='default'
+              autoComplete='name'
+              placeholderTextColor='#A481A1'
+            />
           </View>
 
           <View style={{ margin: 10 }}>
-
             <Text style={styles.inpTitulo}>Email</Text>
             <TextInput
               style={styles.input}
               placeholder='Digite o seu email'
               keyboardType='email-address'
-              onChangeText={(val) => { setEmail(val) }}
+              onChangeText={(val) => { setEmail(val); }}
               autoComplete='email'
-              placeholderTextColor='#A481A1' />
-
+              placeholderTextColor='#A481A1'
+            />
           </View>
 
           <View style={{ margin: 10 }}>
-
             <Text style={styles.inpTitulo}>Senha</Text>
             <TextInput
               style={styles.input}
               placeholder='Digite o sua senha'
               secureTextEntry
               autoComplete='password'
-              onChangeText={(val) => { setPassword(val) }}
-              placeholderTextColor='#A481A1' />
-
+              onChangeText={(val) => { setPassword(val); }}
+              placeholderTextColor='#A481A1'
+            />
           </View>
-
         </View>
         <Botao texto={'CONTINUAR'} tipo={1} onPress={() => handleLogin()} />
       </View>
 
       <View style={styles.caixa3}>
-
-
-
-        <Pressable onPress={() => setIsCriarConta(false)} style={{ flexDirection: "row", justifyContent: 'center', }}>
+        <Pressable onPress={() => setIsCriarConta(false)} style={{ flexDirection: 'row', justifyContent: 'center' }}>
           <Text style={{ fontSize: 17 }}>Já tem uma conta?</Text>
           <Text style={{ color: '#BE00B0', fontSize: 17 }}> Acesse!</Text>
         </Pressable>
@@ -105,9 +89,7 @@ export default function Criar({ setUser, setIsCriarConta }) {
           <Text>Não deixe de ler nossos</Text>
           <Text style={{ color: '#BE00B0' }}>Termos e políticas de privacidade</Text>
         </Pressable>
-
       </View>
-
     </View>
   );
 }
@@ -117,24 +99,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-
   caixa1: {
     flex: 1.0,
     paddingLeft: 20,
   },
-
   caixa2: {
     flex: 5,
     paddingTop: 10,
     padding: 20,
-
   },
-
   caixa3: {
     flex: 2.5,
-    padding: 20
+    padding: 20,
   },
-
   input: {
     height: 50,
     borderWidth: 0,
@@ -142,23 +119,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 20,
     padding: 10,
-    borderRadius: 20
+    borderRadius: 20,
   },
-
-  botaoContinuar: {
-    backgroundColor: '#BE00B0',
-    width: '100%',
-    height: 50,
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
   inpTitulo: {
     color: '#40173D',
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
-
 });
-
