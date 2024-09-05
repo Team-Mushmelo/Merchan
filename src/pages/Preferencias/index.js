@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, FlatList, StyleSheet, ImageBackground } f
 import Botao from "../../Component/Botao";
 
 import { auth, firestore } from "../../services/firebaseConfig";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from "firebase/auth";
 
 const preferencias = [
