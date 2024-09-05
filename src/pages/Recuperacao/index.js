@@ -8,38 +8,39 @@ import Botao from "../../Component/Botao";
 export default function Recuperacao({ navigation }) {
     return (
         <View style={styles.container}>
-          
+
             <View style={styles.caixa1}>
                 <Text style={styles.title}>Recuperar senha</Text>
                 <Text style={styles.subtitle}>Escolha como gostaria de ser contatado</Text>
             </View>
-            
+
             <View style={styles.caixa2}>
                 <View style={styles.boxInput}>
                     <Entypo name='mail' size={24} color='#A481A1' style={styles.icon} />
                     <Text style={styles.inpTitulo}>Email</Text>
-                    <TextInput 
-                        style={styles.input} 
-                        placeholder='Digite o seu email' 
-                        keyboardType='email-address' 
-                        autoComplete='email' 
-                        placeholderTextColor='#A481A1' 
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Digite o seu email'
+                        keyboardType='email-address'
+                        autoComplete='email'
+                        placeholderTextColor='#A481A1'
                     />
                 </View>
 
                 <View style={styles.boxInput}>
                     <FontAwesome name='phone' size={24} color='#A481A1' style={styles.icon} />
                     <Text style={styles.inpTitulo}>Telefone</Text>
-                    <TextInput 
-                        style={styles.input} 
-                        placeholder='Digite o seu telefone' 
-                        keyboardType='phone-pad' 
-                        autoComplete='tel' 
-                        placeholderTextColor='#A481A1' 
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Digite o seu telefone'
+                        keyboardType='phone-pad'
+                        autoComplete='tel'
+                        placeholderTextColor='#A481A1'
                     />
                 </View>
-
-                <Botao texto={'CONTINUAR'} tipo={1} onPress={() => navigation.navigate('')} />
+                <View style={styles.caixa3}>
+                    <Botao texto={'CONTINUAR'} tipo={1} onPress={() => navigation.navigate('')} />
+                </View>
             </View>
         </View>
     );
@@ -51,9 +52,9 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 20,
     },
-  
+
     caixa1: {
-        flex: 2,
+        flex: 1,
         justifyContent: "center",
     },
     title: {
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
     caixa2: {
         flex: 7,
         justifyContent: "center",
+        alignContent: 'center'
     },
     boxInput: {
         flexDirection: "row",
@@ -93,6 +95,13 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 40,
         color: "#40173D",
+    },
+    caixa3: {
+        flex: 1,
+        justifyContent: "center",
+        alignContent:'flex-end',
+        justifyContent:'flex-end',
+        paddingBottom:32
     },
     button: {
         backgroundColor: "#A90F91",

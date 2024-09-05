@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, ImageBackground } from "react-native";
 import Botao from "../../Component/Botao";
-import { auth } from "../../services/firebaseConfig";
 
+import { auth, firestore } from "../../services/firebaseConfig";
+import { doc, updateDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 const preferencias = [
@@ -20,8 +21,35 @@ const preferencias = [
     { id: "12", nome: "INDIES", imagem: require("../../imgs/indie.png") },
 ];
 
-export default function Preferencias( {}) {
+export default function Preferencias({ navigation }) {
     const [selecionadas, setSelecionadas] = useState([]);
+    const [uid, setUid] = useState(null);
+
+    //Obtém o UID do usuário
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUid(user.uid);
+            } else {
+                setUid(null);
+            }
+        });
+    }, []);
+
+
+    async function salvarPreferenciasNoFirestore() {
+        if (!uid) return; // Se não tiver o UID do usuário, não faz nada
+
+        const userDocRef = doc(firestore, "user", uid);
+        try {
+            await updateDoc(userDocRef, {
+                preferencias: selecionadas, // Envia o array atual de preferências
+            });
+            console.log("Preferências salvas com sucesso no Firestore!");
+        } catch (error) {
+            console.error("Erro ao salvar preferências no Firestore: ", error);
+        }
+    }
 
     function alternarPreferencia(id) {
         if (selecionadas.includes(id)) {
@@ -29,17 +57,6 @@ export default function Preferencias( {}) {
         } else {
             setSelecionadas([...selecionadas, id]);
         }
-    }
-
-    function GetDados() {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                const uid = user.uid;
-                // Ações para quando o usuário está logado
-            } else {
-                // Ações para quando o usuário está deslogado
-            }
-        });
     }
 
     function renderPreferencia({ item }) {
@@ -63,6 +80,12 @@ export default function Preferencias( {}) {
         );
     }
 
+    function handleContinuar() {
+        salvarPreferenciasNoFirestore();
+        navigation.navigate('FinalLogin');
+    }
+
+
     return (
         <View style={styles.container}>
             <View style={styles.caixa1}>
@@ -80,7 +103,7 @@ export default function Preferencias( {}) {
                 />
             </View>
             <View style={styles.caixa3}>
-                <Botao texto={"CONTINUAR"} tipo={1} />
+                <Botao texto={"CONTINUAR"} tipo={1} onPress={handleContinuar} />
             </View>
         </View>
     );
