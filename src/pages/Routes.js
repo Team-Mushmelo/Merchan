@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Entypo } from '@expo/vector-icons'; // Importe apenas o ícone que você está usando
 
-import Home from './Home'
+import Home from './Home/foru'
 import Comunidade from './Comunidade';
 import Ligações from './Ligações';
 import Lives from './Lives';
