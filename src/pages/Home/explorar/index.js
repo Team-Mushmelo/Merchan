@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Alert, FlatList, Text, ScrollView, createStackNavigator } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Alert, FlatList, Text, ScrollView, Button, Image } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Carousel from '../Components/carrossel';
-import { TabRouter } from '@react-navigation/native';
+import Carousel from '../Components/carrossel'; // Certifique-se de que o caminho está correto
 
-export default function Home() {
-    // Estado inicial com 5 quadrados coloridos
+export default function Explorar({ navigation }) {
+    // Estados iniciais para cada seção com imagens
     const [items1, setItems1] = useState([
         { id: '1', color: '#bf0cb1' },
-        { id: '2', color: '#bf0cb1' }, 
+        { id: '2', color: '#bf0cb1' },
         { id: '3', color: '#bf0cb1' },
-        { id: '4', color: '#bf0cb1' }, 
-        { id: '5', color: '#bf0cb1' },  
+        { id: '4', color: '#bf0cb1' },
+        { id: '5', color: '#bf0cb1' },
     ]);
     const [items2, setItems2] = useState([]);
     const [items3, setItems3] = useState([]);
@@ -26,7 +25,7 @@ export default function Home() {
     const [items11, setItems11] = useState([]);
     const [items12, setItems12] = useState([]);
 
-
+    // Função para selecionar uma imagem
     const pickImage = (setItems) => {
         launchImageLibrary({ mediaType: 'photo', quality: 1 }, response => {
             if (response.didCancel) {
@@ -43,17 +42,23 @@ export default function Home() {
         });
     };
 
+    // Renderiza um item na FlatList
     const renderItem = ({ item }) => (
-        <View style={[styles.square, { backgroundColor: item.color }]} />
+        <View style={[styles.square, { backgroundColor: item.color }]}>
+            {item.uri && <Image source={{ uri: item.uri }} style={styles.image} />}
+        </View>
     );
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollViewContent}>
+            <Button
+                title="Ir para For You"
+                onPress={() => navigation.navigate('Foru')}
+            />
 
-             
+            {/* Seção Terror */}
             <Text style={styles.title}>Terror</Text>
-
-            <View style={styles.carouselContainer}> 
+            <View style={styles.carouselContainer}>
                 <View style={styles.carouselWrapper}>
                     <FlatList
                         data={items1}
@@ -66,8 +71,8 @@ export default function Home() {
                 </View>
             </View>
 
+            {/* Seção Suspense */}
             <Text style={styles.title}>Suspense</Text>
-
             <View style={styles.carouselContainer}>
                 <View style={styles.floatingButtonWrapper}>
                     <TouchableOpacity
@@ -82,8 +87,8 @@ export default function Home() {
                 </View>
             </View>
 
+            {/* Seção Aventura */}
             <Text style={styles.title}>Aventura</Text>
-
             <View style={styles.carouselContainer}>
                 <View style={styles.floatingButtonWrapper}>
                     <TouchableOpacity
@@ -98,8 +103,8 @@ export default function Home() {
                 </View>
             </View>
 
-            <Text style={styles.title}>Mágia</Text>
-
+            {/* Seção Mágica */}
+            <Text style={styles.title}>Mágica</Text>
             <View style={styles.carouselContainer}>
                 <View style={styles.floatingButtonWrapper}>
                     <TouchableOpacity
@@ -114,8 +119,8 @@ export default function Home() {
                 </View>
             </View>
 
+            {/* Seção Cosplay */}
             <Text style={styles.title}>Cosplay</Text>
-
             <View style={styles.carouselContainer}>
                 <View style={styles.floatingButtonWrapper}>
                     <TouchableOpacity
@@ -130,8 +135,8 @@ export default function Home() {
                 </View>
             </View>
 
+            {/* Seção Cyberpunk */}
             <Text style={styles.title}>Cyberpunk</Text>
-
             <View style={styles.carouselContainer}>
                 <View style={styles.floatingButtonWrapper}>
                     <TouchableOpacity
@@ -146,8 +151,8 @@ export default function Home() {
                 </View>
             </View>
 
+            {/* Seção Ficção */}
             <Text style={styles.title}>Ficção</Text>
-
             <View style={styles.carouselContainer}>
                 <View style={styles.floatingButtonWrapper}>
                     <TouchableOpacity
@@ -162,85 +167,85 @@ export default function Home() {
                 </View>
             </View>
 
+            {/* Seção Coop */}
             <Text style={styles.title}>Coop</Text>
+            <View style={styles.carouselContainer}>
+                <View style={styles.floatingButtonWrapper}>
+                    <TouchableOpacity
+                        style={styles.floatingButton}
+                        onPress={() => pickImage(setItems8)}
+                    >
+                        <Icon name="add" size={25} color="#fff" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.carouselWrapper}>
+                    <Carousel items={items8} />
+                </View>
+            </View>
 
-<View style={styles.carouselContainer}>
-    <View style={styles.floatingButtonWrapper}>
-        <TouchableOpacity
-            style={styles.floatingButton}
-            onPress={() => pickImage(setItems8)}
-        >
-            <Icon name="add" size={25} color="#fff" />
-        </TouchableOpacity>
-    </View>
-    <View style={styles.carouselWrapper}>
-        <Carousel items={items8} />
-    </View>
-</View>
+            {/* Seção Eventos */}
+            <Text style={styles.title}>Eventos</Text>
+            <View style={styles.carouselContainer}>
+                <View style={styles.floatingButtonWrapper}>
+                    <TouchableOpacity
+                        style={styles.floatingButton}
+                        onPress={() => pickImage(setItems9)}
+                    >
+                        <Icon name="add" size={25} color="#fff" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.carouselWrapper}>
+                    <Carousel items={items9} />
+                </View>
+            </View>
 
-<Text style={styles.title}>Eventos</Text>
+            {/* Seção Stream */}
+            <Text style={styles.title}>Stream</Text>
+            <View style={styles.carouselContainer}>
+                <View style={styles.floatingButtonWrapper}>
+                    <TouchableOpacity
+                        style={styles.floatingButton}
+                        onPress={() => pickImage(setItems10)}
+                    >
+                        <Icon name="add" size={25} color="#fff" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.carouselWrapper}>
+                    <Carousel items={items10} />
+                </View>
+            </View>
 
-<View style={styles.carouselContainer}>
-    <View style={styles.floatingButtonWrapper}>
-        <TouchableOpacity
-            style={styles.floatingButton}
-            onPress={() => pickImage(setItems9)}
-        >
-            <Icon name="add" size={25} color="#fff" />
-        </TouchableOpacity>
-    </View>
-    <View style={styles.carouselWrapper}>
-        <Carousel items={items9} />
-    </View>
-</View>
+            {/* Seção RPG */}
+            <Text style={styles.title}>RPG</Text>
+            <View style={styles.carouselContainer}>
+                <View style={styles.floatingButtonWrapper}>
+                    <TouchableOpacity
+                        style={styles.floatingButton}
+                        onPress={() => pickImage(setItems11)}
+                    >
+                        <Icon name="add" size={25} color="#fff" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.carouselWrapper}>
+                    <Carousel items={items11} />
+                </View>
+            </View>
 
-<Text style={styles.title}>Stream</Text>
-
-<View style={styles.carouselContainer}>
-    <View style={styles.floatingButtonWrapper}>
-        <TouchableOpacity
-            style={styles.floatingButton}
-            onPress={() => pickImage(setItems10)}
-        >
-            <Icon name="add" size={25} color="#fff" />
-        </TouchableOpacity>
-    </View>
-    <View style={styles.carouselWrapper}>
-        <Carousel items={items10} />
-    </View>
-</View>
-
-<Text style={styles.title}>Rpg</Text>
-
-<View style={styles.carouselContainer}>
-    <View style={styles.floatingButtonWrapper}>
-        <TouchableOpacity
-            style={styles.floatingButton}
-            onPress={() => pickImage(setItems11)}
-        >
-            <Icon name="add" size={25} color="#fff" />
-        </TouchableOpacity>
-    </View>
-    <View style={styles.carouselWrapper}>
-        <Carousel items={items11} />
-    </View>
-</View>
-
-<Text style={styles.title}>Jogos Indies</Text>
-
-<View style={styles.carouselContainer}>
-    <View style={styles.floatingButtonWrapper}>
-        <TouchableOpacity
-            style={styles.floatingButton}
-            onPress={() => pickImage(setItems12)}
-        >
-            <Icon name="add" size={25} color="#fff" />
-        </TouchableOpacity>
-    </View>
-    <View style={styles.carouselWrapper}>
-        <Carousel items={items12} />
-    </View>
-</View>
+            {/* Seção Jogos Indies */}
+            <Text style={styles.title}>Jogos Indies</Text>
+            <View style={styles.carouselContainer}>
+                <View style={styles.floatingButtonWrapper}>
+                    <TouchableOpacity
+                        style={styles.floatingButton}
+                        onPress={() => pickImage(setItems12)}
+                    >
+                        <Icon name="add" size={25} color="#fff" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.carouselWrapper}>
+                    <Carousel items={items12} />
+                </View>
+            </View>
         </ScrollView>
     );
 }
@@ -256,7 +261,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 14,
-        paddingLeft: 0,
+        paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 10,
         marginLeft: 10,
@@ -272,8 +277,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     floatingButtonWrapper: {
-        justifyContent: 'center', 
-        alignItems: 'center', 
+        justifyContent: 'center',
+        alignItems: 'center',
         height: 100,
         margin: 10,
         paddingLeft: 10,
@@ -304,6 +309,13 @@ const styles = StyleSheet.create({
         width: 100,
         height: 70,
         marginLeft: 5,
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    image: {
+        width: '100%',
+        height: '100%',
         borderRadius: 25,
     },
 });

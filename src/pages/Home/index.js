@@ -1,13 +1,17 @@
-import foru from './foru';
-import explorar from './explorar';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import Foru from './foru';
+import Explorar from './explorar'; // Certifique-se de que o caminho está correto
 
-import { useState } from 'react';
+const Stack = createStackNavigator();
 
-export default function PaginaLogar({ navigation }) {
-
-    createStackNavigator({
-    foru: foru,
-    explorar: explorar,
-    })
-
+export default function App() {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="Foru">
+                <Stack.Screen name="Foru" component={Foru} />
+                <Stack.Screen name="Explorar" component={Explorar} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
