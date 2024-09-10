@@ -1,17 +1,17 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import { createTwistNavigator } from '@react-navigation/Twist';
 import { NavigationContainer } from '@react-navigation/native';
 import Foru from './foru';
-import Explorar from './explorar'; // Certifique-se de que o caminho está correto
+import Explorar from './explorar';
 
-const Stack = createStackNavigator();
+const Twist = createTwistNavigator();
 
-export default function App() {
+export default function Twist() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Foru">
-                <Stack.Screen name="Foru" component={Foru} />
-                <Stack.Screen name="Explorar" component={Explorar} />
-            </Stack.Navigator>
+            <Twist.Navigator initialRouteName="Foru">
+                <Twist.Screen name="Foru" component={Foru} />
+                <Twist.Screen name="Explorar" component={Explorar} />
+            </Twist.Navigator>
         </NavigationContainer>
     );
 }
