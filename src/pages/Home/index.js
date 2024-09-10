@@ -5,13 +5,13 @@ import Explorar from './explorar'; // Certifique-se de que o caminho está corre
 
 const Stack = createStackNavigator();
 
-export default function App() {
+export default function home() {
     return (
-        <NavigationContainer>
+    
             <Stack.Navigator initialRouteName="Foru">
                 <Stack.Screen name="Foru" component={Foru} />
                 <Stack.Screen name="Explorar" component={Explorar} />
             </Stack.Navigator>
-        </NavigationContainer>
+      
     );
 }
