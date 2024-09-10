@@ -9,6 +9,11 @@ export default function Ligacoes() {
         { id: 3, nome: 'xxxxx', },
         { id: 4, nome: 'xxxxx', },
         { id: 5, nome: 'xxxxx', },
+        { id: 6, nome: 'xxxxx', },
+        { id: 7, nome: 'xxxxx', },
+        { id: 8, nome: 'xxxxx', },
+        { id: 9, nome: 'xxxxx', },
+        { id: 10, nome: 'xxxxx', },
     ]);
 
     return (

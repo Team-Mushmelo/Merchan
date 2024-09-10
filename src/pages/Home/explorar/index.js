@@ -13,8 +13,22 @@ export default function Explorar({ navigation }) {
         { id: '4', color: '#bf0cb1' },
         { id: '5', color: '#bf0cb1' },
     ]);
-    const [items2, setItems2] = useState([]);
-    const [items3, setItems3] = useState([]);
+    const [items2, setItems2] = useState([
+        { id: '1', color: '#bf0cb1' },
+        { id: '2', color: '#bf0cb1' },
+        { id: '3', color: '#bf0cb1' },
+        { id: '4', color: '#bf0cb1' },
+        { id: '5', color: '#bf0cb1' },
+    ]);
+   
+    const [items3, setItems3] = useState([
+        { id: '1', color: '#bf0cb1' },
+        { id: '2', color: '#bf0cb1' },
+        { id: '3', color: '#bf0cb1' },
+        { id: '4', color: '#bf0cb1' },
+        { id: '5', color: '#bf0cb1' },
+    ]);
+
     const [items4, setItems4] = useState([]);
     const [items5, setItems5] = useState([]);
     const [items6, setItems6] = useState([]);
@@ -74,32 +88,30 @@ export default function Explorar({ navigation }) {
             {/* Seção Suspense */}
             <Text style={styles.title}>Suspense</Text>
             <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems2)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
                 <View style={styles.carouselWrapper}>
-                    <Carousel items={items2} />
+                    <FlatList
+                        data={items2}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContent}
+                        showsHorizontalScrollIndicator={false}
+                    />
                 </View>
             </View>
 
             {/* Seção Aventura */}
             <Text style={styles.title}>Aventura</Text>
             <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems3)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
                 <View style={styles.carouselWrapper}>
-                    <Carousel items={items3} />
+                    <FlatList
+                        data={items3}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContent}
+                        showsHorizontalScrollIndicator={false}
+                    />
                 </View>
             </View>
 

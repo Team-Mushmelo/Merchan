@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     },
     formContainer: {
 
-        backgroundColor: '#cdcdcd',
+        backgroundColor: '#ebe8e2',
         borderColor: '#40173d',
         borderWidth: 1,
         borderRadius: 50,
