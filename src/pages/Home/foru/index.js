@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Alert, FlatList, Text, ScrollView, 
 import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Carousel from '../Components/carrossel';
-import App from './index.js';
+
 
 
 export default function Foru({ navigation }) {
