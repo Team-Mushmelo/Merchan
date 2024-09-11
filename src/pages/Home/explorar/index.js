@@ -29,15 +29,77 @@ export default function Explorar({ navigation }) {
         { id: '5', color: '#bf0cb1' },
     ]);
 
-    const [items4, setItems4] = useState([]);
-    const [items5, setItems5] = useState([]);
-    const [items6, setItems6] = useState([]);
-    const [items7, setItems7] = useState([]);
-    const [items8, setItems8] = useState([]);
-    const [items9, setItems9] = useState([]);
-    const [items10, setItems10] = useState([]);
-    const [items11, setItems11] = useState([]);
-    const [items12, setItems12] = useState([]);
+    const [items4, setItems4] = useState([
+        { id: '1', color: '#bf0cb1' },
+        { id: '2', color: '#bf0cb1' },
+        { id: '3', color: '#bf0cb1' },
+        { id: '4', color: '#bf0cb1' },
+        { id: '5', color: '#bf0cb1' },
+    ]);
+
+    const [items5, setItems5] = useState([
+        { id: '1', color: '#bf0cb1' },
+        { id: '2', color: '#bf0cb1' },
+        { id: '3', color: '#bf0cb1' },
+        { id: '4', color: '#bf0cb1' },
+        { id: '5', color: '#bf0cb1' },
+    ]);
+   
+    const [items6, setItems6] = useState([
+        { id: '1', color: '#bf0cb1' },
+        { id: '2', color: '#bf0cb1' },
+        { id: '3', color: '#bf0cb1' },
+        { id: '4', color: '#bf0cb1' },
+        { id: '5', color: '#bf0cb1' },
+    ]);
+
+    const [items7, setItems7] = useState([
+        { id: '1', color: '#bf0cb1' },
+        { id: '2', color: '#bf0cb1' },
+        { id: '3', color: '#bf0cb1' },
+        { id: '4', color: '#bf0cb1' },
+        { id: '5', color: '#bf0cb1' },
+    ]);
+    
+    const [items8, setItems8] = useState([
+        { id: '1', color: '#bf0cb1' },
+        { id: '2', color: '#bf0cb1' },
+        { id: '3', color: '#bf0cb1' },
+        { id: '4', color: '#bf0cb1' },
+        { id: '5', color: '#bf0cb1' },
+    ]);
+    
+    const [items9, setItems9] = useState([
+        { id: '1', color: '#bf0cb1' },
+        { id: '2', color: '#bf0cb1' },
+        { id: '3', color: '#bf0cb1' },
+        { id: '4', color: '#bf0cb1' },
+        { id: '5', color: '#bf0cb1' },
+    ]);
+    
+    const [items10, setItems10] = useState([
+        { id: '1', color: '#bf0cb1' },
+        { id: '2', color: '#bf0cb1' },
+        { id: '3', color: '#bf0cb1' },
+        { id: '4', color: '#bf0cb1' },
+        { id: '5', color: '#bf0cb1' },
+    ]);
+
+    const [items11, setItems11] = useState([
+        { id: '1', color: '#bf0cb1' },
+        { id: '2', color: '#bf0cb1' },
+        { id: '3', color: '#bf0cb1' },
+        { id: '4', color: '#bf0cb1' },
+        { id: '5', color: '#bf0cb1' },
+    ]);
+    
+    const [items12, setItems12] = useState([
+        { id: '1', color: '#bf0cb1' },
+        { id: '2', color: '#bf0cb1' },
+        { id: '3', color: '#bf0cb1' },
+        { id: '4', color: '#bf0cb1' },
+        { id: '5', color: '#bf0cb1' },
+    ]);
 
     // Função para selecionar uma imagem
     const pickImage = (setItems) => {
@@ -118,144 +180,135 @@ export default function Explorar({ navigation }) {
             {/* Seção Mágica */}
             <Text style={styles.title}>Mágica</Text>
             <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems4)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
                 <View style={styles.carouselWrapper}>
-                    <Carousel items={items4} />
+                    <FlatList
+                        data={items4}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContent}
+                        showsHorizontalScrollIndicator={false}
+                    />
                 </View>
             </View>
 
             {/* Seção Cosplay */}
             <Text style={styles.title}>Cosplay</Text>
             <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems5)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
                 <View style={styles.carouselWrapper}>
-                    <Carousel items={items5} />
+                    <FlatList
+                        data={items5}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContent}
+                        showsHorizontalScrollIndicator={false}
+                    />
                 </View>
             </View>
 
             {/* Seção Cyberpunk */}
             <Text style={styles.title}>Cyberpunk</Text>
             <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems6)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
                 <View style={styles.carouselWrapper}>
-                    <Carousel items={items6} />
+                    <FlatList
+                        data={items6}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContent}
+                        showsHorizontalScrollIndicator={false}
+                    />
                 </View>
             </View>
 
             {/* Seção Ficção */}
             <Text style={styles.title}>Ficção</Text>
             <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems7)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
                 <View style={styles.carouselWrapper}>
-                    <Carousel items={items7} />
+                    <FlatList
+                        data={items7}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContent}
+                        showsHorizontalScrollIndicator={false}
+                    />
                 </View>
             </View>
 
             {/* Seção Coop */}
             <Text style={styles.title}>Coop</Text>
             <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems8)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
                 <View style={styles.carouselWrapper}>
-                    <Carousel items={items8} />
+                    <FlatList
+                        data={items8}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContent}
+                        showsHorizontalScrollIndicator={false}
+                    />
                 </View>
             </View>
 
             {/* Seção Eventos */}
             <Text style={styles.title}>Eventos</Text>
             <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems9)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
                 <View style={styles.carouselWrapper}>
-                    <Carousel items={items9} />
+                    <FlatList
+                        data={items9}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContent}
+                        showsHorizontalScrollIndicator={false}
+                    />
                 </View>
             </View>
 
             {/* Seção Stream */}
             <Text style={styles.title}>Stream</Text>
             <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems10)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
                 <View style={styles.carouselWrapper}>
-                    <Carousel items={items10} />
+                    <FlatList
+                        data={items10}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContent}
+                        showsHorizontalScrollIndicator={false}
+                    />
                 </View>
             </View>
 
             {/* Seção RPG */}
             <Text style={styles.title}>RPG</Text>
             <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems11)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
                 <View style={styles.carouselWrapper}>
-                    <Carousel items={items11} />
+                    <FlatList
+                        data={items11}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContent}
+                        showsHorizontalScrollIndicator={false}
+                    />
                 </View>
             </View>
 
             {/* Seção Jogos Indies */}
             <Text style={styles.title}>Jogos Indies</Text>
             <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems12)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
                 <View style={styles.carouselWrapper}>
-                    <Carousel items={items12} />
+                    <FlatList
+                        data={items12}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContent}
+                        showsHorizontalScrollIndicator={false}
+                    />
                 </View>
             </View>
         </ScrollView>

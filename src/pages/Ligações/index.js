@@ -54,7 +54,7 @@ export default function Ligacoes() {
 function Dados({ data }) {
     return (
         <View style={styles.areaDados}>
-            <Text style={styles.textoDados}>nome: {data.nome}</Text>
+            <Text style={styles.textoDados}>{data.nome}</Text>
         </View>
     );
 }

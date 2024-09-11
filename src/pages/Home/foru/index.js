@@ -45,11 +45,14 @@ export default function Foru({ navigation }) {
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollViewContent}>
+
             {/* Botão para navegação */}
-            <Button
-                title="Ir para Explorar"
+            <TouchableOpacity
+                style={styles.exploreButton}
                 onPress={() => navigation.navigate('Explorar')}
-            />
+            >
+                <Text style={styles.exploreButtonText}>Ir para Explorar</Text>
+            </TouchableOpacity>
 
             {/* Seção 1 */}
             <Text style={styles.title}>Exemplo</Text>
@@ -82,7 +85,7 @@ export default function Foru({ navigation }) {
                 </View>
             </View>
 
-            {/* Seção 3 */}
+            {/* Seção 3 */} 
             <Text style={styles.title}>Exemplo</Text>
             <View style={styles.carouselContainer}>
                 <View style={styles.floatingButtonWrapper}>
@@ -171,6 +174,22 @@ const styles = StyleSheet.create({
         borderBottomColor: '#ebe8e2',
         fontFamily: 'OpenSansRegular',
     },
+
+    
+    exploreButton: {
+        backgroundColor: '#fff',
+        padding: 15,
+        borderWidth: 1,
+        borderColor: '#40173d',
+        borderRadius: 27,
+        alignItems: 'right',
+        marginBottom: 20,
+    },
+    exploreButtonText: {
+        color: '#40173d',
+        fontSize: 16,
+    },
+
     carouselContainer: {
         flexDirection: 'row',
         marginBottom: 20,

@@ -19,9 +19,9 @@ export default function Comunidade() {
 
   // Simulação de dados para o feed
   const feed = [
-    { nome: 'Item 1' },
-    { nome: 'Item 2' },
-    { nome: 'Item 3' },
+    { nome: 'Bananas assassinas' },
+    { nome: 'Mario Broh´s' },
+    { nome: 'Baby Bommers' },
   ];
 
   const renderItem = ({ item }) => (
@@ -57,7 +57,7 @@ export default function Comunidade() {
 function Dados({ data }) {
   return (
     <View style={styles.areaDados}>
-      <Text style={styles.textoDados}>nome: {data.nome}</Text>
+      <Text style={styles.textoDados}> {data.nome}</Text>
     </View>
   );
 }
@@ -79,10 +79,11 @@ const styles = StyleSheet.create({
   carouselFullWidth: {
     width: '100%', // Faz com que o carrossel ocupe a tela toda horizontalmente
   },
+
   flatListContainer: {
-    flexGrow: 1, // Ajusta o conteúdo para preencher o espaço restante
+    flex: 1, // Ajusta o conteúdo para preencher o espaço restante
     backgroundColor: '#fff',
-    alignItems: 'center', // Centraliza todos os itens horizontalmente
+    alignItems: 'right', // Centraliza todos os itens horizontalmente
   },
   areaDados: {
     marginTop: 15,
@@ -91,11 +92,11 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     borderRadius: 25,
     padding: 10,
-    width: '90%', // Ajusta a largura da área de dados para caber na tela
+    width: '100%', // Ajusta a largura da área de dados para caber na tela
     borderWidth: 1,
     borderColor: '#40173d',
-    alignItems: 'center', // Centraliza o texto horizontalmente
-    justifyContent: 'center', // Centraliza o texto verticalmente
+    justifyContent: 'center', // Centraliza o texto horizontalmente
+    alignItems: 'center'
   },
   textoDados: {
     color: '#40173d',
@@ -108,8 +109,6 @@ const styles = StyleSheet.create({
     height: 70,
     margin: 5,
     borderRadius: 25,
-    justifyContent: 'center', // Centraliza o texto dentro do quadrado
-    alignItems: 'center', // Centraliza o texto dentro do quadrado
   },
   title: {
     fontSize: 18,
