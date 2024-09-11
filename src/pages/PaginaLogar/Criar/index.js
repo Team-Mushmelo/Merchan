@@ -7,7 +7,7 @@ import { doc, setDoc } from 'firebase/firestore';
 
 import Botao from '../../../Component/Botao';
 
-export default function Criar({ setUser, setIsCriarConta,  navigation }) {
+export default function Criar({ setUser, setIsCriarConta, navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [nome, setNome] = useState('');
@@ -42,7 +42,7 @@ export default function Criar({ setUser, setIsCriarConta,  navigation }) {
         <View>
           <Text style={{ color: '#A481A1', fontSize: 16, fontWeight: 'bold', }}>Faça seu Cadastro!</Text>
           <View style={{ margin: 10 }}>
-            <Text style={styles.inpTitulo}>Nome</Text>
+            <Text style={styles.inpTitulo}>Nick/Apelido</Text>
             <TextInput
               style={styles.input}
               placeholder='Digite o seu nome'
