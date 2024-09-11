@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TextInput, TouchableOpacity, Text, Alert, Image, Dimensions } from 'react-native';
 import { Entypo, Feather, MaterialIcons, FontAwesome } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const { width } = Dimensions.get('window');
 

@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Carousel from '../Components/carrossel'; // Certifique-se de que o caminho está correto
 
 export default function Explorar({ navigation }) {
+
     // Estados iniciais para cada seção com imagens
     const [items1, setItems1] = useState([
         { id: '1', color: '#bf0cb1' },
@@ -127,10 +128,19 @@ export default function Explorar({ navigation }) {
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollViewContent}>
-            <Button
-                title="Ir para For You"
+             {/* Botão para navegação */}
+ <View style={{flexDirection: 'row', display:'flex', alignItems: 'center', marginLeft: 15,}}>
+   
+ <TouchableOpacity
+                style={styles.exploreButton}
                 onPress={() => navigation.navigate('Foru')}
-            />
+            >
+                <Text style={styles.exploreButtonText}>For you</Text>
+            </TouchableOpacity>
+            <View style={styles.exploreButton}>
+ <Text style={styles.exploreButtonText}>Explorar</Text>
+ </View>
+</View>
 
             {/* Seção Terror */}
             <Text style={styles.title}>Terror</Text>
@@ -348,6 +358,22 @@ const styles = StyleSheet.create({
         margin: 10,
         paddingLeft: 10,
     },
+    exploreButton: {
+        backgroundColor: '#fff',
+        padding: 15,
+        borderWidth: 1,
+        borderColor: '#40173d',
+        borderRadius: 27,
+        alignItems: 'right',
+        marginBottom: 20,
+        marginRight: 10,
+        width: '25%'
+    },
+    exploreButtonText: {
+        color: '#40173d',
+        fontSize: 12,
+    },
+
     floatingButton: {
         alignItems: 'center',
         justifyContent: 'center',

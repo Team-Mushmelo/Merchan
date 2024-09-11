@@ -46,13 +46,7 @@ export default function Foru({ navigation }) {
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.scrollViewContent}>
 
-            {/* Botão para navegação */}
-            <TouchableOpacity
-                style={styles.exploreButton}
-                onPress={() => navigation.navigate('Explorar')}
-            >
-                <Text style={styles.exploreButtonText}>Ir para Explorar</Text>
-            </TouchableOpacity>
+           
 
             {/* Seção 1 */}
             <Text style={styles.title}>Exemplo</Text>
@@ -68,6 +62,21 @@ export default function Foru({ navigation }) {
                     />
                 </View>
             </View>
+
+
+ {/* Botão para navegação */}
+ <View style={{flexDirection: 'row', display:'flex', alignItems: 'center', marginLeft: 15,}}>
+    <View style={styles.exploreButton}>
+ <Text style={styles.exploreButtonText}>For you</Text>
+ </View>
+ <TouchableOpacity
+                style={styles.exploreButton}
+                onPress={() => navigation.navigate('Explorar')}
+            >
+                <Text style={styles.exploreButtonText}>Explorar</Text>
+            </TouchableOpacity>
+           
+</View>
 
             {/* Seção 2 */}
             <Text style={styles.title}>Exemplo</Text>
@@ -184,27 +193,33 @@ const styles = StyleSheet.create({
         borderRadius: 27,
         alignItems: 'right',
         marginBottom: 20,
+        marginRight: 10,
+        width: '25%'
     },
     exploreButtonText: {
         color: '#40173d',
-        fontSize: 16,
+        fontSize: 12,
     },
 
     carouselContainer: {
         flexDirection: 'row',
         marginBottom: 20,
+        backgroundColor: 'none',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     floatingButtonWrapper: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: 100,
+        height: 'auto',
         margin: 10,
         paddingLeft: 10,
+        backgroundColor: 'none'
     },
     floatingButton: {
         alignItems: 'center',
         justifyContent: 'center',
-        width: 90,
+        width: 50,
         height: 50,
         backgroundColor: '#bf0cb1',
         borderRadius: 50,
