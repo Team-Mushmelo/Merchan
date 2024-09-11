@@ -1,25 +1,13 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Alert, FlatList, Text, ScrollView, Button } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Alert, Text, ScrollView } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Carousel from '../Components/carrossel';
+import Carousel from '../Components/Feed';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 
 export default function Foru({ navigation }) {
-    // Estados iniciais para as seções com imagens
-    const [items1, setItems1] = useState([
-        { id: '1', color: '#bf0cb1' },
-        { id: '2', color: '#bf0cb1' },
-        { id: '3', color: '#bf0cb1' },
-        { id: '4', color: '#bf0cb1' },
-        { id: '5', color: '#bf0cb1' },
-    ]);
     const [items2, setItems2] = useState([]);
-    const [items3, setItems3] = useState([]);
-    const [items4, setItems4] = useState([]);
-    const [items5, setItems5] = useState([]);
-    const [items6, setItems6] = useState([]);
 
     // Função para selecionar uma imagem
     const pickImage = (setItems) => {
@@ -30,7 +18,7 @@ export default function Foru({ navigation }) {
                 Alert.alert('Erro', response.errorMessage);
             } else {
                 const newItem = {
-                    id: (new Date()).toISOString(), // Use um ID único
+                    id: (new Date()).toISOString(),
                     uri: response.assets[0].uri,
                 };
                 setItems(prevItems => [...prevItems, newItem]);
@@ -38,134 +26,76 @@ export default function Foru({ navigation }) {
         });
     };
 
-    // Renderiza um item na FlatList
-    const renderItem = ({ item }) => (
-        <View style={[styles.square, { backgroundColor: item.color }]} />
-    );
-
     return (
-        <ScrollView style={styles.container} contentContainerStyle={styles.scrollViewContent}>
+        <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
 
-           
-
-            {/* Seção 1 */}
-            <Text style={styles.title}>Exemplo</Text>
-            <View style={styles.carouselContainer}>
-                <View style={styles.carouselWrapper}>
-                    <FlatList
-                        data={items1}
-                        keyExtractor={(item) => item.id}
-                        horizontal
-                        renderItem={renderItem}
-                        contentContainerStyle={styles.flatListContent}
-                        showsHorizontalScrollIndicator={false}
-                    />
+            <View style={{flexDirection: 'row', display:'flex', alignItems: 'center', marginLeft: 15,}}>
+            <View style={styles.exploreButton}>
+              <Text style={styles.exploreButtonText}>For you</Text>
+   </View>
+   <TouchableOpacity
+                  style={styles.exploreButton}
+                  onPress={() => navigation.navigate('Explorar')}
+              >
+                
+   
+                  <Text style={styles.exploreButtonText}>Explorar</Text>
+              </TouchableOpacity>
+             
+  </View>
+                {/* Seção 2 */}
+                
+                <View style={styles.carouselContainer}>
+                    <View style={styles.carouselWrapper}>
+                        <Carousel items={items2} />
+                    </View>
                 </View>
-            </View>
+                <View style={styles.carouselContainer}>
+                    {items2.length > 0 ? (
+                        <View style={styles.carouselWrapper}>
+                           
+                        </View>
+                    ) : (
+                        <View style={styles.noPostsContainer}>
+                            <Icon name="ghost" size={50} color="#40173d" />
+                            <Text style={styles.noPostsText}>Não há posts ainda.</Text>
+                        </View>
+                    )}
+                </View>
+            </ScrollView>
 
-
- {/* Botão para navegação */}
- <View style={{flexDirection: 'row', display:'flex', alignItems: 'center', marginLeft: 15,}}>
-    <View style={styles.exploreButton}>
- <Text style={styles.exploreButtonText}>For you</Text>
- </View>
- <TouchableOpacity
-                style={styles.exploreButton}
-                onPress={() => navigation.navigate('Explorar')}
+            {/* Botão flutuante */}
+            <TouchableOpacity
+                style={styles.floatingButton}
+                onPress={() => pickImage(setItems2)}
             >
-                <Text style={styles.exploreButtonText}>Explorar</Text>
+                <Icon name="plus" size={25} color="#fff" />
             </TouchableOpacity>
-           
-</View>
-
-            {/* Seção 2 */}
-            <Text style={styles.title}>Exemplo</Text>
-            <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems2)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.carouselWrapper}>
-                    <Carousel items={items2} />
-                </View>
-            </View>
-
-            {/* Seção 3 */} 
-            <Text style={styles.title}>Exemplo</Text>
-            <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems3)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.carouselWrapper}>
-                    <Carousel items={items3} />
-                </View>
-            </View>
-
-            {/* Seção 4 */}
-            <Text style={styles.title}>Exemplo</Text>
-            <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems4)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.carouselWrapper}>
-                    <Carousel items={items4} />
-                </View>
-            </View>
-
-            {/* Seção 5 */}
-            <Text style={styles.title}>Exemplo</Text>
-            <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems5)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.carouselWrapper}>
-                    <Carousel items={items5} />
-                </View>
-            </View>
-
-            {/* Seção 6 */}
-            <Text style={styles.title}>Exemplo</Text>
-            <View style={styles.carouselContainer}>
-                <View style={styles.floatingButtonWrapper}>
-                    <TouchableOpacity
-                        style={styles.floatingButton}
-                        onPress={() => pickImage(setItems6)}
-                    >
-                        <Icon name="add" size={25} color="#fff" />
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.carouselWrapper}>
-                    <Carousel items={items6} />
-                </View>
-            </View>
-        </ScrollView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    exploreButton: {
+        backgroundColor: '#fff',
+        padding: 15,
+        borderWidth: 1,
+        borderColor: '#40173d',
+        borderRadius: 27,
+        alignItems: 'right',
+        marginBottom: 20,
+        marginRight: 10,
+        width: '25%'
+    },
+    exploreButtonText: {
+        color: '#40173d',
+        fontSize: 12,
+    },
+
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        padding: 0,
     },
     scrollViewContent: {
         flexGrow: 1,
@@ -183,51 +113,11 @@ const styles = StyleSheet.create({
         borderBottomColor: '#ebe8e2',
         fontFamily: 'OpenSansRegular',
     },
-
-    
-    exploreButton: {
-        backgroundColor: '#fff',
-        padding: 15,
-        borderWidth: 1,
-        borderColor: '#40173d',
-        borderRadius: 27,
-        alignItems: 'right',
-        marginBottom: 20,
-        marginRight: 10,
-        width: '25%'
-    },
-    exploreButtonText: {
-        color: '#40173d',
-        fontSize: 12,
-    },
-
     carouselContainer: {
         flexDirection: 'row',
         marginBottom: 20,
-        backgroundColor: 'none',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    floatingButtonWrapper: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 'auto',
-        margin: 10,
-        paddingLeft: 10,
-        backgroundColor: 'none'
-    },
-    floatingButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 50,
-        height: 50,
-        backgroundColor: '#bf0cb1',
-        borderRadius: 50,
-        shadowColor: '#000',
-        padding: 10,
-        shadowOpacity: 0.3,
-        shadowRadius: 3,
-        elevation: 5,
     },
     carouselWrapper: {
         flex: 1,
@@ -235,13 +125,30 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0,
         width: '100%',
     },
-    flatListContent: {
+    floatingButton: {
+        position: 'absolute',
+        bottom: 20,
+        left: 20,
+        width: 50,
+        height: 50,
+        backgroundColor: '#bf0cb1',
+        borderRadius: 50,
         alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+        elevation: 5,
     },
-    square: {
-        width: 100,
-        height: 70,
-        marginLeft: 5,
-        borderRadius: 25,
+
+    noPostsContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+    },
+    noPostsText: {
+        fontSize: 18,
+        color: '#40173d',
     },
 });

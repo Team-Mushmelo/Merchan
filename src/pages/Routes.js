@@ -46,7 +46,8 @@ export default function Routes() {
                     headerTitle: "MERCHAN",
                 }}
             />
-            <Tab.Screen
+          {/* TEMPORARIAMENTE DASATIVADO  
+        <Tab.Screen
                 name='Ligações'
                 component={Ligações}
                 options={{
@@ -55,7 +56,8 @@ export default function Routes() {
                     ),
                     headerTitle: "MERCHAN",
                 }}
-            />
+            />*/}
+
               <Tab.Screen
                 name='Pesquisa'
                 component={SearchBar}
@@ -66,6 +68,7 @@ export default function Routes() {
                     headerTitle: "MERCHAN",
                 }}
             />
+            {/* TEMPORARIAMENTE DESATIVADO
             <Tab.Screen
                 name='Lives'
                 component={Lives}
@@ -76,6 +79,8 @@ export default function Routes() {
                     headerTitle: "MERCHAN",
                 }}
             />
+            */}
+
             <Tab.Screen
                 name='Perfil'
                 component={Perfil}

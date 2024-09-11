@@ -133,7 +133,7 @@ export default function Explorar({ navigation }) {
    
  <TouchableOpacity
                 style={styles.exploreButton}
-                onPress={() => navigation.navigate('Foru')}
+                onPress={() => navigation.navigate('For you')}
             >
                 <Text style={styles.exploreButtonText}>For you</Text>
             </TouchableOpacity>
