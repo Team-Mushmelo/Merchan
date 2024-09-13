@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TextInput, TouchableOpacity, Text, Alert, Image, Dimensions } from 'react-native';
-import { Entypo, Feather, MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { View, StyleSheet, TextInput, TouchableOpacity, Text, Alert, Image, Dimensions, ScrollView } from 'react-native';
+import { Entypo, Feather } from '@expo/vector-icons';
 import { launchImageLibrary } from 'react-native-image-picker';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Certifique-se de que o pacote está instalado
 
 const { width } = Dimensions.get('window');
 
@@ -11,6 +12,23 @@ export default function Perfil() {
     const [description, setDescription] = useState('');
     const [gender, setGender] = useState('');
     const [profileImage, setProfileImage] = useState(null);
+    const [items2, setItems2] = useState([]);
+
+    const pickMyFeed = (setItems) => {
+        launchImageLibrary({ mediaType: 'photo', quality: 1 }, response => {
+            if (response.didCancel) {
+                console.log('Usuário cancelou a seleção');
+            } else if (response.errorCode) {
+                Alert.alert('Erro', response.errorMessage);
+            } else {
+                const newItem = {
+                    id: (new Date()).toISOString(),
+                    uri: response.assets[0].uri,
+                };
+                setItems(prevItems => [...prevItems, newItem]);
+            }
+        });
+    };
 
     const handleSave = () => {
         if (!name || !email || !description || !gender) {
@@ -21,8 +39,8 @@ export default function Perfil() {
     };
 
     const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        let result = await launchImageLibrary({
+            mediaTypes: 'photo',
             allowsEditing: true,
             aspect: [1, 1],
             quality: 1,
@@ -35,58 +53,65 @@ export default function Perfil() {
 
     return (
         <View style={styles.container}>
-           
-            <View style={styles.formContainer}>
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                <View style={styles.formContainer}>
+                    <View style={styles.profileContainer}>
+                        <TouchableOpacity style={styles.profileImageContainer} onPress={pickImage}>
+                            {profileImage ? (
+                                <Image source={{ uri: profileImage }} style={styles.profileImage} />
+                            ) : (
+                                <Feather name="user" size={50} color="#40173d" />
+                            )}
+                        </TouchableOpacity>
+                    </View>
 
-             <View style={styles.profileContainer}>
-                <TouchableOpacity style={styles.profileImageContainer} onPress={pickImage}>
-                    {profileImage ? (
-                        <Image source={{ uri: profileImage }} style={styles.profileImage} />
-                    ) : (
-                        <Feather name="user" size={50} color="#40173d" />
-                    )}
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            value={name}
+                            onChangeText={setName}
+                            placeholder="Digite seu apelido"
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            value={email}
+                            onChangeText={setEmail}
+                            placeholder="Digite seu e-mail"
+                            keyboardType="email-address"
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            value={gender}
+                            onChangeText={setGender}
+                            placeholder="Digite seu gênero"
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            value={description}
+                            onChangeText={setDescription}
+                            placeholder="Digite uma descrição"
+                        />
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button} onPress={handleSave}>
+                            <Entypo name="pencil" size={25} color="#40173d" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <TouchableOpacity
+                    style={styles.floatingButton}
+                    onPress={() => pickMyFeed(setItems2)}
+                >
+                    <Icon name="plus" size={25} color="#fff" />
                 </TouchableOpacity>
-            </View>
-
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
-                        value={name}
-                        onChangeText={setName}
-                        placeholder="Digite seu apelido"
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
-                        value={email}
-                        onChangeText={setEmail}
-                        placeholder="Digite seu e-mail"
-                        keyboardType="email-address"
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
-                        value={gender}
-                        onChangeText={setGender}
-                        placeholder="Digite seu gênero"
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
-                        value={description}
-                        onChangeText={setDescription}
-                        placeholder="Digite uma descrição"
-                    />
-                </View>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={handleSave}>
-                        <Entypo name='pencil' size={25} color="#40173d" />
-                    </TouchableOpacity>
-                </View>
-            </View>
+            </ScrollView>
         </View>
     );
 }
@@ -150,5 +175,23 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 50,
         alignItems: 'center',
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+    },
+    floatingButton: {
+        position: 'absolute',
+        bottom: 20,
+        left: 20,
+        width: 50,
+        height: 50,
+        backgroundColor: '#bf0cb1',
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+        elevation: 5,
     },
 });
