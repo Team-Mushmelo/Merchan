@@ -66,15 +66,15 @@ import LogoBranco from '../../../imgs/LogoB.png';
 
 const { width } = Dimensions.get('window'); // Obtém a largura da tela
 
-export function GrupoBotoes() {
+    export function GrupoBotoes({onPressDark, onPressLight}) {
     return (
         <View style={styles.Fundo}>
-            <Pressable style={[styles.card, { backgroundColor: '#BE00B0', width:'50%', }]}>
+            <Pressable onPress={onPressLight} style={[styles.card, { backgroundColor: '#BE00B0', width:'50%', }]}>
                 <Image style={styles.cardImg} source={LogoBranco} />
                 <Text style={styles.TextBotao}>LIGHT MODE</Text>
             </Pressable>
 
-            <Pressable style={[styles.card, { backgroundColor: '#40173D', width:'50%' }]}>
+            <Pressable onPress={onPressDark} style={[styles.card, { backgroundColor: '#40173D', width:'50%' }]}>
                 <Image style={styles.cardImg} source={LogoBranco} />
                 <Text style={styles.TextBotao}>DARK MODE</Text>
             </Pressable>

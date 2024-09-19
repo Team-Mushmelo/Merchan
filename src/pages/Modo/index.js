@@ -5,14 +5,17 @@ import Botao from '../../Component/Botao';
 import { Ponto, GrupoBotoes, Topo } from './Components/ModoComponents';
 import Hr from '../../Component/Hr';
 
-function Modo({ navigation }) {
+function Modo({ navigation, ModoDL }) {
     return (
         <View style={styles.container}>
 
             <Topo txtEstilo={styles.subtitulos} />
 
             <Hr/>
-            <GrupoBotoes />
+            <GrupoBotoes
+            onPressLight={() => ModoDL (False)} 
+            onPressDark={() => ModoDL(True)}
+            />
             <Hr/>
             <View style={styles.Bottom}>
 
