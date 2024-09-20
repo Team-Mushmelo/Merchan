@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
+import { View, Text, Pressable, StyleSheet, TextInput, Alert } from 'react-native';
 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, firestore } from '../../../services/firebaseConfig';
@@ -12,7 +12,44 @@ export default function Criar({ setUser, setIsCriarConta, navigation }) {
   const [password, setPassword] = useState('');
   const [nome, setNome] = useState('');
 
+  const ErroAlert = (error) => {
+    let mensagem = "";
+    switch (error.code) {
+      case "auth/invalid-email":
+        mensagem = "Email inválido.";
+        break;
+      case "auth/weak-password":
+        mensagem = "A senha é muito fraca. Por favor, escolha uma senha mais forte com pelo menos 6 caracteres.";
+        break;
+      case "auth/missing-password":
+        mensagem = "Esqueceu de colocar uma senha"
+        break;
+      case "auth/user-not-found":
+        mensagem = "Usuário não encontrado.";
+        break;
+      case "auth/wrong-password":
+        mensagem = "Senha incorreta.";
+        break;
+      case "auth/invalid-credential":
+        mensagem = "Alguma informação esta incorreta.";
+        break;
+      default:
+        mensagem = "Ocorreu um erro desconhecido.";
+    }
+    Alert.alert('Erro', mensagem, [
+      { text: 'OK', onPress: () => console.log('OK Pressed') },
+    ]);
+  };
+
   const handleLogin = () => {
+    if (!nome.trim()) {
+      // Verifica se o campo nome está vazio ou contém apenas espaços em branco
+      Alert.alert('Erro', 'O campo Nick/Apelido não pode estar vazio.', [
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ]);
+      return; // Evita que a função prossiga
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -25,10 +62,11 @@ export default function Criar({ setUser, setIsCriarConta, navigation }) {
         navigation.navigate('Preferencias');
       })
       .catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
+        ErroAlert(error);
+        console.log(error.code);
       });
   };
+
 
   return (
     <View style={styles.container}>

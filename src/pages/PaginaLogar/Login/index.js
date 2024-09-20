@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, StyleSheet, TextInput } from 'react-native';
+import { View, Text, Pressable, StyleSheet, TextInput, Alert } from 'react-native';
 import Botao from '../../../Component/Botao';
 import Hr from '../../../Component/Hr';
 
@@ -9,6 +9,29 @@ import { auth } from '../../../services/firebaseConfig';
 export default function Login({ setIsCriarConta, navigation, setUser }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const ErroAlert = (error) => {
+    let mensagem = "";
+    switch (error.code) {
+      case "auth/invalid-email":
+        mensagem = "Email inválido.";
+        break;
+      case "auth/user-not-found":
+        mensagem = "Usuário não encontrado.";
+        break;
+      case "auth/wrong-password":
+        mensagem = "Senha incorreta.";
+        break;
+      case "auth/invalid-credential":
+        mensagem = "Alguma informação esta incorreta.";
+        break;
+      default:
+        mensagem = "Ocorreu um erro desconhecido.";
+    }
+    Alert.alert('Erro', mensagem, [
+      { text: 'OK', onPress: () => console.log('OK Pressed') },
+    ]);
+  };
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
@@ -20,7 +43,8 @@ export default function Login({ setIsCriarConta, navigation, setUser }) {
         navigation.navigate('FinalLogin');
       })
       .catch((error) => {
-        console.log(error.message);
+        ErroAlert(error);
+        console.log(error.code);
       });
   }
 
