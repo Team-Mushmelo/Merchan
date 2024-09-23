@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Alert, Text, ScrollView } from 'rea
 import { launchImageLibrary } from 'react-native-image-picker';
 import Carousel from '../Components/Feed';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDocs, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { auth } from '../services/services'; // Ajuste conforme necessário
 
 export default function Foru({ navigation }) {
@@ -20,7 +20,6 @@ export default function Foru({ navigation }) {
         fetchPosts();
     }, []);
 
-    // Função para selecionar uma imagem
     const pickImage = async () => {
         const response = await launchImageLibrary({ mediaType: 'photo', quality: 1 });
 
@@ -32,13 +31,35 @@ export default function Foru({ navigation }) {
             const newItem = {
                 id: (new Date()).toISOString(),
                 uri: response.assets[0].uri,
-                email: auth.currentUser?.email, // Captura o email do usuário logado
-                content: '', // Adicione um campo de conteúdo se necessário
+                email: auth.currentUser?.email,
+                content: '',
+                likes: [], // Inicializa o array de likes
             };
 
-            // Salva o post no Firestore
             await addDoc(collection(db, 'posts'), newItem);
-            setItems2(prevItems => [...prevItems, newItem]); // Adiciona a nova imagem ao estado
+            setItems2(prevItems => [...prevItems, newItem]);
+        }
+    };
+
+    const handleLike = async (postId) => {
+        const userId = auth.currentUser.uid;
+        const postRef = doc(db, 'posts', postId);
+        const post = items2.find(item => item.id === postId);
+        const userLiked = post.likes?.includes(userId);
+
+        try {
+            await updateDoc(postRef, {
+                likes: userLiked ? arrayRemove(userId) : arrayUnion(userId),
+            });
+            setItems2(prevPosts => 
+                prevPosts.map(post => 
+                    post.id === postId 
+                        ? { ...post, likes: userLiked ? post.likes.filter(uid => uid !== userId) : [...(post.likes || []), userId] } 
+                        : post
+                )
+            );
+        } catch (error) {
+            console.error('Erro ao curtir o post:', error);
         }
     };
 
@@ -57,11 +78,13 @@ export default function Foru({ navigation }) {
                     </TouchableOpacity>
                 </View>
 
-                {/* Seção do Carrossel */}
                 <View style={styles.carouselContainer}>
                     {items2.length > 0 ? (
                         <View style={styles.carouselWrapper}>
-                            <Carousel items={items2} />
+                            <Carousel 
+                                items={items2}
+                                onLike={handleLike} // Passa a função de curtir para o Carousel
+                            />
                         </View>
                     ) : (
                         <View style={styles.noPostsContainer}>
@@ -72,7 +95,6 @@ export default function Foru({ navigation }) {
                 </View>
             </ScrollView>
 
-            {/* Botão flutuante */}
             <TouchableOpacity
                 style={styles.floatingButton}
                 onPress={pickImage}

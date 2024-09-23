@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, Image, StyleSheet, Text, TouchableOpacity, TextInput, Modal, ScrollView } from 'react-native';
-import { getFirestore, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { getFirestore, doc, updateDoc, arrayUnion, arrayRemove, onSnapshot, collection } from 'firebase/firestore';
 import { auth } from '../../../services/firebaseConfig';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
-const Feed = ({ items }) => {
+const Feed = () => {
     const [posts, setPosts] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedPostId, setSelectedPostId] = useState(null);
@@ -12,10 +12,91 @@ const Feed = ({ items }) => {
     const firebase = getFirestore();
 
     useEffect(() => {
-        if (items) {
-            setPosts(items);
+        const unsubscribe = onSnapshot(collection(firebase, 'posts'), (snapshot) => {
+            const updatedPosts = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            setPosts(updatedPosts);
+        });
+
+        return () => unsubscribe();
+    }, [firebase]);
+
+    const handleAddComment = async (postId) => {
+        if (!newComment.trim()) return;
+
+        const postRef = doc(firebase, 'posts', postId);
+        setPosts(prevPosts => 
+            prevPosts.map(post => 
+                post.id === postId 
+                    ? { ...post, comments: [...(post.comments || []), newComment] } 
+                    : post
+            )
+        );
+
+        try {
+            await updateDoc(postRef, {
+                comments: arrayUnion(newComment)
+            });
+            setNewComment(''); // Limpa o campo de entrada
+        } catch (error) {
+            console.error('Erro ao adicionar comentário:', error);
         }
-    }, [items]);
+    };
+
+    const handleLike = async (item) => {
+        const userId = auth.currentUser.uid;
+        const postRef = doc(firebase, 'posts', item.id);
+        const userLiked = item.likes?.includes(userId);
+
+        const newLikes = userLiked 
+            ? item.likes.filter(uid => uid !== userId) 
+            : [...(item.likes || []), userId];
+
+        // Atualiza o estado local
+        setPosts(prevPosts => 
+            prevPosts.map(post => 
+                post.id === item.id 
+                    ? { ...post, likes: newLikes } 
+                    : post
+            )
+        );
+
+        // Atualiza o Firestore
+        try {
+            await updateDoc(postRef, {
+                likes: userLiked ? arrayRemove(userId) : arrayUnion(userId)
+            });
+        } catch (error) {
+            console.error('Erro ao curtir o post:', error);
+        }
+    };
+
+    const handleSavePost = async (postId, userSaved) => {
+        const userId = auth.currentUser.uid;
+        const postRef = doc(firebase, 'posts', postId);
+
+        // Atualiza o estado local para adicionar/remover o favorito
+        setPosts(prevPosts => 
+            prevPosts.map(post => 
+                post.id === postId 
+                    ? { ...post, savedBy: userSaved ? post.savedBy.filter(uid => uid !== userId) : [...(post.savedBy || []), userId] } 
+                    : post
+            )
+        );
+
+        // Atualiza o Firestore
+        try {
+            if (userSaved) {
+                await updateDoc(postRef, { savedBy: arrayRemove(userId) });
+            } else {
+                await updateDoc(postRef, { savedBy: arrayUnion(userId) });
+            }
+        } catch (error) {
+            console.error('Erro ao favoritar o post:', error);
+        }
+    };
 
     const renderItem = ({ item }) => {
         const likesCount = item.likes?.length || 0;
@@ -48,7 +129,7 @@ const Feed = ({ items }) => {
                     <View style={styles.rightIcons}>
                         <TouchableOpacity
                             style={styles.icones}
-                            onPress={() => handleLike(item, userLiked)}
+                            onPress={() => handleLike(item)}
                         >
                             <FontAwesome 
                                 name={userLiked ? "heart" : "heart-o"} 
@@ -94,9 +175,7 @@ const Feed = ({ items }) => {
                                 />
                                 <TouchableOpacity
                                     style={styles.commentButton}
-                                    onPress={() => {
-                                        handleAddComment(item.id);
-                                    }}
+                                    onPress={() => handleAddComment(item.id)}
                                 >
                                     <Text style={styles.commentButtonText}>Comentar</Text>
                                 </TouchableOpacity>
@@ -106,76 +185,6 @@ const Feed = ({ items }) => {
                 )}
             </View>
         );
-    };
-
-    const handleAddComment = async (postId) => {
-        if (!newComment.trim()) return;
-
-        const postRef = doc(firebase, 'posts', postId);
-        setPosts(prevPosts => 
-            prevPosts.map(post => 
-                post.id === postId 
-                    ? { ...post, comments: [...(post.comments || []), newComment] } 
-                    : post
-            )
-        );
-
-        try {
-            await updateDoc(postRef, {
-                comments: arrayUnion(newComment)
-            });
-            setNewComment('');
-        } catch (error) {
-            console.error('Erro ao adicionar comentário:', error);
-        }
-    };
-
-    const handleSavePost = async (postId, userSaved) => {
-        const userId = auth.currentUser.uid;
-        const postRef = doc(firebase, 'posts', postId);
-
-        setPosts(prevPosts => 
-            prevPosts.map(post => 
-                post.id === postId 
-                    ? { ...post, savedBy: userSaved ? post.savedBy.filter(uid => uid !== userId) : [...(post.savedBy || []), userId] } 
-                    : post
-            )
-        );
-
-        try {
-            if (userSaved) {
-                await updateDoc(postRef, { savedBy: arrayRemove(userId) });
-            } else {
-                await updateDoc(postRef, { savedBy: arrayUnion(userId) });
-            }
-        } catch (error) {
-            console.error('Erro ao salvar o post:', error);
-        }
-    };
-
-    const handleLike = async (item, userLiked) => {
-        const userId = auth.currentUser.uid;
-        const postRef = doc(firebase, 'posts', item.id);
-
-        const newLikes = userLiked 
-            ? item.likes.filter(uid => uid !== userId) 
-            : [...(item.likes || []), userId];
-
-        setPosts(prevPosts => 
-            prevPosts.map(post => 
-                post.id === item.id 
-                    ? { ...post, likes: newLikes } 
-                    : post
-            )
-        );
-
-        try {
-            await updateDoc(postRef, {
-                likes: userLiked ? arrayRemove(userId) : arrayUnion(userId)
-            });
-        } catch (error) {
-            console.error('Erro ao curtir o post:', error);
-        }
     };
 
     return (
