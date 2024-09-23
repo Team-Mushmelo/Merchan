@@ -3,7 +3,7 @@ import { View, StyleSheet, TextInput, TouchableOpacity, Text, Alert, Image, Dime
 import { Entypo, Feather } from '@expo/vector-icons';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { getFirestore, collection, query, where, onSnapshot, updateDoc, doc, getDoc } from 'firebase/firestore';
-import { auth } from '../Home/services/services';
+import { auth } from '../../services/firebaseConfig';
 
 const { width } = Dimensions.get('window');
 
@@ -53,7 +53,7 @@ export default function Perfil() {
             setEmail(userData.email || '');
             setDescription(userData.description || '');
             setGender(userData.gender || '');
-            setProfileImage(userData.profileImage || ''); // Carrega a imagem do Firestore
+            setProfileImage(userData.profileImage || '');
         }
     };
 
@@ -62,14 +62,25 @@ export default function Perfil() {
             Alert.alert('Erro', 'Por favor, preencha todos os campos.');
             return;
         }
-        
+
+        let imageUrl = profileImage;
+
+        // Se uma nova imagem foi selecionada, faça o upload
+        if (typeof profileImage === 'string' && profileImage.startsWith('file://')) {
+            const fileName = profileImage.substring(profileImage.lastIndexOf('/') + 1);
+            const reference = storage().ref(`profileImages/${fileName}`);
+
+            await reference.putFile(profileImage);
+            imageUrl = await reference.getDownloadURL(); // Obtendo a URL da imagem
+        }
+
         const userDoc = doc(db, 'users', auth.currentUser.uid);
         await updateDoc(userDoc, {
             name,
             email,
             description,
             gender,
-            profileImage,
+            profileImage: imageUrl, // Armazenando a URL da imagem
         });
 
         Alert.alert('Perfil Atualizado', 'Seu perfil foi atualizado com sucesso.');
@@ -80,7 +91,6 @@ export default function Perfil() {
             mediaType: 'photo',
             quality: 1,
             selectionLimit: 1,
-            includeBase64: false,
         };
 
         launchImageLibrary(options, async (response) => {
@@ -90,13 +100,7 @@ export default function Perfil() {
                 console.error('Erro ao selecionar a imagem:', response.errorMessage);
             } else {
                 const uri = response.assets[0].uri;
-                setProfileImage(uri);
-
-                // Atualiza a imagem de perfil no Firestore
-                const userDoc = doc(db, 'users', auth.currentUser.uid);
-                await updateDoc(userDoc, {
-                    profileImage: uri,
-                });
+                setProfileImage(uri); // Armazenando a URI local
             }
         });
     };
@@ -124,7 +128,7 @@ export default function Perfil() {
                         style={styles.input}
                         value={name}
                         onChangeText={setName}
-                        placeholder="Digite seu apelido"
+                        placeholder="Digite seu nome"
                     />
                     <TextInput
                         style={styles.input}
@@ -145,8 +149,9 @@ export default function Perfil() {
                         onChangeText={setDescription}
                         placeholder="Digite uma descrição"
                     />
+                    
                     <TouchableOpacity style={styles.button} onPress={handleSave}>
-                        <Entypo name="pencil" size={25} color="#40173d" />
+                        <Text style={styles.buttonText}>Salvar</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -215,8 +220,12 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 50,
         alignItems: 'center',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#40173d',
         marginTop: 10,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
     },
     tabsContainer: {
         flexDirection: 'row',
