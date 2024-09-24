@@ -167,7 +167,7 @@ const Feed = () => {
         comments: [],
         savedBy: [],
         timestamp: new Date(),
-        uri: selectedImage || '', // Adiciona a imagem se selecionada
+        uri: selectedImage || '',
       });
       setNewPostContent('');
       setSelectedImage(null);
@@ -435,13 +435,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   commentModal: {
-    width: '80%',
+    width: '90%',
     backgroundColor: '#fff',
-    borderRadius: 10,
+    borderRadius: 15,
     padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   commentList: {
-    maxHeight: 200,
+    maxHeight: 300,
+    marginBottom: 10,
   },
   commentInputContainer: {
     flexDirection: 'row',
@@ -453,6 +459,7 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     borderRadius: 5,
     padding: 10,
+    backgroundColor: '#f9f9f9',
   },
   sendButton: {
     marginLeft: 10,
@@ -530,6 +537,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#40173d',
     borderRadius: 50,
     padding: 15,
+  },
+  comment: {
+    marginVertical: 5,
+    color: '#333',
   },
 });
 
