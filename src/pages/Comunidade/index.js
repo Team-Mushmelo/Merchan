@@ -1,63 +1,130 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, FlatList, Text } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 
 export default function Comunidade() {
-    const [items1, setItems1] = useState([]);
+    const [characterName, setCharacterName] = useState('');
+    const [characterClass, setCharacterClass] = useState('');
+    const [level, setLevel] = useState('');
+    const [race, setRace] = useState('');
+    const [attributes, setAttributes] = useState('');
+    const [skills, setSkills] = useState('');
+    const [equipment, setEquipment] = useState('');
+    const [background, setBackground] = useState('');
+    const [description, setDescription] = useState('');
+    const [diceValue, setDiceValue] = useState(null);
 
-    const [items2, setItems2] = useState([
-        { id: '1', color: '#bf0cb1' },
-        { id: '2', color: '#bf0cb1' },
-        { id: '3', color: '#bf0cb1' },
-        { id: '4', color: '#bf0cb1' },
-        { id: '5', color: '#bf0cb1' },
-    ]);
+    const handleSubmit = () => {
+        if (!characterName || !characterClass || !level || !race) {
+            Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
+            return;
+        }
 
-    const [feed, setFeed] = useState([
-        { id: '1', nome: 'xxxxx' },
-        { id: '2', nome: 'xxxxx' },
-        { id: '3', nome: 'xxxxx' },
-        { id: '4', nome: 'xxxxx' },
-        { id: '5', nome: 'xxxxx' },
-        { id: '6', nome: 'xxxxx' },
-        { id: '7', nome: 'xxxxx' },
-        { id: '8', nome: 'xxxxx' },
-        { id: '9', nome: 'xxxxx' },
-        { id: '10', nome: 'xxxxx' },
-    ]);
+        const characterData = {
+            characterName,
+            characterClass,
+            level,
+            race,
+            attributes,
+            skills,
+            equipment,
+            background,
+            description,
+        };
 
-    const renderItem = ({ item }) => (
-        <View style={[styles.carouselItem, { backgroundColor: item.color }]} />
-    );
+        console.log('Character Data:', characterData);
+        Alert.alert('Sucesso', 'Personagem criado com sucesso!');
+        // Limpa os campos após o envio
+        setCharacterName('');
+        setCharacterClass('');
+        setLevel('');
+        setRace('');
+        setAttributes('');
+        setSkills('');
+        setEquipment('');
+        setBackground('');
+        setDescription('');
+    };
+
+    const rollDice = () => {
+        const rolledValue = Math.floor(Math.random() * 6) + 1; // Lançar um dado de 1 a 6
+        setDiceValue(rolledValue);
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Suspense</Text>
-            <View style={styles.carouselContainer}>
-                <View style={styles.carouselWrapper}>
-                    <FlatList
-                        data={items2}
-                        keyExtractor={(item) => item.id}
-                        horizontal
-                        renderItem={renderItem}
-                        contentContainerStyle={styles.flatListContent}
-                        showsHorizontalScrollIndicator={false}
-                    />
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                <Text style={styles.title}>Criar Personagem</Text>
+                
+                <TextInput
+                    style={styles.input}
+                    placeholder="Nome do Personagem"
+                    value={characterName}
+                    onChangeText={setCharacterName}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Classe do Personagem"
+                    value={characterClass}
+                    onChangeText={setCharacterClass}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Nível"
+                    keyboardType="numeric"
+                    value={level}
+                    onChangeText={setLevel}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Raça"
+                    value={race}
+                    onChangeText={setRace}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Atributos (força, destreza, etc.)"
+                    value={attributes}
+                    onChangeText={setAttributes}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Habilidades"
+                    value={skills}
+                    onChangeText={setSkills}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Equipamentos"
+                    value={equipment}
+                    onChangeText={setEquipment}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Background"
+                    value={background}
+                    onChangeText={setBackground}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Descrição"
+                    value={description}
+                    onChangeText={setDescription}
+                />
+
+                <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+                    <Text style={styles.submitButtonText}>Criar Personagem</Text>
+                </TouchableOpacity>
+
+                {/* Dado */}
+                <View style={styles.diceContainer}>
+                    <TouchableOpacity style={styles.diceButton} onPress={rollDice}>
+                        <Text style={styles.diceButtonText}>Lançar Dado</Text>
+                    </TouchableOpacity>
+                    {diceValue !== null && (
+                        <Text style={styles.diceResult}>Resultado: {diceValue}</Text>
+                    )}
                 </View>
-            </View>
-
-            <FlatList
-                data={feed}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <Dados data={item} />}
-            />
-        </View>
-    );
-}
-
-function Dados({ data }) {
-    return (
-        <View style={styles.areaDados}>
-            <Text style={styles.textoDados}>{data.nome}</Text>
+            </ScrollView>
         </View>
     );
 }
@@ -66,53 +133,54 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        padding: 20,
     },
-    areaDados: {
-        margin: 15,
-        backgroundColor: '#ebe8e2',
-        height: 100,
-        marginBottom: 5,
-        borderRadius: 25,
-        padding: 10,
-        width: 'auto',
-        borderWidth: 1,
-        borderColor: '#40173d',
-    },
-    textoDados: {
-        color: '#40173d',
-        fontSize: 20,
-        padding: 5,
-    },
-    carouselContainer: {
-        flexDirection: 'row',
-        marginBottom: 20,
-    },
-    carouselWrapper: {
-        flex: 1,
-        margin: 10,
-        paddingHorizontal: 0,
-        width: '100%',
-    },
-    flatListContent: {
-        alignItems: 'center',
+    scrollViewContent: {
+        flexGrow: 1,
+        justifyContent: 'center',
     },
     title: {
-        fontSize: 14,
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingTop: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 10,
-        marginBottom: 0,
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#ebe8e2',
-        fontFamily: 'OpenSansRegular',
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#40173d',
+        marginBottom: 20,
+        textAlign: 'center',
     },
-    carouselItem: {
-        width: 80,
-        height: 80,
-        borderRadius: 40,
-        marginHorizontal: 5,
+    input: {
+        height: 40,
+        borderColor: '#40173d',
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        marginBottom: 15,
+    },
+    submitButton: {
+        backgroundColor: '#bf0cb1',
+        padding: 15,
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    submitButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    diceContainer: {
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    diceButton: {
+        backgroundColor: '#40173d',
+        padding: 15,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    diceButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    diceResult: {
+        fontSize: 18,
+        color: '#40173d',
     },
 });
