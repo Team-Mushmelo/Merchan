@@ -19,6 +19,7 @@ import {
   deleteDoc,
   onSnapshot,
   collection,
+  addDoc,
 } from 'firebase/firestore';
 import { auth } from '../../../services/firebaseConfig';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
@@ -30,8 +31,6 @@ const Feed = () => {
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [newComment, setNewComment] = useState('');
   const [newDescription, setNewDescription] = useState('');
-  const [createPostModalVisible, setCreatePostModalVisible] = useState(false);
-  const [newPostContent, setNewPostContent] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
 
   const firebase = getFirestore();
@@ -42,11 +41,26 @@ const Feed = () => {
         id: doc.id,
         ...doc.data(),
       }));
+
+      // Ordenar os posts por timestamp, do mais recente para o mais antigo
+      updatedPosts.sort((a, b) => b.timestamp - a.timestamp);
+      
       setPosts(updatedPosts);
     });
 
     return () => unsubscribe();
   }, [firebase]);
+
+  // Função para adicionar um novo post
+  const handleAddPost = async (newPost) => {
+    try {
+      const docRef = await addDoc(collection(firebase, 'posts'), newPost);
+      // Adiciona o novo post ao início do estado local
+      setPosts(prevPosts => [{ id: docRef.id, ...newPost }, ...prevPosts]);
+    } catch (error) {
+      console.error('Erro ao adicionar post:', error);
+    }
+  };
 
   const handleAddComment = async (postId) => {
     if (!newComment.trim()) return;
@@ -151,42 +165,6 @@ const Feed = () => {
       }
     } catch (error) {
       console.error('Erro ao favoritar o post:', error);
-    }
-  };
-
-  const handleCreatePost = async () => {
-    if (!newPostContent.trim() && !selectedImage) return;
-
-    const newPostRef = doc(collection(firebase, 'posts'));
-    try {
-      await updateDoc(newPostRef, {
-        content: newPostContent,
-        authorName: auth.currentUser.displayName,
-        userProfilePic: auth.currentUser.photoURL,
-        likes: [],
-        comments: [],
-        savedBy: [],
-        timestamp: new Date(),
-        uri: selectedImage || '',
-      });
-      setNewPostContent('');
-      setSelectedImage(null);
-      setCreatePostModalVisible(false);
-    } catch (error) {
-      console.error('Erro ao criar post:', error);
-    }
-  };
-
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
     }
   };
 
@@ -300,6 +278,7 @@ const Feed = () => {
         data={posts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        contentContainerStyle={{ paddingBottom: 100 }} // Adicionado para evitar sobreposição de conteúdo
       />
 
       {/* Modal para Atualizar Descrição */}
@@ -331,44 +310,6 @@ const Feed = () => {
           </View>
         </View>
       </Modal>
-
-      {/* Modal para Criar Post */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={createPostModalVisible}
-        onRequestClose={() => setCreatePostModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.createPostModal}>
-            <TouchableOpacity style={styles.closeButton} onPress={() => setCreatePostModalVisible(false)}>
-              <Ionicons name="close" size={30} color="#40173d" />
-            </TouchableOpacity>
-            <TextInput
-              style={styles.createPostInput}
-              placeholder="O que você deseja compartilhar?"
-              value={newPostContent}
-              onChangeText={setNewPostContent}
-              multiline
-              numberOfLines={4}
-            />
-            <TouchableOpacity style={styles.imagePickerButton} onPress={pickImage}>
-              <Text style={styles.imagePickerText}>Selecionar Imagem</Text>
-            </TouchableOpacity>
-            {selectedImage && <Image source={{ uri: selectedImage }} style={styles.selectedImage} />}
-            <TouchableOpacity
-              style={styles.createPostButton}
-              onPress={handleCreatePost}
-            >
-              <Text style={styles.createPostButtonText}>Publicar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-
-      <TouchableOpacity style={styles.createPostButtonContainer} onPress={() => setCreatePostModalVisible(true)}>
-        <Text style={styles.createPostButtonText}>Criar Novo Post</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -490,53 +431,6 @@ const styles = StyleSheet.create({
   updateButtonText: {
     color: '#fff',
     fontWeight: 'bold',
-  },
-  createPostModal: {
-    width: '80%',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
-  },
-  createPostInput: {
-    height: 100,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 20,
-  },
-  imagePickerButton: {
-    backgroundColor: '#40173d',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  imagePickerText: {
-    color: '#fff',
-  },
-  selectedImage: {
-    width: '100%',
-    height: 200,
-    marginBottom: 10,
-  },
-  createPostButton: {
-    backgroundColor: '#40173d',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  createPostButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  createPostButtonContainer: {
-    position: 'absolute',
-    bottom: 30,
-    right: 30,
-    backgroundColor: '#40173d',
-    borderRadius: 50,
-    padding: 15,
   },
   comment: {
     marginVertical: 5,
