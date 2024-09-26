@@ -67,8 +67,8 @@ export default function Foru({ navigation }) {
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 15 }}>
-                    <View style={styles.exploreButton}>
-                        <Text style={styles.exploreButtonText}>For you</Text>
+                    <View style={styles.exploreButtonact}>
+                        <Text style={styles.exploreButtonTextact}>For you</Text>
                     </View>
                     <TouchableOpacity
                         style={styles.exploreButton}
@@ -106,6 +106,21 @@ export default function Foru({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+    exploreButtonact: {
+        backgroundColor: '#40173d',
+        padding: 15,
+        borderWidth: 1,
+        borderColor: '#40173d',
+        borderRadius: 27,
+        alignItems: 'right',
+        marginBottom: 20,
+        marginRight: 10,
+        width: '25%',
+    },
+    exploreButtonTextact: {
+        color: '#fff',
+        fontSize: 12,
+    },
     exploreButton: {
         backgroundColor: '#fff',
         padding: 15,

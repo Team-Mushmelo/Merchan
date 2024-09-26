@@ -137,8 +137,8 @@ export default function Explorar({ navigation }) {
             >
                 <Text style={styles.exploreButtonText}>For you</Text>
             </TouchableOpacity>
-            <View style={styles.exploreButton}>
- <Text style={styles.exploreButtonText}>Explorar</Text>
+            <View style={styles.exploreButtonact}>
+ <Text style={styles.exploreButtonTextact}>Explorar</Text>
  </View>
 </View>
 
@@ -326,6 +326,22 @@ export default function Explorar({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+
+    exploreButtonact: {
+        backgroundColor: '#40173d',
+        padding: 15,
+        borderWidth: 1,
+        borderColor: '#40173d',
+        borderRadius: 27,
+        alignItems: 'right',
+        marginBottom: 20,
+        marginRight: 10,
+        width: '25%',
+    },
+    exploreButtonTextact: {
+        color: '#fff',
+        fontSize: 12,
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',

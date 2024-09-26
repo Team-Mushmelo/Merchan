@@ -51,10 +51,9 @@ export default function Comunidade() {
             description,
         };
 
-        setSavedCharacters([...savedCharacters, characterData]); // Adiciona o novo personagem
-        setModalVisible(true); // Abre o modal
+        setSavedCharacters([...savedCharacters, characterData]);
+        setModalVisible(true);
 
-        // Limpa os campos após o envio
         setCharacterName('');
         setCharacterClass('');
         setLevel('');
@@ -179,14 +178,13 @@ export default function Comunidade() {
                     ))}
                 </View>
 
-                {/* Renderiza um botão para cada personagem criado */}
                 {savedCharacters.map((character, index) => (
                     <TouchableOpacity
                         key={index}
                         style={styles.showModalButton}
                         onPress={() => {
                             setModalVisible(true);
-                            setSavedCharacters([character]); // Exibe apenas o personagem selecionado
+                            setSavedCharacters([character]);
                         }}
                     >
                         <Text style={styles.showModalButtonText}>{character.characterName}</Text>
@@ -194,7 +192,6 @@ export default function Comunidade() {
                 ))}
             </ScrollView>
 
-            {/* Modal para mostrar os dados do personagem */}
             <Modal
                 animationType="slide"
                 transparent={true}
