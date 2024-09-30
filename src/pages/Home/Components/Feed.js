@@ -44,7 +44,6 @@ const Feed = () => {
 
       // Ordenar os posts por timestamp, do mais recente para o mais antigo
       updatedPosts.sort((a, b) => b.timestamp - a.timestamp);
-      
       setPosts(updatedPosts);
     });
 

@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Alert, Text, ScrollView } from 'rea
 import { launchImageLibrary } from 'react-native-image-picker';
 import Carousel from '../Components/Feed';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { getFirestore, collection, addDoc, getDocs, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDocs, updateDoc, arrayUnion, arrayRemove, doc } from 'firebase/firestore';
 import { auth } from '../services/services'; // Ajuste conforme necessário
 
 export default function Foru({ navigation }) {
@@ -33,11 +33,15 @@ export default function Foru({ navigation }) {
                 uri: response.assets[0].uri,
                 email: auth.currentUser?.email,
                 content: '',
-                likes: [], // Inicializa o array de likes
+                likes: [],
             };
 
-            await addDoc(collection(db, 'posts'), newItem);
-            setItems2(prevItems => [...prevItems, newItem]);
+            try {
+                await addDoc(collection(db, 'posts'), newItem);
+                setItems2(prevItems => [...prevItems, newItem]);
+            } catch (error) {
+                console.error('Erro ao adicionar post:', error);
+            }
         }
     };
 
@@ -51,10 +55,10 @@ export default function Foru({ navigation }) {
             await updateDoc(postRef, {
                 likes: userLiked ? arrayRemove(userId) : arrayUnion(userId),
             });
-            setItems2(prevPosts => 
-                prevPosts.map(post => 
-                    post.id === postId 
-                        ? { ...post, likes: userLiked ? post.likes.filter(uid => uid !== userId) : [...(post.likes || []), userId] } 
+            setItems2(prevPosts =>
+                prevPosts.map(post =>
+                    post.id === postId
+                        ? { ...post, likes: userLiked ? post.likes.filter(uid => uid !== userId) : [...(post.likes || []), userId] }
                         : post
                 )
             );
@@ -83,7 +87,7 @@ export default function Foru({ navigation }) {
                         <View style={styles.carouselWrapper}>
                             <Carousel 
                                 items={items2}
-                                onLike={handleLike} // Passa a função de curtir para o Carousel
+                                onLike={handleLike}
                             />
                         </View>
                     ) : (
@@ -112,7 +116,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#40173d',
         borderRadius: 27,
-        alignItems: 'right',
         marginBottom: 20,
         marginRight: 10,
         width: '25%',
@@ -127,7 +130,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#40173d',
         borderRadius: 27,
-        alignItems: 'right',
         marginBottom: 20,
         marginRight: 10,
         width: '25%',

@@ -2,16 +2,106 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert, ScrollView, Modal } from 'react-native';
 
 const dadosRPG = [
-    { nome: 'Dado Piramidal (D4)', lados: 4, descricao: 'Usado para determinar dano de armas leves ou efeitos mágicos menores.' },
-    { nome: 'Dado Cubo (D6)', lados: 6, descricao: 'Usado para uma variedade de ações, como dano de armas de fogo e teste de habilidades.' },
-    { nome: 'Dado Octaédrico (D8)', lados: 8, descricao: 'Usado para calcular danos em armas de dois lados ou efeitos de feitiços.' },
-    { nome: 'Dado Decaédrico (D10)', lados: 10, descricao: 'Comum para testes de habilidades e porcentagens.' },
-    { nome: 'Dado Dodecaédrico (D12)', lados: 12, descricao: 'Usado para danos em armas pesadas ou em algumas classes de personagem.' },
-    { nome: 'Dado Icosaédrico (D20)', lados: 20, descricao: 'Usado para ataques, testes de habilidade e salvamentos.' },
-    { nome: 'Dado Percentual (D100)', lados: 100, descricao: 'Usado para determinar resultados em sistemas baseados em porcentagens.' },
-    { nome: 'Dado Triangular (D3)', lados: 3, descricao: 'Usado em alguns sistemas para efeitos de magia ou rolagens simples.' },
-    { nome: 'Dado Trigintaédrico (D30)', lados: 30, descricao: 'Usado em sistemas de RPG que requerem uma gama maior de resultados.' },
-    { nome: 'Dado Milédrico (D1000)', lados: 1000, descricao: 'Muito raro, usado para resultados altamente variados.' },
+    { 
+        nome: 'Dado Piramidal (D4)', 
+        lados: 4, 
+        descricao: 'Usado para determinar dano de armas leves ou efeitos mágicos menores.', 
+        imagem: 'url_to_d4_image', 
+        usoTipico: 'RPGs de fantasia, jogos de mesa', 
+        historia: 'O D4 é frequentemente associado a armas de punho.', 
+        exemplo: 'Um mago lança um feitiço que causa 1d4 de dano.', 
+        raridade: 'Comum' 
+    },
+    { 
+        nome: 'Dado Cubo (D6)', 
+        lados: 6, 
+        descricao: 'Usado para uma variedade de ações, como dano de armas de fogo e teste de habilidades.', 
+        imagem: 'url_to_d6_image', 
+        usoTipico: 'Jogos de mesa, RPGs modernos', 
+        historia: 'O D6 é um dos dados mais populares e versáteis.', 
+        exemplo: 'Um personagem atira com uma pistola, causando 2d6 de dano.', 
+        raridade: 'Comum' 
+    },
+    { 
+        nome: 'Dado Octaédrico (D8)', 
+        lados: 8, 
+        descricao: 'Usado para calcular danos em armas de dois lados ou efeitos de feitiços.', 
+        imagem: 'url_to_d8_image', 
+        usoTipico: 'RPGs de fantasia', 
+        historia: 'O D8 é muito usado em jogos de RPG, especialmente em D&D.', 
+        exemplo: 'Um bárbaro ataca com um machado que causa 1d8 de dano.', 
+        raridade: 'Comum' 
+    },
+    { 
+        nome: 'Dado Decaédrico (D10)', 
+        lados: 10, 
+        descricao: 'Comum para testes de habilidades e porcentagens.', 
+        imagem: 'url_to_d10_image', 
+        usoTipico: 'Jogos de mesa, RPGs modernos', 
+        historia: 'Usado para calcular danos em armas de fogo e outras mecânicas.', 
+        exemplo: 'Um personagem faz um teste de habilidade, rolando 1d10.', 
+        raridade: 'Comum' 
+    },
+    { 
+        nome: 'Dado Dodecaédrico (D12)', 
+        lados: 12, 
+        descricao: 'Usado para danos em armas pesadas ou em algumas classes de personagem.', 
+        imagem: 'url_to_d12_image', 
+        usoTipico: 'RPGs de fantasia', 
+        historia: 'Menos comum, mas essencial para certos personagens.', 
+        exemplo: 'Um guerreiro ataca com uma espada longa, causando 1d12 de dano.', 
+        raridade: 'Raro' 
+    },
+    { 
+        nome: 'Dado Icosaédrico (D20)', 
+        lados: 20, 
+        descricao: 'Usado para ataques, testes de habilidade e salvamentos.', 
+        imagem: 'url_to_d20_image', 
+        usoTipico: 'Dungeons & Dragons e outros RPGs', 
+        historia: 'É o dado mais icônico dos RPGs de mesa.', 
+        exemplo: 'Um ladrão tenta desarmar uma armadilha, rolando 1d20.', 
+        raridade: 'Comum' 
+    },
+    { 
+        nome: 'Dado Percentual (D100)', 
+        lados: 100, 
+        descricao: 'Usado para determinar resultados em sistemas baseados em porcentagens.', 
+        imagem: 'url_to_d100_image', 
+        usoTipico: 'RPGs de horror e investigação', 
+        historia: 'Usado em muitos sistemas, especialmente para rolagens de falhas e sucessos.', 
+        exemplo: 'Um teste de habilidade que exige um sucesso em 1d100.', 
+        raridade: 'Raro' 
+    },
+    { 
+        nome: 'Dado Triangular (D3)', 
+        lados: 3, 
+        descricao: 'Usado em alguns sistemas para efeitos de magia ou rolagens simples.', 
+        imagem: 'url_to_d3_image', 
+        usoTipico: 'Jogos menos convencionais', 
+        historia: 'Usado principalmente em sistemas alternativos de RPG.', 
+        exemplo: 'Um efeito mágico que causa 1d3 de dano.', 
+        raridade: 'Muito raro' 
+    },
+    { 
+        nome: 'Dado Trigintaédrico (D30)', 
+        lados: 30, 
+        descricao: 'Usado em sistemas de RPG que requerem uma gama maior de resultados.', 
+        imagem: 'url_to_d30_image', 
+        usoTipico: 'Sistemas de RPG específicos', 
+        historia: 'Raro e frequentemente um item de colecionador.', 
+        exemplo: 'Um ataque especial que causa 1d30 de dano.', 
+        raridade: 'Raro' 
+    },
+    { 
+        nome: 'Dado Milédrico (D1000)', 
+        lados: 1000, 
+        descricao: 'Muito raro, usado para resultados altamente variados.', 
+        imagem: 'url_to_d1000_image', 
+        usoTipico: 'Sistemas extremamente detalhados', 
+        historia: 'Um dos dados mais raros encontrados em jogos de RPG.', 
+        exemplo: 'Um evento aleatório que causa 1d1000 de dano.', 
+        raridade: 'Extremamente raro' 
+    },
 ];
 
 export default function Comunidade() {
@@ -54,6 +144,7 @@ export default function Comunidade() {
         setSavedCharacters([...savedCharacters, characterData]);
         setModalVisible(true);
 
+        // Limpar os campos após a criação
         setCharacterName('');
         setCharacterClass('');
         setLevel('');
@@ -74,7 +165,11 @@ export default function Comunidade() {
     };
 
     const showDadoDescription = (dado) => {
-        Alert.alert(dado.nome, dado.descricao);
+        Alert.alert(
+            dado.nome,
+            `${dado.descricao}\n\nUso Típico: ${dado.usoTipico}\nHistória: ${dado.historia}\nExemplo: ${dado.exemplo}\nRaridade: ${dado.raridade}`,
+            [{ text: "Fechar" }]
+        );
         setSelectedDado(dado);
     };
 
