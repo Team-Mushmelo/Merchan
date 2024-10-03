@@ -21,14 +21,11 @@ export default function Perfil() {
     const [gender, setGender] = useState('');
     const [profileImage, setProfileImage] = useState(null);
     const [activeTab, setActiveTab] = useState('posts');
-    const db = getFirestore();
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            const userDoc = doc(db, 'users', auth.currentUser.uid);
-            const userSnap = await getDoc(userDoc);
-            if (userSnap.exists()) {
-                const userData = userSnap.data();
+        const fetchUserDataAsync = async () => {
+            const userData = await fetchUserData(auth.currentUser.uid);
+            if (userData) {
                 setName(userData.name || '');
                 setEmail(userData.email || '');
                 setDescription(userData.description || '');
