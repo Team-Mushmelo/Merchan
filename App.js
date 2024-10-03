@@ -17,7 +17,7 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const [loginFeito, setLoginFeito] = useState(false);
-  const [isDarkMode, setlsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   let [fontsLoaded] = useFonts({
     'OpenSansRegular': OpenSans_400Regular,
     'OpenSansBold': OpenSans_700Bold,
@@ -39,7 +39,9 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           {!loginFeito ? (
             <>
-              <Stack.Screen name='Modo' component={Modo} ModoDL={setlsDarkMode}/>
+              <Stack.Screen name='Modo' >
+                {(props) => <Modo {...props} modoEscuro={isDarkMode} ModoDL={setIsDarkMode} />}
+              </Stack.Screen>
               <Stack.Screen name='Recuperacao' component={Recuperacao} />
               <Stack.Screen name='PaginaLogar'>
                 {(props) => <PaginaLogar {...props} setLoginFeito={setLoginFeito} />}

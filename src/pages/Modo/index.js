@@ -5,7 +5,7 @@ import Botao from '../../Component/Botao';
 import { Ponto, GrupoBotoes, Topo } from './Components/ModoComponents';
 import Hr from '../../Component/Hr';
 
-function Modo({ navigation, ModoDL }) {
+function Modo({ navigation, ModoDL, modoEscuro }) {
     return (
         <View style={styles.container}>
 
@@ -13,8 +13,8 @@ function Modo({ navigation, ModoDL }) {
 
             <Hr/>
             <GrupoBotoes
-            onPressLight={() => ModoDL (False)} 
-            onPressDark={() => ModoDL(True)}
+            onPressLight={() => ModoDL (false)} 
+            onPressDark={() => ModoDL(true)}
             />
             <Hr/>
             <View style={styles.Bottom}>
@@ -22,7 +22,7 @@ function Modo({ navigation, ModoDL }) {
                 <Text style={styles.subtitulos}>Feel The Game</Text>
 
                 <View style={styles.BotoesInferiores}>
-                    <Botao texto={'CONTINUAR'} tipo={1} onPress={() => navigation.navigate('PaginaLogar')} />
+                    <Botao texto={'CONTINUAR'} tipo={1} onPress={() => {navigation.navigate('PaginaLogar')} }/>
                     <Botao texto={'PULAR'} tipo={2} />
                 </View>
 
@@ -34,11 +34,11 @@ function Modo({ navigation, ModoDL }) {
 
 }
 
-const styles = StyleSheet.create({
+const styles = (modoEscuro) => StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: modoEscuro ? '#170215' :  'white',
     },
 
     Bottom: {
