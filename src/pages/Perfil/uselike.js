@@ -3,6 +3,7 @@ import { View, FlatList, Image, Text, StyleSheet } from 'react-native';
 import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore';
 import { auth } from '../../services/firebaseConfig';
 
+
 const UserLikes = () => {
     const [likedPosts, setLikedPosts] = useState([]);
     const db = getFirestore();
@@ -30,6 +31,7 @@ const UserLikes = () => {
         <View style={styles.postContainer}>
             <Image source={{ uri: item.uri }} style={styles.postImage} />
             <Text style={styles.postText}>{item.content || 'Sem descrição'}</Text>
+            <Text style={styles.likesCount}>{item.likes.length} Likes</Text> {/* Exibe a contagem de likes */}
         </View>
     );
 
@@ -54,6 +56,7 @@ const styles = StyleSheet.create({
         elevation: 3,
         overflow: 'hidden',
         aspectRatio: 1,
+        position: 'relative', // Para permitir o posicionamento do texto de likes
     },
     postImage: {
         width: '100%',
@@ -63,6 +66,13 @@ const styles = StyleSheet.create({
     postText: {
         padding: 5,
         textAlign: 'center',
+    },
+    likesCount: {
+        position: 'absolute',
+        bottom: 5,
+        left: 5,
+        color: '#888',
+        fontSize: 12,
     },
     columnWrapper: {
         justifyContent: 'space-between',

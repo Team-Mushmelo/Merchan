@@ -4,7 +4,8 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import Carousel from '../Components/Feed';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getFirestore, collection, addDoc, getDocs, updateDoc, arrayUnion, arrayRemove, doc } from 'firebase/firestore';
-import { auth } from '../services/services'; // Ajuste conforme necessário
+import { auth } from '../../../services/firebaseConfig'; // Ajuste conforme necessário
+import {uselike} from '../../Perfil/uselike';
 
 export default function Foru({ navigation }) {
     const [items2, setItems2] = useState([]);

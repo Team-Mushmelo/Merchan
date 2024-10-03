@@ -31,7 +31,6 @@ const Feed = () => {
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [newComment, setNewComment] = useState('');
   const [newDescription, setNewDescription] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null);
 
   const firebase = getFirestore();
 
@@ -52,10 +51,16 @@ const Feed = () => {
 
   // Função para adicionar um novo post
   const handleAddPost = async (newPost) => {
+    const postWithTimestamp = {
+      ...newPost,
+      timestamp: new Date(),  // Adiciona o timestamp
+      likes: [],
+      comments: [],
+    };
+
     try {
-      const docRef = await addDoc(collection(firebase, 'posts'), newPost);
-      // Adiciona o novo post ao início do estado local
-      setPosts(prevPosts => [{ id: docRef.id, ...newPost }, ...prevPosts]);
+      const docRef = await addDoc(collection(firebase, 'posts'), postWithTimestamp);
+      setPosts(prevPosts => [{ id: docRef.id, ...postWithTimestamp }, ...prevPosts]);
     } catch (error) {
       console.error('Erro ao adicionar post:', error);
     }
@@ -134,6 +139,7 @@ const Feed = () => {
       await updateDoc(postRef, {
         likes: userLiked ? arrayRemove(userId) : arrayUnion(userId),
       });
+
     } catch (error) {
       console.error('Erro ao curtir o post:', error);
     }

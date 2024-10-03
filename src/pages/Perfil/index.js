@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, TouchableOpacity, Text, Alert, Image, Dimensions, ScrollView } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { auth } from '../../services/firebaseConfig';
-import UserPosts from './usepost';
-import UserLikes from './uselike';
+import { auth, fetchUserData, updateUserData } from '../../services/firebaseConfig'; // Atualizar com as funções corretas
+import UserPosts from './usepost'; // Certifique-se de que o caminho esteja correto
+import UserLikes from './uselike'; // Certifique-se de que o caminho esteja correto
 
 const { width } = Dimensions.get('window');
 
@@ -38,8 +37,8 @@ export default function Perfil() {
             }
         };
 
-        fetchUserData();
-    }, [db]);
+        fetchUserDataAsync();
+    }, []);
 
     const handleSave = async () => {
         if (!name || !email || !description || !gender) {
@@ -47,16 +46,19 @@ export default function Perfil() {
             return;
         }
 
-        const userDoc = doc(db, 'users', auth.currentUser.uid);
-        await updateDoc(userDoc, {
-            name,
-            email,
-            description,
-            gender,
-            profileImage,
-        });
-
-        Alert.alert('Perfil Atualizado', 'Seu perfil foi atualizado com sucesso.');
+        try {
+            await updateUserData(auth.currentUser.uid, {
+                name,
+                email,
+                description,
+                gender,
+                profileImage,
+            });
+            Alert.alert('Perfil Atualizado', 'Seu perfil foi atualizado com sucesso.');
+        } catch (error) {
+            console.error(error);
+            Alert.alert('Erro', 'Não foi possível atualizar seu perfil.');
+        }
     };
 
     const pickImage = () => {
