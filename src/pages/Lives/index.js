@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Alert, FlatList, Text, ScrollView, Button, Image } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Carousel from '../Home/Components/carrossel';
 // Ajuste o caminho conforme necessário
 
 export default function Lives() {
