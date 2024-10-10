@@ -88,30 +88,30 @@ export default function Perfil() {
                         value={name}
                         onChangeText={setName}
                         placeholder="Digite seu nome"
-                        placeholderTextColor="#aaa"
+                        placeholderTextColor="#40173d"
                         autoCapitalize="words"
                     />
                     <TextInput
                         style={styles.input}
                         value={email}
                         onChangeText={setEmail}
-                        placeholder="Digite seu e-mail"
+                        placeholder="Digite sua Bio"
                         keyboardType="email-address"
-                        placeholderTextColor="#aaa"
+                        placeholderTextColor="#40173d"
                     />
                     <TextInput
                         style={styles.input}
                         value={gender}
                         onChangeText={setGender}
-                        placeholder="Digite seu gênero"
-                        placeholderTextColor="#aaa"
+                        placeholder="Digite seus pronomes"
+                        placeholderTextColor="#40173d"
                     />
                     <TextInput
                         style={styles.input}
                         value={description}
                         onChangeText={setDescription}
-                        placeholder="Digite uma descrição"
-                        placeholderTextColor="#aaa"
+                        placeholder="Links"
+                        placeholderTextColor="#40173d"
                     />
 
                     <TouchableOpacity style={styles.button} onPress={handleSave}>
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     },
     input: {
         borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
+        borderBottomColor: '#40173d',
         marginBottom: 15,
         paddingHorizontal: 10,
         height: 50,

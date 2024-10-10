@@ -9,7 +9,7 @@ import Comunidade from './Comunidade';
 import Ligações from './Ligações';
 import Lives from './Lives';
 import Perfil from './Perfil';
-import SearchBar from "./search";
+import chat from "./pesquisa";
 
 const Tab = createBottomTabNavigator();
 
@@ -76,7 +76,7 @@ export default function Routes() {
 
             <Tab.Screen
                 name='Pesquisa'
-                component={SearchBar}
+                component={chat}
                 options={{
                     tabBarIcon: ({ size, color }) => (
                         <Entypo name='magnifying-glass' size={size} color={color} />
