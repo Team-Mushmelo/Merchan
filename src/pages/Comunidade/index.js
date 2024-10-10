@@ -223,7 +223,7 @@ export default function Comunidade() {
                 />
                 <TextInput
                     style={[styles.input, isFocused && styles.inputFocused]}
-                    placeholder="etnia"
+                    placeholder="Etnia"
                     value={race}
                     onChangeText={setRace}
                     onFocus={() => setIsFocused(true)}
