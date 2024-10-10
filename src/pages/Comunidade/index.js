@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert, ScrollView, Modal } from 'react-native';
-
+import { useFonts, OpenSans_400Regular, OpenSans_700Bold, } from '@expo-google-fonts/open-sans';
+import { Bungee_400Regular } from '@expo-google-fonts/bungee';
 const dadosRPG = [
     { 
-        nome: 'Dado Piramidal (D4)', 
+        nome: 'D4', 
         lados: 4, 
         descricao: 'Usado para determinar dano de armas leves ou efeitos mágicos menores.', 
         imagem: 'url_to_d4_image', 
@@ -13,7 +14,7 @@ const dadosRPG = [
         raridade: 'Comum' 
     },
     { 
-        nome: 'Dado Cubo (D6)', 
+        nome: 'D6', 
         lados: 6, 
         descricao: 'Usado para uma variedade de ações, como dano de armas de fogo e teste de habilidades.', 
         imagem: 'url_to_d6_image', 
@@ -23,7 +24,7 @@ const dadosRPG = [
         raridade: 'Comum' 
     },
     { 
-        nome: 'Dado Octaédrico (D8)', 
+        nome: 'D8', 
         lados: 8, 
         descricao: 'Usado para calcular danos em armas de dois lados ou efeitos de feitiços.', 
         imagem: 'url_to_d8_image', 
@@ -33,7 +34,7 @@ const dadosRPG = [
         raridade: 'Comum' 
     },
     { 
-        nome: 'Dado Decaédrico (D10)', 
+        nome: 'D10', 
         lados: 10, 
         descricao: 'Comum para testes de habilidades e porcentagens.', 
         imagem: 'url_to_d10_image', 
@@ -43,7 +44,7 @@ const dadosRPG = [
         raridade: 'Comum' 
     },
     { 
-        nome: 'Dado Dodecaédrico (D12)', 
+        nome: 'D12', 
         lados: 12, 
         descricao: 'Usado para danos em armas pesadas ou em algumas classes de personagem.', 
         imagem: 'url_to_d12_image', 
@@ -53,7 +54,7 @@ const dadosRPG = [
         raridade: 'Raro' 
     },
     { 
-        nome: 'Dado Icosaédrico (D20)', 
+        nome: 'D20', 
         lados: 20, 
         descricao: 'Usado para ataques, testes de habilidade e salvamentos.', 
         imagem: 'url_to_d20_image', 
@@ -63,7 +64,7 @@ const dadosRPG = [
         raridade: 'Comum' 
     },
     { 
-        nome: 'Dado Percentual (D100)', 
+        nome: 'D100', 
         lados: 100, 
         descricao: 'Usado para determinar resultados em sistemas baseados em porcentagens.', 
         imagem: 'url_to_d100_image', 
@@ -73,7 +74,7 @@ const dadosRPG = [
         raridade: 'Raro' 
     },
     { 
-        nome: 'Dado Triangular (D3)', 
+        nome: 'D3', 
         lados: 3, 
         descricao: 'Usado em alguns sistemas para efeitos de magia ou rolagens simples.', 
         imagem: 'url_to_d3_image', 
@@ -83,7 +84,7 @@ const dadosRPG = [
         raridade: 'Muito raro' 
     },
     { 
-        nome: 'Dado Trigintaédrico (D30)', 
+        nome: 'D30', 
         lados: 30, 
         descricao: 'Usado em sistemas de RPG que requerem uma gama maior de resultados.', 
         imagem: 'url_to_d30_image', 
@@ -93,7 +94,7 @@ const dadosRPG = [
         raridade: 'Raro' 
     },
     { 
-        nome: 'Dado Milédrico (D1000)', 
+        nome: 'D1000', 
         lados: 1000, 
         descricao: 'Muito raro, usado para resultados altamente variados.', 
         imagem: 'url_to_d1000_image', 
@@ -173,6 +174,16 @@ export default function Comunidade() {
         );
         setSelectedDado(dado);
     };
+       
+    let [fontsLoaded] = useFonts({
+        'OpenSansRegular': OpenSans_400Regular,
+        'OpenSansBold': OpenSans_700Bold,
+        'BungeeRegular': Bungee_400Regular,
+    });
+    
+    if (!fontsLoaded) {
+        return <Text>Carregando fontes...</Text>; // ou algum componente de carregamento
+    };
 
     return (
         <View style={styles.container}>
@@ -186,8 +197,8 @@ export default function Comunidade() {
                     onChangeText={setCharacterName}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
-                    selectionColor="#fff"
-                    underlineColorAndroid="transparent"
+                    selectionColor="#40173d"
+                    underlineColorAndroid="#40173d"
                 />
                 <TextInput
                     style={[styles.input, isFocused && styles.inputFocused]}
@@ -298,25 +309,36 @@ export default function Comunidade() {
                     <Text style={styles.submitButtonText}>Criar Personagem</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.selectedDadoText}>Dado Selecionado: {selectedDado.nome}</Text>
+            
 
                 <View style={styles.diceContainer}>
                     <TouchableOpacity style={styles.diceButton} onPress={rollDice}>
                         <Text style={styles.diceButtonText}>Lançar {selectedDado.nome}</Text>
                     </TouchableOpacity>
-                    {diceValue !== null && (
-                        <Text style={styles.diceResult}>Resultado: {diceValue}</Text>
-                    )}
+                    <Text style={styles.diceResult}>Resultado: {diceValue}
+            </Text>
                 </View>
 
                 <View style={styles.dadosContainer}>
-                    <Text style={styles.dadosTitle}>Variações de Dados de RPG</Text>
-                    {dadosRPG.map((dado, index) => (
-                        <TouchableOpacity key={index} onPress={() => showDadoDescription(dado)} style={styles.dadoItem}>
-                            <Text style={styles.dadoNome}>{dado.nome}</Text>
-                        </TouchableOpacity>
-                    ))}
-                </View>
+    <Text style={styles.dadosTitle}>Variações de Dados de RPG</Text>
+    <View style={styles.colunasContainer}>
+        <View style={styles.coluna}>
+            {dadosRPG.slice(0, Math.ceil(dadosRPG.length / 2)).map((dado, index) => (
+                <TouchableOpacity key={index} onPress={() => showDadoDescription(dado)} style={styles.dadoItem}>
+                    <Text style={styles.dadoNome}>{dado.nome}</Text>
+                </TouchableOpacity>
+            ))}
+        </View>
+        <View style={styles.coluna}>
+            {dadosRPG.slice(Math.ceil(dadosRPG.length / 2)).map((dado, index) => (
+                <TouchableOpacity key={index + Math.ceil(dadosRPG.length / 2)} onPress={() => showDadoDescription(dado)} style={styles.dadoItem}>
+                    <Text style={styles.dadoNome}>{dado.nome}</Text>
+                </TouchableOpacity>
+            ))}
+        </View>
+    </View>
+</View>
+
 
                 {savedCharacters.map((character, index) => (
                     <TouchableOpacity
@@ -361,8 +383,11 @@ export default function Comunidade() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        padding: 20,
+        padding: 10,
+       
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
     },
     scrollViewContent: {
         flexGrow: 1,
@@ -374,28 +399,31 @@ const styles = StyleSheet.create({
         color: '#40173d',
         marginBottom: 20,
         textAlign: 'center',
+        fontFamily: 'BungeeRegular',
     },
     input: {
-        height: 40,
-        borderColor: '#fff',
+        height: 35,
+        borderColor: '#40173d',
         borderWidth: 1,
         borderRadius: 5,
-        paddingHorizontal: 10,
+        paddingHorizontal: 4,
         marginBottom: 15,
         outlineWidth: 0,
+        fontFamily: 'OpenSansRegular',
     },
-    inputFocused: {
-        borderColor: '#fff', // Cor da borda ao focar
-    },
+  
     submitButton: {
         backgroundColor: '#bf0cb1',
         padding: 15,
         borderRadius: 5,
         alignItems: 'center',
+        
     },
     submitButtonText: {
         color: '#fff',
         fontWeight: 'bold',
+        
+        fontFamily: 'OpenSansRegular',
     },
     selectedDadoText: {
         fontSize: 16,
@@ -403,6 +431,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         textAlign: 'center',
         outlineWidth: 0,
+        fontFamily: 'OpenSansRegular',
     },
     diceContainer: {
         alignItems: 'center',
@@ -418,6 +447,7 @@ const styles = StyleSheet.create({
     diceButtonText: {
         color: '#fff',
         fontWeight: 'bold',
+        fontFamily: 'OpenSansRegular',
     },
     diceResult: {
         fontSize: 18,
@@ -429,18 +459,29 @@ const styles = StyleSheet.create({
     dadosTitle: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#40173d',
+        color: '#fff',
         marginBottom: 10,
     },
     dadoItem: {
         marginBottom: 10,
+        color: '#fff',
         padding: 10,
+        backgroundColor: '#40173d',
         borderColor: '#40173d',
         borderWidth: 1,
         borderRadius: 5,
     },
     dadoNome: {
         fontWeight: 'bold',
+        color: '#fff',
+    },
+    colunasContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    coluna: {
+        flex: 1,
+        padding: 10, // Ajuste o padding conforme necessário
     },
     showModalButton: {
         backgroundColor: '#40173d',
