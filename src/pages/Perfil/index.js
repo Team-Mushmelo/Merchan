@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, TouchableOpacity, Text, Alert, Image, Dimensions, ScrollView } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { auth, fetchUserData, updateUserData } from '../../services/firebaseConfig'; // Atualizar com as funções corretas
-import UserPosts from './usepost'; // Certifique-se de que o caminho esteja correto
-import UserLikes from './uselike'; // Certifique-se de que o caminho esteja correto
+import { auth, fetchUserData, updateUserData } from '../../services/firebaseConfig';
+import UserPosts from './usepost'; // Atualizar com o caminho correto
+import UserLikes from './uselike'; // Atualizar com o caminho correto
 
 const { width } = Dimensions.get('window');
 
@@ -83,10 +83,36 @@ export default function Perfil() {
                         )}
                     </TouchableOpacity>
 
-                    <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Digite seu nome" />
-                    <TextInput style={styles.input} value={email} onChangeText={setEmail} placeholder="Digite seu e-mail" keyboardType="email-address" />
-                    <TextInput style={styles.input} value={gender} onChangeText={setGender} placeholder="Digite seu gênero" />
-                    <TextInput style={styles.input} value={description} onChangeText={setDescription} placeholder="Digite uma descrição" />
+                    <TextInput
+                        style={styles.input}
+                        value={name}
+                        onChangeText={setName}
+                        placeholder="Digite seu nome"
+                        placeholderTextColor="#aaa"
+                        autoCapitalize="words"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        value={email}
+                        onChangeText={setEmail}
+                        placeholder="Digite seu e-mail"
+                        keyboardType="email-address"
+                        placeholderTextColor="#aaa"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        value={gender}
+                        onChangeText={setGender}
+                        placeholder="Digite seu gênero"
+                        placeholderTextColor="#aaa"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        value={description}
+                        onChangeText={setDescription}
+                        placeholder="Digite uma descrição"
+                        placeholderTextColor="#aaa"
+                    />
 
                     <TouchableOpacity style={styles.button} onPress={handleSave}>
                         <Text style={styles.buttonText}>Salvar</Text>
@@ -110,11 +136,11 @@ export default function Perfil() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#ffffff', // Fundo branco
         padding: 20,
     },
     profileContainer: {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#ffffff', // Fundo branco
         borderRadius: 20,
         padding: 20,
         elevation: 2,
@@ -147,6 +173,8 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#f9f9f9',
         borderRadius: 10,
+        // Remover foco amarelo
+        outlineWidth: 0,
     },
     button: {
         padding: 15,
@@ -181,7 +209,7 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         padding: 10,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#ffffff', // Fundo branco
         borderRadius: 10,
         elevation: 1,
     },

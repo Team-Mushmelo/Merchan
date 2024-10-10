@@ -120,6 +120,7 @@ export default function Comunidade() {
     const [selectedDado, setSelectedDado] = useState(dadosRPG[0]);
     const [modalVisible, setModalVisible] = useState(false);
     const [savedCharacters, setSavedCharacters] = useState([]);
+    const [isFocused, setIsFocused] = useState(false);
 
     const handleSubmit = () => {
         if (!characterName || !characterClass || !level || !race || !forca || !destreza || !intelecto) {
@@ -179,74 +180,118 @@ export default function Comunidade() {
                 <Text style={styles.title}>Criar Personagem</Text>
 
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, isFocused && styles.inputFocused]}
                     placeholder="Nome do Personagem"
                     value={characterName}
                     onChangeText={setCharacterName}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    selectionColor="#fff"
+                    underlineColorAndroid="transparent"
                 />
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, isFocused && styles.inputFocused]}
                     placeholder="Classe do Personagem"
                     value={characterClass}
                     onChangeText={setCharacterClass}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    selectionColor="#40173d"
+                    underlineColorAndroid="transparent"
                 />
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, isFocused && styles.inputFocused]}
                     placeholder="Nível"
                     keyboardType="numeric"
                     value={level}
                     onChangeText={setLevel}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    selectionColor="#40173d"
+                    underlineColorAndroid="transparent"
                 />
                 <TextInput
-                    style={styles.input}
-                    placeholder="Raça"
+                    style={[styles.input, isFocused && styles.inputFocused]}
+                    placeholder="etnia"
                     value={race}
                     onChangeText={setRace}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    selectionColor="#40173d"
+                    underlineColorAndroid="transparent"
                 />
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, isFocused && styles.inputFocused]}
                     placeholder="Força"
                     keyboardType="numeric"
                     value={forca}
                     onChangeText={setForca}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    selectionColor="#40173d"
+                    underlineColorAndroid="transparent"
                 />
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, isFocused && styles.inputFocused]}
                     placeholder="Destreza"
                     keyboardType="numeric"
                     value={destreza}
                     onChangeText={setDestreza}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    selectionColor="#40173d"
+                    underlineColorAndroid="transparent"
                 />
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, isFocused && styles.inputFocused]}
                     placeholder="Intelecto"
                     keyboardType="numeric"
                     value={intelecto}
                     onChangeText={setIntelecto}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    selectionColor="#40173d"
+                    underlineColorAndroid="transparent"
                 />
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, isFocused && styles.inputFocused]}
                     placeholder="Habilidades"
                     value={skills}
                     onChangeText={setSkills}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    selectionColor="#40173d"
+                    underlineColorAndroid="transparent"
                 />
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, isFocused && styles.inputFocused]}
                     placeholder="Equipamentos"
                     value={equipment}
                     onChangeText={setEquipment}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    selectionColor="#40173d"
+                    underlineColorAndroid="transparent"
                 />
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, isFocused && styles.inputFocused]}
                     placeholder="Background"
                     value={background}
                     onChangeText={setBackground}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    selectionColor="#40173d"
+                    underlineColorAndroid="transparent"
                 />
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, isFocused && styles.inputFocused]}
                     placeholder="Descrição"
                     value={description}
                     onChangeText={setDescription}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    selectionColor="#40173d"
+                    underlineColorAndroid="transparent"
                 />
 
                 <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
@@ -332,11 +377,15 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 40,
-        borderColor: '#40173d',
+        borderColor: '#fff',
         borderWidth: 1,
         borderRadius: 5,
         paddingHorizontal: 10,
         marginBottom: 15,
+        outlineWidth: 0,
+    },
+    inputFocused: {
+        borderColor: '#fff', // Cor da borda ao focar
     },
     submitButton: {
         backgroundColor: '#bf0cb1',
@@ -353,6 +402,7 @@ const styles = StyleSheet.create({
         color: '#40173d',
         marginTop: 20,
         textAlign: 'center',
+        outlineWidth: 0,
     },
     diceContainer: {
         alignItems: 'center',
