@@ -163,7 +163,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 20,
     padding: 10,
-    borderRadius: 20
+    borderRadius: 20,
+    outlineWidth: 0,
   },
 
   botaoContinuar: {

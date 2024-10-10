@@ -382,12 +382,10 @@ export default function Comunidade() {
 
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: '#fff',
         flex: 1,
         padding: 10,
-       
-        alignItems: 'center',
-        width: '100%',
-        height: '100%',
+        justifyContent: 'center',
     },
     scrollViewContent: {
         flexGrow: 1,
@@ -405,7 +403,7 @@ const styles = StyleSheet.create({
         height: 35,
         borderColor: '#40173d',
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 15,
         paddingHorizontal: 4,
         marginBottom: 15,
         outlineWidth: 0,
@@ -415,14 +413,13 @@ const styles = StyleSheet.create({
     submitButton: {
         backgroundColor: '#bf0cb1',
         padding: 15,
-        borderRadius: 5,
+        borderRadius: 18,
         alignItems: 'center',
-        
     },
     submitButtonText: {
         color: '#fff',
         fontWeight: 'bold',
-        
+        borderRadius: 15,
         fontFamily: 'OpenSansRegular',
     },
     selectedDadoText: {
@@ -440,7 +437,7 @@ const styles = StyleSheet.create({
     diceButton: {
         backgroundColor: '#40173d',
         padding: 15,
-        borderRadius: 5,
+        borderRadius: 15,
         alignItems: 'center',
         marginBottom: 10,
     },
@@ -454,7 +451,7 @@ const styles = StyleSheet.create({
         color: '#40173d',
     },
     dadosContainer: {
-        marginTop: 20,
+        borderRadius: 15,
     },
     dadosTitle: {
         fontSize: 20,
@@ -469,7 +466,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#40173d',
         borderColor: '#40173d',
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 15,
     },
     dadoNome: {
         fontWeight: 'bold',
@@ -512,6 +509,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#40173d',
         marginBottom: 20,
+        borderRadius: 18,
     },
     modalText: {
         fontSize: 18,
