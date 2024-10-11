@@ -11,15 +11,6 @@ function Modo({ navigation, ModoDL, modoEscuro }) {
 
             <Topo txtEstilo={styles.subtitulos} />
 
-            <Hr/>
-            <GrupoBotoes
-            onPressLight={() => ModoDL (false)} 
-            onPressDark={() => ModoDL(true)}
-            />
-            <Hr/>
-            <View style={styles.Bottom}>
-
-                <Text style={styles.subtitulos}>Feel The Game</Text>
 
                 <View style={styles.BotoesInferiores}>
                     <Botao texto={'CONTINUAR'} tipo={1} onPress={() => {navigation.navigate('PaginaLogar')} }/>
@@ -28,7 +19,6 @@ function Modo({ navigation, ModoDL, modoEscuro }) {
 
                 <Ponto estado={0} />
             </View>
-        </View>
 
     );
 

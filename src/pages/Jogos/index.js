@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Animated } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Animated, Modal } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
-const WORDS = ["javascript", "react", "node", "programming", "development"];
+const WORDS = {
+    'Aventura Espacial': ["galáxia", "nave", "astronauta", "estrelas", "planeta"],
+    'Fantasia Medieval': ["dragão", "cavaleiro", "castelo", "magia", "princesa"],
+    'Pós-Apocalíptico': ["sobrevivente", "deserto", "ruínas", "radiação", "apocalipse"],
+};
+
 const THEMES = [
-    { name: 'Aventura Espacial', icon: '🚀' },
-    { name: 'Fantasia Medieval', icon: '🏰' },
-    { name: 'Pós-Apocalíptico', icon: '☣️' },
+    { name: 'Aventura Espacial', icon: 'rocket' },
+    { name: 'Fantasia Medieval', icon: 'star' },
+    { name: 'Pós-Apocalíptico', icon: 'warning' },
 ];
 
 const App = () => {
@@ -16,28 +22,43 @@ const App = () => {
     const [message, setMessage] = useState('');
     const [currentTheme, setCurrentTheme] = useState({ name: '', icon: '' });
     const [isGameActive, setIsGameActive] = useState(false);
-    const maxWrongGuesses = 6; // Apenas 6 erros permitidos
+    const [timeLeft, setTimeLeft] = useState(60);
+    const [score, setScore] = useState(0);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const maxWrongGuesses = 6;
     const symbols = ['O', '-', ']', '-', '-', '<', ' '];
-    const [firstWrongGuess, setFirstWrongGuess] = useState(true); // Primeiro erro perdoado
-
-    // Animações
+    const [firstWrongGuess, setFirstWrongGuess] = useState(true);
     const [titleAnimation] = useState(new Animated.Value(-50));
     const [contentAnimation] = useState(new Animated.Value(-50));
     const [opacityAnimation] = useState(new Animated.Value(0));
 
+    useEffect(() => {
+        let timer;
+        if (isGameActive && timeLeft > 0) {
+            timer = setInterval(() => {
+                setTimeLeft((prev) => prev - 1);
+            }, 1000);
+        } else if (timeLeft === 0 || wrongGuesses >= maxWrongGuesses) {
+            setIsGameActive(false);
+            setIsModalVisible(true);
+        }
+        return () => clearInterval(timer);
+    }, [isGameActive, timeLeft, wrongGuesses]);
+
     const handleStartGame = () => {
-        const randomWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+        const randomTheme = THEMES[Math.floor(Math.random() * THEMES.length)];
+        setCurrentTheme(randomTheme);
+
+        const randomWord = WORDS[randomTheme.name][Math.floor(Math.random() * WORDS[randomTheme.name].length)];
         setWord(randomWord);
         setGuessedLetters([]);
         setWrongGuesses(0);
         setMessage('');
-        setFirstWrongGuess(true); // Resetar para o próximo jogo
+        setFirstWrongGuess(true);
         setIsGameActive(true);
+        setTimeLeft(60);
+        setScore(0);
 
-        const randomTheme = THEMES[Math.floor(Math.random() * THEMES.length)];
-        setCurrentTheme(randomTheme);
-
-        // Iniciar animações
         Animated.parallel([
             Animated.timing(titleAnimation, {
                 toValue: 0,
@@ -58,29 +79,29 @@ const App = () => {
     };
 
     const handleGuess = (letter) => {
-        if (!isGameActive || guessedLetters.includes(letter) || wrongGuesses >= maxWrongGuesses) return;
+        if (!isGameActive || guessedLetters.includes(letter)) return;
 
         setGuessedLetters([...guessedLetters, letter]);
 
-        if (!word.includes(letter)) {
+        if (word.includes(letter)) {
+            setTimeLeft((prev) => prev + 10);
+            if (word.split('').every((char) => guessedLetters.includes(char) || char === letter)) {
+                setScore((prev) => prev + 25);
+                setMessage('Você ganhou! O-]--<');
+                setIsGameActive(false);
+                setIsModalVisible(true);
+            }
+        } else {
             if (firstWrongGuess) {
-                setFirstWrongGuess(false); // O primeiro erro foi perdoado
+                setFirstWrongGuess(false);
             } else {
                 setWrongGuesses(wrongGuesses + 1);
             }
-        }
-
-        // Verifica se o jogador perdeu
-        if (wrongGuesses + (firstWrongGuess ? 0 : 1) >= maxWrongGuesses) {
-            setMessage(`Fim de jogo! A palavra era: ${word}`);
-            setIsGameActive(false);
-            return;
-        }
-
-        // Verifica se o jogador ganhou
-        if (word.split('').every((char) => guessedLetters.includes(char))) {
-            setMessage('Você ganhou! O-]--<');
-            setIsGameActive(false);
+            if (wrongGuesses + (firstWrongGuess ? 0 : 1) >= maxWrongGuesses) {
+                setMessage(`Fim de jogo! A palavra era: ${word}`);
+                setIsGameActive(false);
+                setIsModalVisible(true);
+            }
         }
     };
 
@@ -98,11 +119,8 @@ const App = () => {
             <TouchableOpacity
                 key={letter}
                 onPress={() => handleGuess(letter)}
-                disabled={!isGameActive || guessedLetters.includes(letter) || wrongGuesses >= maxWrongGuesses}
-                style={[
-                    styles.button,
-                    { backgroundColor: isGameActive ? (guessedLetters.includes(letter) ? '#e0e0e0' : '#bf0cb1') : '#d3d3d3' }
-                ]}
+                disabled={!isGameActive || guessedLetters.includes(letter)}
+                style={[styles.button, { backgroundColor: isGameActive ? '#bf0cb1' : '#d3d3d3' }]}
             >
                 <Text style={styles.buttonText}>{letter}</Text>
             </TouchableOpacity>
@@ -114,18 +132,25 @@ const App = () => {
         return <Text style={styles.hangman}>{currentSymbol}</Text>;
     };
 
+    const handleCloseModal = () => {
+        setIsModalVisible(false);
+        handleStartGame();
+    };
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Animated.Text style={[styles.title, { transform: [{ translateY: titleAnimation }], opacity: opacityAnimation }]}>
+            <Animated.Text style={[styles.title, { transform: [{ translateY: titleAnimation }], opacity: opacityAnimation, color: '#40173d' }]}>
                 Jogo da Forca
             </Animated.Text>
-            <Animated.Text style={[styles.subtitle, { transform: [{ translateY: titleAnimation }], opacity: opacityAnimation }]}>
+            <Animated.Text style={[styles.subtitle, { transform: [{ translateY: titleAnimation }], opacity: opacityAnimation, color: '#40173d' }]}>
                 seu primeiro erro é perdoado
             </Animated.Text>
+            <Text style={styles.timer}>Tempo: {timeLeft}s</Text>
+            <Text style={styles.score}>Pontuação: {score}</Text>
             {currentTheme.name && (
                 <Animated.View style={[styles.themeContainer, { transform: [{ translateY: contentAnimation }], opacity: opacityAnimation }]}>
-                    <Text style={styles.themeIcon}>{currentTheme.icon}</Text>
-                    <Text style={styles.themeName}>{currentTheme.name}</Text>
+                    <Entypo name={currentTheme.icon} size={32} style={[styles.themeIcon, { color: '#40173d' }]} />
+                    <Text style={[styles.themeName, { fontFamily: 'BungeeRegular', color: '#40173d' }]}>{currentTheme.name}</Text>
                 </Animated.View>
             )}
             <View style={styles.hangmanContainer}>
@@ -141,8 +166,25 @@ const App = () => {
                 </View>
             </Animated.View>
             <TouchableOpacity style={styles.startButton} onPress={handleStartGame}>
-                <Icon name="play" size={30} color="#fff" />
+                <Ionicons name="play" size={30} color="#fff" />
             </TouchableOpacity>
+
+            {/* Modal para mostrar o placar */}
+            <Modal
+                visible={isModalVisible}
+                transparent={true}
+                animationType="slide"
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Fim de jogo!</Text>
+                        <Text style={styles.modalScore}>Sua pontuação: {score}</Text>
+                        <TouchableOpacity style={styles.closeButton} onPress={handleCloseModal}>
+                            <Text style={styles.closeButtonText}>Recomeçar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </ScrollView>
     );
 };
@@ -159,11 +201,22 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+        fontFamily: 'BungeeRegular',
     },
     subtitle: {
         fontSize: 12,
         fontWeight: 'bold',
         marginBottom: 20,
+    },
+    timer: {
+        fontSize: 18,
+        marginBottom: 10,
+        color: '#40173d',
+    },
+    score: {
+        fontSize: 18,
+        marginBottom: 20,
+        color: '#40173d',
     },
     themeContainer: {
         flexDirection: 'row',
@@ -171,12 +224,13 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     themeIcon: {
-        fontSize: 32,
         marginRight: 10,
     },
     themeName: {
         fontSize: 24,
         fontWeight: 'bold',
+        fontFamily: 'BungeeRegular',
+        color: '#40173d',
     },
     hangmanContainer: {
         marginBottom: 20,
@@ -216,7 +270,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: 5,
         elevation: 4,
-        shadowColor: '#000',
+        shadowColor: '#40173d',
         shadowOffset: { width: 0, height: 5 },
         shadowOpacity: 0.4,
         shadowRadius: 4,
@@ -234,10 +288,41 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 20,
         elevation: 4,
-        shadowColor: '#000',
+        shadowColor: '#40173d',
         shadowOffset: { width: 0, height: 5 },
         shadowOpacity: 0.4,
         shadowRadius: 4,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        width: 300,
+        padding: 20,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    modalScore: {
+        fontSize: 18,
+        marginBottom: 20,
+    },
+    closeButton: {
+        backgroundColor: '#bf0cb1',
+        padding: 10,
+        borderRadius: 5,
+    },
+    closeButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
     },
 });
 

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, FlatList, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, FlatList, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { auth } from '../../../services/firebaseConfig';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useFonts, Bungee_400Regular } from '@expo-google-fonts/bungee';
 
 const GIPHY_API_KEY = 'YOUR_GIPHY_API_KEY'; // Substitua pela sua chave da Giphy
 
@@ -12,6 +13,7 @@ export default function App() {
   const [gifUrl, setGifUrl] = useState('');
   const [username, setUsername] = useState('');
   const [commentInput, setCommentInput] = useState('');
+  const [fontsLoaded] = useFonts({ BungeeRegular: Bungee_400Regular });
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -31,14 +33,14 @@ export default function App() {
         likedBy: [],
         comments: [],
       };
-      setPosts([newPost, ...posts]); // Adiciona novo post no início
+      setPosts(prevPosts => [newPost, ...prevPosts]);
       setInputText('');
       setGifUrl('');
     }
   };
 
   const handleLike = (id) => {
-    setPosts(posts.map(post => {
+    setPosts(prevPosts => prevPosts.map(post => {
       if (post.id === id) {
         const liked = post.likedBy.includes(username);
         return {
@@ -53,7 +55,7 @@ export default function App() {
 
   const handleComment = (id) => {
     if (commentInput.trim()) {
-      setPosts(posts.map(post => {
+      setPosts(prevPosts => prevPosts.map(post => {
         if (post.id === id) {
           return {
             ...post,
@@ -67,7 +69,7 @@ export default function App() {
   };
 
   const handleCommentLike = (postId, commentIndex) => {
-    setPosts(posts.map(post => {
+    setPosts(prevPosts => prevPosts.map(post => {
       if (post.id === postId) {
         const comment = post.comments[commentIndex];
         const liked = comment.likedBy.includes(username);
@@ -88,10 +90,10 @@ export default function App() {
   };
 
   const handleDeletePost = (id) => {
-    setPosts(posts.filter(post => post.id !== id));
+    setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
   };
 
-  const pickGif = async () => {
+  const pickGif = () => {
     launchImageLibrary({ mediaType: 'photo', includeBase64: true }, (response) => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -104,22 +106,24 @@ export default function App() {
     });
   };
 
+  if (!fontsLoaded) {
+    return <ActivityIndicator size="large" color="#40173d" style={{ flex: 1 }} />;
+  }
+
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={styles.title}>Mini Feed</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="O que está acontecendo?"
-            placeholderTextColor="#40173d"
-            value={inputText}
-            onChangeText={setInputText}
-          />
-          <TouchableOpacity style={styles.gifButton} onPress={pickGif}>
-            <Icon name="image" size={20} color="#fff" />
-          </TouchableOpacity>
-        </View>
+      <Text style={styles.title}>Mini Feed</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="O que está acontecendo?"
+          placeholderTextColor="#40173d"
+          value={inputText}
+          onChangeText={setInputText}
+        />
+        <TouchableOpacity style={styles.gifButton} onPress={pickGif}>
+          <Icon name="image" size={20} color="#fff" />
+        </TouchableOpacity>
       </View>
 
       {gifUrl ? <Image source={{ uri: gifUrl }} style={styles.gif} /> : null}
@@ -129,7 +133,7 @@ export default function App() {
       </TouchableOpacity>
 
       <FlatList
-        data={posts.reverse()} // Inverte a ordem para mostrar os posts mais recentes no topo
+        data={posts}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <View style={styles.post}>
@@ -192,6 +196,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   title: {
+    fontFamily:'BungeeRegular',
     fontSize: 24,
     fontWeight: 'bold',
     color: '#40173d',
@@ -293,11 +298,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   commentUser: {
-    color: '#b0b0b0', // Cor apagada para o email
+    color: '#b0b0b0',
     fontWeight: 'bold',
   },
   commentText: {
-    color: '#40173d', // Cor destacada para o comentário
+    color: '#40173d',
   },
   commentButtons: {
     flexDirection: 'row',

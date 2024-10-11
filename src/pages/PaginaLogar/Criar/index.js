@@ -112,22 +112,13 @@ export default function Criar({ setUser, setIsCriarConta, navigation }) {
           </View>
         </View>
         <Botao texto={'CONTINUAR'} tipo={1} onPress={handleLogin} />
-      </View>
-
-      <View style={styles.caixa3}>
         <Pressable onPress={() => setIsCriarConta(false)} style={{ flexDirection: 'row', justifyContent: 'center' }}>
           <Text style={{ fontSize: 17 }}>Já tem uma conta?</Text>
           <Text style={{ color: '#BE00B0', fontSize: 17 }}> Acesse!</Text>
         </Pressable>
 
-        <Pressable 
-          style={{ alignItems: 'center', justifyContent: 'flex-end', flex: 1 }}
-          onPress={() => navigation.navigate('Termos')} // Navega para a tela de termos
-        >
-          <Text>Não deixe de ler nossos</Text>
-          <Text style={{ color: '#BE00B0' }}>Termos e políticas de privacidade</Text>
-        </Pressable>
       </View>
+
     </View>
   );
 }

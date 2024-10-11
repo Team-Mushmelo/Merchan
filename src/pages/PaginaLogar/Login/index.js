@@ -50,7 +50,7 @@ export default function Login({ setIsCriarConta, navigation, setUser }) {
     <View style={styles.container}>
       <View style={styles.caixa1}>
         <View style={{ paddingBottom: 5, borderBottomWidth: 2, borderColor: '#40173D', height: '100%', marginRight: 40, justifyContent: 'flex-end' }}>
-          <Text style={{ color: 'black', fontSize: 25, fontWeight: 'bold' }}>Seja Bem-Vindo! login</Text>
+          <Text style={{ color: 'black', fontSize: 25, fontWeight: 'bold' }}>Seja Bem-Vindo!</Text>
         </View>
       </View>
 
@@ -80,9 +80,7 @@ export default function Login({ setIsCriarConta, navigation, setUser }) {
               onChangeText={setPassword}
               placeholderTextColor='#A481A1'
             />
-            <Pressable onPress={() => navigation.navigate('Recuperacao')}>
-              <Text style={{ color: '#BE00B0', fontSize: 17 }}>Esqueceu a senha?</Text>
-            </Pressable>
+       
           </View>
         </View>
       </View>
@@ -96,23 +94,11 @@ export default function Login({ setIsCriarConta, navigation, setUser }) {
         </Pressable>
 
         <View style={styles.caixa3}>
-          <Hr posicao={'Vertical'} />
-          <Text>OU</Text>
-          <Hr posicao={'Vertical'} />
+          
         </View>
       </View>
 
-      <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
-        <Pressable onPress={() => setIsCriarConta(true)} style={styles.continueButton}>
-          <Text style={{ color: '#BE00B0', fontSize: 17, marginTop: 20 }}>Continue com o Google</Text>
-        </Pressable>
-      </View>
-
-      <View style={{ justifyContent: 'center', flexDirection: 'row', margin: 15 }}>
-        <Pressable onPress={() => setIsCriarConta(true)} style={styles.continueButton}>
-          <Text style={{ color: '#BE00B0', fontSize: 17, marginTop: 20 }}>Continue com a Apple</Text>
-        </Pressable>
-      </View>
+      
     </View>
   );
 }

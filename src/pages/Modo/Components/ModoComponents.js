@@ -37,7 +37,7 @@ export function Topo({ txtEstilo }) {
     return (
         <View style={estiloTopo.caixa1}>
             <Image style={estiloTopo.img} source={Logo} />
-            <Text style={txtEstilo}>Escolha seu tema</Text>
+            <Text style={txtEstilo}>Feel the Game</Text>
 
         </View>
     );
