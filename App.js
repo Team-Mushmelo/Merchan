@@ -5,15 +5,23 @@ import { StatusBar, SafeAreaView, Image } from 'react-native';
 import Logo from './assets/splash.png';
 import { useFonts, OpenSans_400Regular, OpenSans_700Bold } from '@expo-google-fonts/open-sans';
 import { Bungee_400Regular } from '@expo-google-fonts/bungee';
-// Páginas principais
-import PaginaLogar from './src/pages/PaginaLogar/'; // Importando apenas a página PaginaLogar
+
+// Importação das páginas principais
+import Routes from './src/pages/Routes';
+import PaginaLogar from './src/pages/PaginaLogar/';
+import Modo from './src/pages/Modo'; // Certifique-se de importar todos os componentes necessários
+import Recuperacao from './src/pages/Recuperacao';
+import Preferencias from './src/pages/Preferencias';
+import FinalLogin from './src/pages/Final_Login';
+
 
 const Stack = createStackNavigator();
 
 export default function App() {
   const [loginFeito, setLoginFeito] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  let [fontsLoaded] = useFonts({
+  const [lsDarkMode, setlsDarkMode] = useState(false);
+
+  const [fontsLoaded] = useFonts({
     'OpenSansRegular': OpenSans_400Regular,
     'OpenSansBold': OpenSans_700Bold,
     'BungeeRegular': Bungee_400Regular,
@@ -31,8 +39,22 @@ export default function App() {
     <>
       <StatusBar translucent backgroundColor={'#00000000'} />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="BEM-VINDO AO MERCHAN">
-          <Stack.Screen name="BEM-VINDO AO MERCHAN" component={PaginaLogar} />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {!loginFeito ? (
+            <>
+              <Stack.Screen name='Modo' component={Modo} initialParams={{ setlsDarkMode }} />
+              <Stack.Screen name='Recuperacao' component={Recuperacao} />
+              <Stack.Screen name='PaginaLogar'>
+                {(props) => <PaginaLogar {...props} setLoginFeito={setLoginFeito} />}
+              </Stack.Screen>
+              <Stack.Screen name='Preferencias' component={Preferencias} />
+              <Stack.Screen name='FinalLogin'>
+                {(props) => <FinalLogin {...props} setLoginFeito={setLoginFeito} />}
+              </Stack.Screen>
+            </>
+          ) : (
+            <Stack.Screen name='MeuApp' component={Routes} />
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </>

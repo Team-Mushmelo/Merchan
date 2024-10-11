@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet, TextInput, Alert } from 'react-native';
-
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, firestore } from '../../../services/firebaseConfig';
 import { doc, setDoc } from 'firebase/firestore';
-
 import Botao from '../../../Component/Botao';
 
 export default function Criar({ setUser, setIsCriarConta, navigation }) {
@@ -22,6 +20,7 @@ export default function Criar({ setUser, setIsCriarConta, navigation }) {
         mensagem = "A senha é muito fraca. Por favor, escolha uma senha mais forte com pelo menos 6 caracteres.";
         break;
       case "auth/missing-password":
+        mensagem = "Esqueceu de colocar uma senha";
         break;
       case "auth/user-not-found":
         mensagem = "Usuário não encontrado.";
@@ -30,6 +29,7 @@ export default function Criar({ setUser, setIsCriarConta, navigation }) {
         mensagem = "Senha incorreta.";
         break;
       case "auth/invalid-credential":
+        mensagem = "Alguma informação está incorreta.";
         break;
       default:
         mensagem = "Ocorreu um erro desconhecido.";
@@ -41,7 +41,6 @@ export default function Criar({ setUser, setIsCriarConta, navigation }) {
 
   const handleLogin = () => {
     if (!nome.trim()) {
-      // Verifica se o campo nome está vazio ou contém apenas espaços em branco
       Alert.alert('Erro', 'O campo Nick/Apelido não pode estar vazio.', [
         { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]);
@@ -57,14 +56,13 @@ export default function Criar({ setUser, setIsCriarConta, navigation }) {
         });
 
         console.log(user);
-        navigation.navigate('Preferencias');
+        navigation.navigate('Preferencias', { email, nome });
       })
       .catch((error) => {
         ErroAlert(error);
         console.log(error.code);
       });
   };
-
 
   return (
     <View style={styles.container}>
@@ -76,13 +74,13 @@ export default function Criar({ setUser, setIsCriarConta, navigation }) {
 
       <View style={styles.caixa2}>
         <View>
-          <Text style={{ color: '#A481A1', fontSize: 16, fontWeight: 'bold', }}>Faça seu Cadastro!</Text>
+          <Text style={{ color: '#A481A1', fontSize: 16, fontWeight: 'bold' }}>Faça seu Cadastro!</Text>
           <View style={{ margin: 10 }}>
             <Text style={styles.inpTitulo}>Nick/Apelido</Text>
             <TextInput
               style={styles.input}
               placeholder='Digite o seu nome'
-              onChangeText={(val) => { setNome(val); }}
+              onChangeText={setNome}
               keyboardType='default'
               autoComplete='name'
               placeholderTextColor='#A481A1'
@@ -95,7 +93,7 @@ export default function Criar({ setUser, setIsCriarConta, navigation }) {
               style={styles.input}
               placeholder='Digite o seu email'
               keyboardType='email-address'
-              onChangeText={(val) => { setEmail(val); }}
+              onChangeText={setEmail}
               autoComplete='email'
               placeholderTextColor='#A481A1'
             />
@@ -105,15 +103,15 @@ export default function Criar({ setUser, setIsCriarConta, navigation }) {
             <Text style={styles.inpTitulo}>Senha</Text>
             <TextInput
               style={styles.input}
-              placeholder='Digite o sua senha'
+              placeholder='Digite a sua senha'
               secureTextEntry
               autoComplete='password'
-              onChangeText={(val) => { setPassword(val); }}
+              onChangeText={setPassword}
               placeholderTextColor='#A481A1'
             />
           </View>
         </View>
-        <Botao texto={'CONTINUAR'} tipo={1} onPress={() => handleLogin()} />
+        <Botao texto={'CONTINUAR'} tipo={1} onPress={handleLogin} />
       </View>
 
       <View style={styles.caixa3}>
@@ -122,7 +120,10 @@ export default function Criar({ setUser, setIsCriarConta, navigation }) {
           <Text style={{ color: '#BE00B0', fontSize: 17 }}> Acesse!</Text>
         </Pressable>
 
-        <Pressable style={{ alignItems: 'center', justifyContent: 'flex-end', flex: 1 }}>
+        <Pressable 
+          style={{ alignItems: 'center', justifyContent: 'flex-end', flex: 1 }}
+          onPress={() => navigation.navigate('Termos')} // Navega para a tela de termos
+        >
           <Text>Não deixe de ler nossos</Text>
           <Text style={{ color: '#BE00B0' }}>Termos e políticas de privacidade</Text>
         </Pressable>
