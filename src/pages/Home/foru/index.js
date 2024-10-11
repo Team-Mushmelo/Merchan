@@ -1,182 +1,329 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Alert, Text, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, FlatList, TouchableOpacity, Image } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
-import Carousel from '../Components/Feed';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { getFirestore, collection, addDoc, getDocs, updateDoc, arrayUnion, arrayRemove, doc } from 'firebase/firestore';
 import { auth } from '../../../services/firebaseConfig';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function Foru({ navigation }) {
-    const [items, setItems] = useState([]);
-    const db = getFirestore();
+const GIPHY_API_KEY = 'YOUR_GIPHY_API_KEY'; // Substitua pela sua chave da Giphy
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            const querySnapshot = await getDocs(collection(db, 'posts'));
-            const posts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            setItems(posts);
+export default function App() {
+  const [inputText, setInputText] = useState('');
+  const [posts, setPosts] = useState([]);
+  const [gifUrl, setGifUrl] = useState('');
+  const [username, setUsername] = useState('');
+  const [commentInput, setCommentInput] = useState('');
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user) {
+      setUsername(user.email);
+    }
+  }, []);
+
+  const handlePost = () => {
+    if (inputText || gifUrl) {
+      const newPost = {
+        id: Date.now().toString(),
+        text: inputText,
+        gif: gifUrl,
+        likes: 0,
+        user: username,
+        likedBy: [],
+        comments: [],
+      };
+      setPosts([newPost, ...posts]); // Adiciona novo post no início
+      setInputText('');
+      setGifUrl('');
+    }
+  };
+
+  const handleLike = (id) => {
+    setPosts(posts.map(post => {
+      if (post.id === id) {
+        const liked = post.likedBy.includes(username);
+        return {
+          ...post,
+          likes: liked ? post.likes - 1 : post.likes + 1,
+          likedBy: liked ? post.likedBy.filter(user => user !== username) : [...post.likedBy, username],
         };
+      }
+      return post;
+    }));
+  };
 
-        fetchPosts();
-    }, []);
+  const handleComment = (id) => {
+    if (commentInput.trim()) {
+      setPosts(posts.map(post => {
+        if (post.id === id) {
+          return {
+            ...post,
+            comments: [...post.comments, { user: username, text: commentInput, likes: 0, likedBy: [] }],
+          };
+        }
+        return post;
+      }));
+      setCommentInput('');
+    }
+  };
 
-    const pickImage = async () => {
-        const response = await launchImageLibrary({ mediaType: 'photo', quality: 1 });
-
-        if (response.didCancel) {
-            console.log('Usuário cancelou a seleção');
-        } else if (response.errorCode) {
-            Alert.alert('Erro', response.errorMessage);
-        } else if (response.assets && response.assets.length > 0) {
-            const newItem = {
-                id: new Date().toISOString(),
-                uri: response.assets[0].uri,
-                email: auth.currentUser?.email,
-                content: '', // Se necessário, adicione uma descrição padrão ou outro conteúdo
-                likes: [],
+  const handleCommentLike = (postId, commentIndex) => {
+    setPosts(posts.map(post => {
+      if (post.id === postId) {
+        const comment = post.comments[commentIndex];
+        const liked = comment.likedBy.includes(username);
+        const updatedComments = post.comments.map((c, index) => {
+          if (index === commentIndex) {
+            return {
+              ...c,
+              likes: liked ? c.likes - 1 : c.likes + 1,
+              likedBy: liked ? c.likedBy.filter(user => user !== username) : [...c.likedBy, username],
             };
+          }
+          return c;
+        });
+        return { ...post, comments: updatedComments };
+      }
+      return post;
+    }));
+  };
 
-            try {
-                await addDoc(collection(db, 'posts'), newItem);
-                setItems(prevItems => [newItem, ...prevItems]); // Adiciona o novo post no topo
-            } catch (error) {
-                console.error('Erro ao adicionar post:', error);
-            }
-        }
-    };
+  const handleDeletePost = (id) => {
+    setPosts(posts.filter(post => post.id !== id));
+  };
 
-    const handleLike = async (postId) => {
-        if (!auth.currentUser) {
-            Alert.alert('Erro', 'Você precisa estar logado para curtir um post.');
-            return;
-        }
+  const pickGif = async () => {
+    launchImageLibrary({ mediaType: 'photo', includeBase64: true }, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.error('ImagePicker Error: ', response.error);
+      } else {
+        const uri = response.assets[0].uri;
+        setGifUrl(uri);
+      }
+    });
+  };
 
-        const userId = auth.currentUser.uid;
-        const postRef = doc(db, 'posts', postId);
-        const post = items.find(item => item.id === postId);
-        const userLiked = post.likes?.includes(userId);
-
-        try {
-            await updateDoc(postRef, {
-                likes: userLiked ? arrayRemove(userId) : arrayUnion(userId),
-            });
-            setItems(prevPosts =>
-                prevPosts.map(post =>
-                    post.id === postId
-                        ? { ...post, likes: userLiked ? post.likes.filter(uid => uid !== userId) : [...(post.likes || []), userId] }
-                        : post
-                )
-            );
-        } catch (error) {
-            console.error('Erro ao curtir o post:', error);
-        }
-    };
-
-    return (
-        <View style={styles.container}>
-            <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <View style={styles.header}>
-                    <View style={styles.activeButton}>
-                        <Text style={styles.activeButtonText}>For you</Text>
-                    </View>
-                    <TouchableOpacity
-                        style={styles.exploreButton}
-                        onPress={() => navigation.navigate('Explorar')}
-                    >
-                        <Text style={styles.exploreButtonText}>Explorar</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.carouselContainer}>
-                    {items.length > 0 ? (
-                        <Carousel 
-                            items={items}
-                            onLike={handleLike}
-                        />
-                    ) : (
-                        <View style={styles.noPostsContainer}>
-                            <Icon name="ghost" size={50} color="#40173d" />
-                            <Text style={styles.noPostsText}>Não há posts ainda.</Text>
-                        </View>
-                    )}
-                </View>
-            </ScrollView>
-
-            <TouchableOpacity
-                style={styles.floatingButton}
-                onPress={pickImage}
-            >
-                <Icon name="plus" size={25} color="#fff" />
-            </TouchableOpacity>
+  return (
+    <View style={styles.container}>
+      <View>
+        <Text style={styles.title}>Mini Feed</Text>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="O que está acontecendo?"
+            placeholderTextColor="#40173d"
+            value={inputText}
+            onChangeText={setInputText}
+          />
+          <TouchableOpacity style={styles.gifButton} onPress={pickGif}>
+            <Icon name="image" size={20} color="#fff" />
+          </TouchableOpacity>
         </View>
-    );
+      </View>
+
+      {gifUrl ? <Image source={{ uri: gifUrl }} style={styles.gif} /> : null}
+
+      <TouchableOpacity style={styles.postButton} onPress={handlePost}>
+        <Text style={styles.postButtonText}>Postar</Text>
+      </TouchableOpacity>
+
+      <FlatList
+        data={posts.reverse()} // Inverte a ordem para mostrar os posts mais recentes no topo
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.post}>
+            <View style={styles.postHeader}>
+              <Text style={styles.username}>{item.user}</Text>
+              {item.user === username && (
+                <TouchableOpacity onPress={() => handleDeletePost(item.id)}>
+                  <Icon name="trash" size={20} color="#bf0cb1" />
+                </TouchableOpacity>
+              )}
+            </View>
+            {item.gif ? <Image source={{ uri: item.gif }} style={styles.gif} /> : null}
+            <Text style={styles.postText}>{item.text}</Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.roundButton} onPress={() => handleLike(item.id)}>
+                <Icon name={item.likedBy.includes(username) ? 'heart' : 'heart-o'} size={25} color="#bf0cb1" />
+                <Text style={styles.roundButtonText}> {item.likes}</Text>
+              </TouchableOpacity>
+            </View>
+
+            <FlatList
+              data={item.comments}
+              keyExtractor={(comment, index) => index.toString()}
+              renderItem={({ item: comment, index }) => (
+                <View style={styles.commentContainer}>
+                  <Text style={styles.comment}>
+                    <Text style={styles.commentUser}>{comment.user}: </Text>
+                    <Text style={styles.commentText}>{comment.text}</Text>
+                  </Text>
+                  <View style={styles.commentButtons}>
+                    <TouchableOpacity onPress={() => handleCommentLike(item.id, index)}>
+                      <Icon name={comment.likedBy.includes(username) ? 'heart' : 'heart-o'} size={15} color="#bf0cb1" />
+                      <Text style={styles.commentLikeText}> {comment.likes}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
+            />
+            <TextInput
+              style={styles.commentInput}
+              placeholder="Escreva um comentário..."
+              placeholderTextColor="#40173d"
+              value={commentInput}
+              onChangeText={setCommentInput}
+            />
+            <TouchableOpacity style={styles.commentButton} onPress={() => handleComment(item.id)}>
+              <Text style={styles.commentButtonText}>Comentar</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: 15,
-        marginBottom: 20,
-    },
-    activeButton: {
-        backgroundColor: '#40173d',
-        padding: 15,
-        borderRadius: 27,
-        marginRight: 10,
-        width: '25%',
-    },
-    activeButtonText: {
-        color: '#fff',
-        fontSize: 12,
-    },
-    exploreButton: {
-        backgroundColor: '#fff',
-        padding: 15,
-        borderRadius: 27,
-        marginRight: 10,
-        width: '25%',
-    },
-    exploreButtonText: {
-        color: '#40173d',
-        fontSize: 12,
-    },
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-    scrollViewContent: {
-        flexGrow: 1,
-    },
-    carouselContainer: {
-        flexDirection: 'row',
-        marginBottom: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    floatingButton: {
-        position: 'absolute',
-        bottom: 20,
-        left: 20,
-        width: 50,
-        height: 50,
-        backgroundColor: '#bf0cb1',
-        borderRadius: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        shadowColor: '#000',
-        shadowOpacity: 0.3,
-        shadowRadius: 3,
-        elevation: 5,
-    },
-    noPostsContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-    },
-    noPostsText: {
-        fontSize: 18,
-        color: '#40173d',
-    },
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#40173d',
+    marginBottom: 20,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  input: {
+    flex: 1,
+    height: 50,
+    borderColor: '#bf0cb1',
+    borderWidth: 1,
+    borderRadius: 25,
+    paddingHorizontal: 15,
+    backgroundColor: '#fff',
+    marginBottom: 10,
+    outlineWidth: 0,
+  },
+  gif: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+    marginVertical: 10,
+  },
+  gifButton: {
+    backgroundColor: '#bf0cb1',
+    borderRadius: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginLeft: 10,
+  },
+  postButton: {
+    backgroundColor: '#bf0cb1',
+    borderRadius: 25,
+    paddingVertical: 10,
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  postButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: 10,
+  },
+  post: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    marginVertical: 5,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1,
+  },
+  postHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  username: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#40173d',
+    marginBottom: 5,
+  },
+  postText: {
+    fontSize: 16,
+    color: '#40173d',
+    marginBottom: 10,
+  },
+  roundButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    elevation: 1,
+  },
+  roundButtonText: {
+    color: '#40173d',
+    fontSize: 16,
+    marginLeft: 5,
+  },
+  commentContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  comment: {
+    fontSize: 14,
+    color: '#40173d',
+    marginLeft: 10,
+  },
+  commentUser: {
+    color: '#b0b0b0', // Cor apagada para o email
+    fontWeight: 'bold',
+  },
+  commentText: {
+    color: '#40173d', // Cor destacada para o comentário
+  },
+  commentButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  commentLikeText: {
+    fontSize: 14,
+    color: '#40173d',
+  },
+  commentInput: {
+    height: 40,
+    borderColor: '#bf0cb1',
+    borderWidth: 1,
+    borderRadius: 25,
+    paddingHorizontal: 15,
+    backgroundColor: '#fff',
+    marginVertical: 10,
+  },
+  commentButton: {
+    backgroundColor: '#bf0cb1',
+    borderRadius: 25,
+    paddingVertical: 5,
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  commentButtonText: {
+    color: '#fff',
+  },
 });

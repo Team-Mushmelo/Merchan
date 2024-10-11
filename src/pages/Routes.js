@@ -4,14 +4,15 @@ import { Entypo } from '@expo/vector-icons'; // Importe apenas o ícone que voc�
 import { Text } from 'react-native'; // Importe o componente Text
 import { useFonts, Bungee_400Regular } from '@expo-google-fonts/bungee';
 
-import Home from './Home';
-import Comunidade from './Comunidade';
+import Home from './Home/foru';
+import Ficha from './Ficha';
 import Ligações from './Ligações';
 import Lives from './Lives';
 import Perfil from './Perfil';
-import chat from "./pesquisa";
+import chat from "./Jogos";
 
 const Tab = createBottomTabNavigator();
+
 
 const CustomHeaderTitle = () => {
     // Carregue a fonte Bungee
@@ -55,11 +56,11 @@ export default function Routes() {
                 }}
             />
             <Tab.Screen
-                name='Comunidade'
-                component={Comunidade}
+                name='Ficha'
+                component={Ficha}
                 options={{
                     tabBarIcon: ({ size, color }) => (
-                        <Entypo name='users' size={size} color={color} />
+                        <Entypo name='book' size={size} color={color} />
                     ),
                 }}
             />
@@ -75,11 +76,11 @@ export default function Routes() {
             />*/}
 
             <Tab.Screen
-                name='Pesquisa'
+                name='Jogos'
                 component={chat}
                 options={{
                     tabBarIcon: ({ size, color }) => (
-                        <Entypo name='magnifying-glass' size={size} color={color} />
+                        <Entypo name='game-controller' size={size} color={color} />
                     ),
                 }}
             />
