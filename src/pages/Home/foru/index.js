@@ -4,18 +4,17 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import Carousel from '../Components/Feed';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getFirestore, collection, addDoc, getDocs, updateDoc, arrayUnion, arrayRemove, doc } from 'firebase/firestore';
-import { auth } from '../../../services/firebaseConfig'; // Ajuste conforme necessário
-import {uselike} from '../../Perfil/uselike';
+import { auth } from '../../../services/firebaseConfig';
 
 export default function Foru({ navigation }) {
-    const [items2, setItems2] = useState([]);
+    const [items, setItems] = useState([]);
     const db = getFirestore();
 
     useEffect(() => {
         const fetchPosts = async () => {
             const querySnapshot = await getDocs(collection(db, 'posts'));
             const posts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            setItems2(posts);
+            setItems(posts);
         };
 
         fetchPosts();
@@ -30,16 +29,16 @@ export default function Foru({ navigation }) {
             Alert.alert('Erro', response.errorMessage);
         } else if (response.assets && response.assets.length > 0) {
             const newItem = {
-                id: (new Date()).toISOString(),
+                id: new Date().toISOString(),
                 uri: response.assets[0].uri,
                 email: auth.currentUser?.email,
-                content: '',
+                content: '', // Se necessário, adicione uma descrição padrão ou outro conteúdo
                 likes: [],
             };
 
             try {
                 await addDoc(collection(db, 'posts'), newItem);
-                setItems2(prevItems => [...prevItems, newItem]);
+                setItems(prevItems => [newItem, ...prevItems]); // Adiciona o novo post no topo
             } catch (error) {
                 console.error('Erro ao adicionar post:', error);
             }
@@ -47,16 +46,21 @@ export default function Foru({ navigation }) {
     };
 
     const handleLike = async (postId) => {
+        if (!auth.currentUser) {
+            Alert.alert('Erro', 'Você precisa estar logado para curtir um post.');
+            return;
+        }
+
         const userId = auth.currentUser.uid;
         const postRef = doc(db, 'posts', postId);
-        const post = items2.find(item => item.id === postId);
+        const post = items.find(item => item.id === postId);
         const userLiked = post.likes?.includes(userId);
 
         try {
             await updateDoc(postRef, {
                 likes: userLiked ? arrayRemove(userId) : arrayUnion(userId),
             });
-            setItems2(prevPosts =>
+            setItems(prevPosts =>
                 prevPosts.map(post =>
                     post.id === postId
                         ? { ...post, likes: userLiked ? post.likes.filter(uid => uid !== userId) : [...(post.likes || []), userId] }
@@ -71,9 +75,9 @@ export default function Foru({ navigation }) {
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 15 }}>
-                    <View style={styles.exploreButtonact}>
-                        <Text style={styles.exploreButtonTextact}>For you</Text>
+                <View style={styles.header}>
+                    <View style={styles.activeButton}>
+                        <Text style={styles.activeButtonText}>For you</Text>
                     </View>
                     <TouchableOpacity
                         style={styles.exploreButton}
@@ -84,13 +88,11 @@ export default function Foru({ navigation }) {
                 </View>
 
                 <View style={styles.carouselContainer}>
-                    {items2.length > 0 ? (
-                        <View style={styles.carouselWrapper}>
-                            <Carousel 
-                                items={items2}
-                                onLike={handleLike}
-                            />
-                        </View>
+                    {items.length > 0 ? (
+                        <Carousel 
+                            items={items}
+                            onLike={handleLike}
+                        />
                     ) : (
                         <View style={styles.noPostsContainer}>
                             <Icon name="ghost" size={50} color="#40173d" />
@@ -111,27 +113,27 @@ export default function Foru({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    exploreButtonact: {
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 15,
+        marginBottom: 20,
+    },
+    activeButton: {
         backgroundColor: '#40173d',
         padding: 15,
-        borderWidth: 1,
-        borderColor: '#40173d',
         borderRadius: 27,
-        marginBottom: 20,
         marginRight: 10,
         width: '25%',
     },
-    exploreButtonTextact: {
+    activeButtonText: {
         color: '#fff',
         fontSize: 12,
     },
     exploreButton: {
         backgroundColor: '#fff',
         padding: 15,
-        borderWidth: 1,
-        borderColor: '#40173d',
         borderRadius: 27,
-        marginBottom: 20,
         marginRight: 10,
         width: '25%',
     },
@@ -151,12 +153,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    carouselWrapper: {
-        flex: 1,
-        margin: 10,
-        paddingHorizontal: 0,
-        width: '100%',
     },
     floatingButton: {
         position: 'absolute',

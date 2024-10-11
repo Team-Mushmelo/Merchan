@@ -121,12 +121,11 @@ export default function Perfil() {
 
                 <View style={styles.tabsContainer}>
                     <Tab title="Posts" onPress={() => setActiveTab('posts')} active={activeTab === 'posts'} />
-                    <Tab title="Curtidas" onPress={() => setActiveTab('likes')} active={activeTab === 'likes'} />
+                    
                 </View>
 
                 <View style={styles.contentContainer}>
                     {activeTab === 'posts' && <UserPosts />}
-                    {activeTab === 'likes' && <UserLikes />}
                 </View>
             </ScrollView>
         </View>

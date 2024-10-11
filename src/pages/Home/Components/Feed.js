@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   FlatList,
-  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   TextInput,
   Modal,
   ScrollView,
+  Image,
 } from 'react-native';
 import {
   getFirestore,
@@ -138,53 +138,18 @@ const Feed = () => {
       await updateDoc(postRef, {
         likes: userLiked ? arrayRemove(userId) : arrayUnion(userId),
       });
-
     } catch (error) {
       console.error('Erro ao curtir o post:', error);
-    }
-  };
-
-  const handleSavePost = async (postId, userSaved) => {
-    const userId = auth.currentUser.uid;
-    const postRef = doc(firebase, 'posts', postId);
-
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId
-          ? {
-              ...post,
-              savedBy: userSaved
-                ? post.savedBy.filter((uid) => uid !== userId)
-                : [...(post.savedBy || []), userId],
-            }
-          : post
-      )
-    );
-
-    try {
-      if (userSaved) {
-        await updateDoc(postRef, { savedBy: arrayRemove(userId) });
-      } else {
-        await updateDoc(postRef, { savedBy: arrayUnion(userId) });
-      }
-    } catch (error) {
-      console.error('Erro ao favoritar o post:', error);
     }
   };
 
   const renderItem = ({ item }) => {
     const likesCount = item.likes?.length || 0;
     const userLiked = item.likes?.includes(auth.currentUser.uid);
-    const userSaved = item.savedBy?.includes(auth.currentUser.uid);
 
     return (
       <View style={styles.itemContainer}>
         <View style={styles.header}>
-          {item.userProfilePic ? (
-            <Image source={{ uri: item.userProfilePic }} style={styles.profilePic} />
-          ) : (
-            <FontAwesome name="user" size={40} color="#40173d" style={styles.profilePic} />
-          )}
           <Text style={styles.postAuthor}>{item.authorName}</Text>
         </View>
         {item.uri && <Image source={{ uri: item.uri }} style={styles.image} />}
@@ -211,16 +176,6 @@ const Feed = () => {
                 color={userLiked ? 'red' : '#40173d'}
               />
               <Text style={styles.likeCount}>{likesCount}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.icones}
-              onPress={() => handleSavePost(item.id, userSaved)}
-            >
-              <Ionicons
-                name={userSaved ? 'bookmark' : 'bookmark-outline'}
-                size={24}
-                color="yellow"
-              />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.icones}
@@ -282,7 +237,8 @@ const Feed = () => {
         data={posts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingBottom: 100 }} // Adicionado para evitar sobreposição de conteúdo
+        contentContainerStyle={{ paddingBottom: 100 }}
+        inverted // Inverte a lista para mostrar os posts mais recentes no topo
       />
 
       {/* Modal para Atualizar Descrição */}
@@ -336,18 +292,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  profilePic: {
-    width: 60,
-    height: 60, // Aumente a altura para ficar mais alinhado com a largura
-    borderRadius: 30, // Mantém a forma redonda
-    marginRight: 10,
-  },
   postAuthor: {
     fontWeight: 'bold',
   },
   image: {
-    width: '100%', // Ajusta a largura para ocupar 100%
-    height: 300, // Mantém a altura fixa para um efeito quadrado
+    width: '100%',
+    height: 300,
     borderRadius: 10,
     marginBottom: 10,
   },
@@ -397,10 +347,8 @@ const styles = StyleSheet.create({
   commentInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    outlineWidth: 0,
   },
   commentInput: {
-    outlineWidth: 0,
     flex: 1,
     borderWidth: 1,
     borderColor: '#ddd',
@@ -421,7 +369,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   descriptionInput: {
-    outlineWidth: 0,
     height: 100,
     borderWidth: 1,
     borderColor: '#ddd',
