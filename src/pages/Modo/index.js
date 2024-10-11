@@ -1,68 +1,41 @@
-import { View, Text, StyleSheet } from 'react-native';
-
+import { View, StyleSheet } from 'react-native';
 import Botao from '../../Component/Botao';
+import { Ponto, Topo } from './Components/ModoComponents';
 
-import { Ponto, GrupoBotoes, Topo } from './Components/ModoComponents';
-import Hr from '../../Component/Hr';
-
-function Modo({ navigation, ModoDL, modoEscuro }) {
+function Modo({ navigation, modoEscuro }) {
     return (
         <View style={styles.container}>
-
             <Topo txtEstilo={styles.subtitulos} />
-
-            <Hr/>
-            <GrupoBotoes
-            onPressLight={() => ModoDL (false)} 
-            onPressDark={() => ModoDL(true)}
-            />
-            <Hr/>
-            <View style={styles.Bottom}>
-
-                <Text style={styles.subtitulos}>Feel The Game</Text>
-
-                <View style={styles.BotoesInferiores}>
-                    <Botao texto={'CONTINUAR'} tipo={1} onPress={() => {navigation.navigate('PaginaLogar')} }/>
-                    <Botao texto={'PULAR'} tipo={2} />
-                </View>
-
+            <View style={styles.BotoesInferiores}>
+                <Botao texto={'CONTINUAR'} tipo={1} onPress={() => { navigation.navigate('PaginaLogar') }} />
                 <Ponto estado={0} />
             </View>
         </View>
-
     );
-
 }
 
 const styles = (modoEscuro) => StyleSheet.create({
-
     container: {
         flex: 1,
-        backgroundColor: modoEscuro ? '#170215' :  'white',
+        backgroundColor: modoEscuro ? '#170215' : 'white',
+        alignItems: 'center', // Centraliza horizontalmente
+        justifyContent: 'center', // Centraliza verticalmente
+        paddingTop: 50, // Espaçamento do topo
     },
-
-    Bottom: {
-        //backgroundColor: 'red',
-        flex: 7,
-        paddingTop: 10,
-    },
-
     BotoesInferiores: {
-        flex: 1,
-        margin: 25,
+        alignItems: 'center', // Centraliza o botão e o ponto
+        marginTop: 20, // Espaço acima dos botões
     },
-
     subtitulos: {
-        alignSelf: 'center',
         margin: 10,
         marginBottom: 25,
         color: '#40173D',
         fontSize: 20,
         lineHeight: 25,
         fontWeight: 'normal',
-        fontFamily: 'OpenSansBold'
+        fontFamily: 'OpenSansBold',
+        textAlign: 'center', // Centraliza o texto
     }
-
-})
+});
 
 export default Modo;

@@ -12,7 +12,7 @@ import PaginaLogar from './src/pages/PaginaLogar/';
 import Modo from './src/pages/Modo'; // Certifique-se de importar todos os componentes necessários
 import Recuperacao from './src/pages/Recuperacao';
 import Preferencias from './src/pages/Preferencias';
-import FinalLogin from './src/pages/Final_Login';
+
 
 
 const Stack = createStackNavigator();
