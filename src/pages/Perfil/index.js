@@ -3,16 +3,8 @@ import { View, StyleSheet, TextInput, TouchableOpacity, Text, Alert, Image, Dime
 import { Feather } from '@expo/vector-icons';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { auth, fetchUserData, updateUserData } from '../../services/firebaseConfig';
-import UserPosts from './usepost'; // Atualizar com o caminho correto
-import UserLikes from './uselike'; // Atualizar com o caminho correto
 
 const { width } = Dimensions.get('window');
-
-const Tab = ({ title, onPress, active }) => (
-    <TouchableOpacity style={[styles.tab, active && styles.activeTab]} onPress={onPress}>
-        <Text style={styles.tabText}>{title}</Text>
-    </TouchableOpacity>
-);
 
 export default function Perfil() {
     const [name, setName] = useState('');
@@ -20,7 +12,6 @@ export default function Perfil() {
     const [description, setDescription] = useState('');
     const [gender, setGender] = useState('');
     const [profileImage, setProfileImage] = useState(null);
-    const [activeTab, setActiveTab] = useState('posts');
 
     useEffect(() => {
         const fetchUserDataAsync = async () => {
@@ -95,7 +86,7 @@ export default function Perfil() {
                         style={styles.input}
                         value={email}
                         onChangeText={setEmail}
-                        placeholder="Digite sua Bio"
+                        placeholder="Digite seu e-mail"
                         keyboardType="email-address"
                         placeholderTextColor="#40173d"
                     />
@@ -110,22 +101,13 @@ export default function Perfil() {
                         style={styles.input}
                         value={description}
                         onChangeText={setDescription}
-                        placeholder="Links"
+                        placeholder="Descrição"
                         placeholderTextColor="#40173d"
                     />
 
                     <TouchableOpacity style={styles.button} onPress={handleSave}>
                         <Text style={styles.buttonText}>Salvar</Text>
                     </TouchableOpacity>
-                </View>
-
-                <View style={styles.tabsContainer}>
-                    <Tab title="Posts" onPress={() => setActiveTab('posts')} active={activeTab === 'posts'} />
-                    
-                </View>
-
-                <View style={styles.contentContainer}>
-                    {activeTab === 'posts' && <UserPosts />}
                 </View>
             </ScrollView>
         </View>
@@ -135,16 +117,23 @@ export default function Perfil() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ffffff', // Fundo branco
-        padding: 20,
+        backgroundColor: '#ffffff',
+        justifyContent: 'center', // Centraliza verticalmente
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+        justifyContent: 'center', // Centraliza verticalmente
+        alignItems: 'center', // Centraliza horizontalmente
     },
     profileContainer: {
-        backgroundColor: '#ffffff', // Fundo branco
+        backgroundColor: '#ffffff',
         borderRadius: 20,
         padding: 20,
         elevation: 2,
         alignItems: 'center',
         marginBottom: 20,
+        width: '100%', // Garante que o formulário ocupe a largura total
+        maxWidth: 400, // Define uma largura máxima
     },
     profileImageContainer: {
         width: 100,
@@ -172,8 +161,6 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#f9f9f9',
         borderRadius: 10,
-        // Remover foco amarelo
-        outlineWidth: 0,
     },
     button: {
         padding: 15,
@@ -187,32 +174,5 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
     },
-    tabsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginVertical: 10,
-    },
-    tab: {
-        padding: 10,
-        flex: 1,
-        alignItems: 'center',
-        borderBottomWidth: 2,
-        borderBottomColor: 'transparent',
-    },
-    activeTab: {
-        borderBottomColor: '#40173d',
-    },
-    tabText: {
-        fontSize: 16,
-        color: '#40173d',
-    },
-    contentContainer: {
-        padding: 10,
-        backgroundColor: '#ffffff', // Fundo branco
-        borderRadius: 10,
-        elevation: 1,
-    },
-    scrollViewContent: {
-        flexGrow: 1,
-    },
 });
+

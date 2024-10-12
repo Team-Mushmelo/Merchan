@@ -6,10 +6,9 @@ import { useFonts, Bungee_400Regular } from '@expo-google-fonts/bungee';
 
 import Home from './Home/foru';
 import Ficha from './Ficha';
-import Ligações from './Ligações';
-import Lives from './Lives';
 import Perfil from './Perfil';
-import chat from "./Jogos";
+import game from "./Jogos";
+import chat from "./chat";
 
 const Tab = createBottomTabNavigator();
 
@@ -64,19 +63,20 @@ export default function Routes() {
                     ),
                 }}
             />
-            {/* TEMPORARIAMENTE DESATIVADO  
-            <Tab.Screen
-                name='Ligações'
-                component={Ligações}
-                options={{
-                    tabBarIcon: ({ size, color }) => (
-                        <Entypo name='sound' size={size} color={color} />
-                    ),
-                }}
-            />*/}
+    
 
             <Tab.Screen
                 name='Jogos'
+                component={game}
+                options={{
+                    tabBarIcon: ({ size, color }) => (
+                        <Entypo name='game-controller' size={size} color={color} />
+                    ),
+                }}
+            />
+           
+           <Tab.Screen
+                name='chat'
                 component={chat}
                 options={{
                     tabBarIcon: ({ size, color }) => (
@@ -84,17 +84,6 @@ export default function Routes() {
                     ),
                 }}
             />
-            {/* TEMPORARIAMENTE DESATIVADO
-            <Tab.Screen
-                name='Lives'
-                component={Lives}
-                options={{
-                    tabBarIcon: ({ size, color }) => (
-                        <Entypo name='video' size={size} color={color} />
-                    ),
-                }}
-            />
-            */}
 
             <Tab.Screen
                 name='Perfil'

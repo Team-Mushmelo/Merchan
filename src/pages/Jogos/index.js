@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Animated, Modal } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Animated, KeyboardAvoidingView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
@@ -22,28 +22,27 @@ const App = () => {
     const [message, setMessage] = useState('');
     const [currentTheme, setCurrentTheme] = useState({ name: '', icon: '' });
     const [isGameActive, setIsGameActive] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(60);
     const [score, setScore] = useState(0);
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [timer, setTimer] = useState(30); // Tempo de 30 segundos
     const maxWrongGuesses = 6;
     const symbols = ['O', '-', ']', '-', '-', '<', ' '];
     const [firstWrongGuess, setFirstWrongGuess] = useState(true);
+
     const [titleAnimation] = useState(new Animated.Value(-50));
     const [contentAnimation] = useState(new Animated.Value(-50));
     const [opacityAnimation] = useState(new Animated.Value(0));
 
     useEffect(() => {
-        let timer;
-        if (isGameActive && timeLeft > 0) {
-            timer = setInterval(() => {
-                setTimeLeft((prev) => prev - 1);
+        let interval;
+        if (isGameActive && timer > 0) {
+            interval = setInterval(() => {
+                setTimer((prev) => prev - 1);
             }, 1000);
-        } else if (timeLeft === 0 || wrongGuesses >= maxWrongGuesses) {
-            setIsGameActive(false);
-            setIsModalVisible(true);
+        } else if (timer === 0) {
+            endGame(false); // Fim do jogo por tempo esgotado
         }
-        return () => clearInterval(timer);
-    }, [isGameActive, timeLeft, wrongGuesses]);
+        return () => clearInterval(interval);
+    }, [isGameActive, timer]);
 
     const handleStartGame = () => {
         const randomTheme = THEMES[Math.floor(Math.random() * THEMES.length)];
@@ -56,8 +55,8 @@ const App = () => {
         setMessage('');
         setFirstWrongGuess(true);
         setIsGameActive(true);
-        setTimeLeft(60);
         setScore(0);
+        setTimer(30); // Reinicia o temporizador para 30 segundos
 
         Animated.parallel([
             Animated.timing(titleAnimation, {
@@ -79,30 +78,42 @@ const App = () => {
     };
 
     const handleGuess = (letter) => {
-        if (!isGameActive || guessedLetters.includes(letter)) return;
+        if (!isGameActive || guessedLetters.includes(letter) || wrongGuesses >= maxWrongGuesses) return;
 
         setGuessedLetters([...guessedLetters, letter]);
 
         if (word.includes(letter)) {
-            setTimeLeft((prev) => prev + 10);
-            if (word.split('').every((char) => guessedLetters.includes(char) || char === letter)) {
-                setScore((prev) => prev + 25);
-                setMessage('Você ganhou! O-]--<');
-                setIsGameActive(false);
-                setIsModalVisible(true);
-            }
+            // Se a letra foi acertada, adicione 5 segundos ao timer
+            setTimer((prev) => prev + 5);
         } else {
             if (firstWrongGuess) {
                 setFirstWrongGuess(false);
             } else {
                 setWrongGuesses(wrongGuesses + 1);
             }
-            if (wrongGuesses + (firstWrongGuess ? 0 : 1) >= maxWrongGuesses) {
-                setMessage(`Fim de jogo! A palavra era: ${word}`);
-                setIsGameActive(false);
-                setIsModalVisible(true);
-            }
         }
+
+        if (wrongGuesses + (firstWrongGuess ? 0 : 1) >= maxWrongGuesses) {
+            endGame(true);
+        }
+
+        if (word.split('').every((char) => guessedLetters.includes(char))) {
+            setMessage('Você ganhou! O-]--<');
+            setIsGameActive(false);
+            setScore(calculateScore());
+        }
+    };
+
+    const calculateScore = () => {
+        return guessedLetters.reduce((acc, letter) => {
+            return word.includes(letter) ? acc + 5 : acc;
+        }, 0);
+    };
+
+    const endGame = (isLost) => {
+        setMessage(isLost ? `Fim de jogo! A palavra era: ${word}` : 'Tempo esgotado! A palavra era: ' + word);
+        setIsGameActive(false);
+        setScore(calculateScore());
     };
 
     const renderWord = () => {
@@ -119,9 +130,8 @@ const App = () => {
             <TouchableOpacity
                 key={letter}
                 onPress={() => handleGuess(letter)}
-                disabled={!isGameActive || guessedLetters.includes(letter)}
-                style={[styles.button, { backgroundColor: isGameActive ? '#bf0cb1' : '#d3d3d3' }]}
-            >
+                disabled={!isGameActive || guessedLetters.includes(letter) || wrongGuesses >= maxWrongGuesses}
+                style={[styles.button, { backgroundColor: isGameActive ? (guessedLetters.includes(letter) ? '#e0e0e0' : '#bf0cb1') : '#d3d3d3' }]}>
                 <Text style={styles.buttonText}>{letter}</Text>
             </TouchableOpacity>
         ));
@@ -132,70 +142,57 @@ const App = () => {
         return <Text style={styles.hangman}>{currentSymbol}</Text>;
     };
 
-    const handleCloseModal = () => {
-        setIsModalVisible(false);
-        handleStartGame();
-    };
-
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <Animated.Text style={[styles.title, { transform: [{ translateY: titleAnimation }], opacity: opacityAnimation, color: '#40173d' }]}>
-                Jogo da Forca
-            </Animated.Text>
-            <Animated.Text style={[styles.subtitle, { transform: [{ translateY: titleAnimation }], opacity: opacityAnimation, color: '#40173d' }]}>
-                seu primeiro erro é perdoado
-            </Animated.Text>
-            <Text style={styles.timer}>Tempo: {timeLeft}s</Text>
-            <Text style={styles.score}>Pontuação: {score}</Text>
-            {currentTheme.name && (
-                <Animated.View style={[styles.themeContainer, { transform: [{ translateY: contentAnimation }], opacity: opacityAnimation }]}>
-                    <Entypo name={currentTheme.icon} size={32} style={[styles.themeIcon, { color: '#40173d' }]} />
-                    <Text style={[styles.themeName, { fontFamily: 'BungeeRegular', color: '#40173d' }]}>{currentTheme.name}</Text>
-                </Animated.View>
-            )}
-            <View style={styles.hangmanContainer}>
-                {renderHangman()}
-            </View>
-            <Animated.View style={{ transform: [{ translateY: contentAnimation }], opacity: opacityAnimation }}>
-                <View style={styles.wordContainer}>
-                    {renderWord()}
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
+            <ScrollView contentContainerStyle={styles.scrollViewContainer} keyboardShouldPersistTaps="handled">
+                <Animated.Text style={[styles.title, { transform: [{ translateY: titleAnimation }], opacity: opacityAnimation, color: '#40173d' }]}>
+                    Jogo da Forca
+                </Animated.Text>
+                <Animated.Text style={[styles.subtitle, { transform: [{ translateY: titleAnimation }], opacity: opacityAnimation, color: '#40173d' }]}>
+                    seu primeiro erro é perdoado
+                </Animated.Text>
+                {currentTheme.name && (
+                    <Animated.View style={[styles.themeContainer, { transform: [{ translateY: contentAnimation }], opacity: opacityAnimation }]}>
+                        <Entypo name={currentTheme.icon} size={32} style={styles.themeIcon} />
+                        <Text style={[styles.themeName, { fontFamily: 'BungeeRegular', color: '#40173d' }]}>{currentTheme.name}</Text>
+                    </Animated.View>
+                )}
+                <View style={styles.hangmanContainer}>
+                    {renderHangman()}
                 </View>
-                <Text style={styles.message}>{message}</Text>
-                <View style={styles.alphabetContainer}>
-                    {renderAlphabet()}
-                </View>
-            </Animated.View>
-            <TouchableOpacity style={styles.startButton} onPress={handleStartGame}>
-                <Ionicons name="play" size={30} color="#fff" />
-            </TouchableOpacity>
-
-            {/* Modal para mostrar o placar */}
-            <Modal
-                visible={isModalVisible}
-                transparent={true}
-                animationType="slide"
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Fim de jogo!</Text>
-                        <Text style={styles.modalScore}>Sua pontuação: {score}</Text>
-                        <TouchableOpacity style={styles.closeButton} onPress={handleCloseModal}>
-                            <Text style={styles.closeButtonText}>Recomeçar</Text>
-                        </TouchableOpacity>
+                <Animated.View style={{ transform: [{ translateY: contentAnimation }], opacity: opacityAnimation }}>
+                    <View style={styles.wordContainer}>
+                        {renderWord()}
                     </View>
-                </View>
-            </Modal>
-        </ScrollView>
+                    <Text style={styles.message}>{message}</Text>
+                    <Text style={styles.timer}>Tempo restante: {timer} segundos</Text>
+                    <View style={styles.alphabetContainer}>
+                        {renderAlphabet()}
+                    </View>
+                    <View style={styles.scoreContainer}>
+                        {!isGameActive && (
+                            <Text style={styles.score}>Sua pontuação: {score}</Text>
+                        )}
+                    </View>
+                </Animated.View>
+                <TouchableOpacity style={styles.startButton} onPress={handleStartGame}>
+                    <Ionicons name="play" size={30} color="#fff" />
+                </TouchableOpacity>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#f9f9f9',
+    },
+    scrollViewContainer: {
+        flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
         padding: 20,
-        backgroundColor: '#f9f9f9',
     },
     title: {
         fontSize: 24,
@@ -207,16 +204,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: 'bold',
         marginBottom: 20,
-    },
-    timer: {
-        fontSize: 18,
-        marginBottom: 10,
-        color: '#40173d',
-    },
-    score: {
-        fontSize: 18,
-        marginBottom: 20,
-        color: '#40173d',
     },
     themeContainer: {
         flexDirection: 'row',
@@ -251,6 +238,12 @@ const styles = StyleSheet.create({
         margin: 5,
     },
     message: {
+        fontSize: 18,
+        marginBottom: 20,
+        color: '#40173d',
+        textAlign: 'center',
+    },
+    timer: {
         fontSize: 18,
         marginBottom: 20,
         color: '#40173d',
@@ -293,36 +286,15 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.4,
         shadowRadius: 4,
     },
-    modalContainer: {
-        flex: 1,
+    scoreContainer: {
+        alignItems: 'center',
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        marginTop: 20,
     },
-    modalContent: {
-        width: 300,
-        padding: 20,
-        backgroundColor: '#fff',
-        borderRadius: 10,
-        alignItems: 'center',
-    },
-    modalTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    modalScore: {
-        fontSize: 18,
-        marginBottom: 20,
-    },
-    closeButton: {
-        backgroundColor: '#bf0cb1',
-        padding: 10,
-        borderRadius: 5,
-    },
-    closeButtonText: {
-        color: '#fff',
-        fontWeight: 'bold',
+    score: {
+        fontSize: 24,
+        color: '#40173d',
+        textAlign: 'center',
     },
 });
 

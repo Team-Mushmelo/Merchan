@@ -113,25 +113,6 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Mini Feed</Text>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="O que está acontecendo?"
-          placeholderTextColor="#40173d"
-          value={inputText}
-          onChangeText={setInputText}
-        />
-        <TouchableOpacity style={styles.gifButton} onPress={pickGif}>
-          <Icon name="image" size={20} color="#fff" />
-        </TouchableOpacity>
-      </View>
-
-      {gifUrl ? <Image source={{ uri: gifUrl }} style={styles.gif} /> : null}
-
-      <TouchableOpacity style={styles.postButton} onPress={handlePost}>
-        <Text style={styles.postButtonText}>Postar</Text>
-      </TouchableOpacity>
-
       <FlatList
         data={posts}
         keyExtractor={item => item.id}
@@ -185,6 +166,24 @@ export default function App() {
           </View>
         )}
       />
+
+      {/* Aqui está a parte inferior com os inputs e botões */}
+      {gifUrl && <Image source={{ uri: gifUrl }} style={styles.gif} />} {/* Exibe a imagem GIF selecionada */}
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="O que está acontecendo?"
+          placeholderTextColor="#40173d"
+          value={inputText}
+          onChangeText={setInputText}
+        />
+        <TouchableOpacity style={styles.gifButton} onPress={pickGif}>
+          <Icon name="image" size={20} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.postButton} onPress={handlePost}>
+          <Icon name="paper-plane" size={20} color="#fff" /> {/* Substituindo texto por ícone */}
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -194,9 +193,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
+    justifyContent: 'space-between',
   },
   title: {
-    fontFamily:'BungeeRegular',
+    fontFamily: 'BungeeRegular',
     fontSize: 24,
     fontWeight: 'bold',
     color: '#40173d',
@@ -214,8 +214,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 15,
     backgroundColor: '#fff',
-    marginBottom: 10,
-    outlineWidth: 0,
+    marginRight: 10,
   },
   gif: {
     width: 200,
@@ -228,14 +227,20 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingVertical: 10,
     paddingHorizontal: 15,
-    marginLeft: 10,
+    height: 50, // Altura fixa para igualar
+    width: 50,  // Largura fixa para igualar
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   postButton: {
     backgroundColor: '#bf0cb1',
     borderRadius: 25,
     paddingVertical: 10,
     alignItems: 'center',
-    marginVertical: 10,
+    justifyContent: 'center',
+    height: 50, // Altura fixa para igualar
+    width: 50,  // Largura fixa para igualar
+    marginLeft: 10,
   },
   postButtonText: {
     color: '#fff',
@@ -326,9 +331,13 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingVertical: 5,
     alignItems: 'center',
+    justifyContent: 'center',
+    height: 50, // Altura fixa para igualar
+    width: 100,  // Largura fixa para igualar
     marginVertical: 10,
   },
   commentButtonText: {
     color: '#fff',
   },
 });
+
