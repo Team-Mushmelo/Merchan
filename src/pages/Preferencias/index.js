@@ -11,14 +11,10 @@ const preferencias = [
     { id: "2", nome: "SUSPENSE", imagem: require("../../imgs/suspense.png") },
     { id: "3", nome: "AVENTURA", imagem: require("../../imgs/aventura.png") },
     { id: "4", nome: "MAGIA", imagem: require("../../imgs/magia.png") },
-    { id: "5", nome: "COSPLAY", imagem: require("../../imgs/cosplay.jpg") },
     { id: "6", nome: "CYBERPUNK", imagem: require("../../imgs/cyberpunk.png") },
     { id: "7", nome: "FICÇÃO", imagem: require("../../imgs/ficção.jpg") },
     { id: "8", nome: "EVENTOS", imagem: require("../../imgs/evento.png") },
-    { id: "9", nome: "COOP", imagem: require("../../imgs/coop.png") },
-    { id: "10", nome: "STREAM", imagem: require("../../imgs/stream.jpg") },
-    { id: "11", nome: "RPG", imagem: require("../../imgs/rpg.png") },
-    { id: "12", nome: "INDIES", imagem: require("../../imgs/indie.png") },
+
 ];
 
 export default function Preferencias({ navigation }) {
