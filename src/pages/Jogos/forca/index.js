@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Animated, KeyboardAvoidingView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { useNavigation } from '@react-navigation/native';
 
 const WORDS = {
-   'Aventura Espacial': ["galáxia", "nave", "astronauta", "cometa", "buraco negro", "estrela", "planeta", "satélite", "foguete", "exploração"],
-'Fantasia Medieval': ["cavaleiro", "castelo", "dragão", "espada", "reino", "rainha", "mago", "taverna", "aventura", "batalha"],
-'Pós-Apocalíptico': ["sobrevivente", "deserto", "mutante", "ruínas", "catástrofe", "refúgio", "fome", "pandemia", "guerra", "desolação"],
+    'Aventura Espacial': ["galáxia", "nave", "astronauta", "cometa", "buraco negro", "estrela", "planeta", "satélite", "foguete", "exploração"],
+    'Fantasia Medieval': ["cavaleiro", "castelo", "dragão", "espada", "reino", "rainha", "mago", "taverna", "aventura", "batalha"],
+    'Pós-Apocalíptico': ["sobrevivente", "deserto", "mutante", "ruínas", "catástrofe", "refúgio", "fome", "pandemia", "guerra", "desolação"],
 };
 
 const THEMES = [
@@ -15,7 +16,8 @@ const THEMES = [
     { name: 'Pós-Apocalíptico', icon: 'warning' },
 ];
 
-const App = () => {
+const Forca = () => {
+    const navigation = useNavigation();
     const [word, setWord] = useState('');
     const [guessedLetters, setGuessedLetters] = useState([]);
     const [wrongGuesses, setWrongGuesses] = useState(0);
@@ -159,11 +161,15 @@ const App = () => {
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
             <ScrollView contentContainerStyle={styles.scrollViewContainer} keyboardShouldPersistTaps="handled">
+                <TouchableOpacity onPress={() => navigation.navigate('velha')}>
+                    <Text style={styles.navigateText}>Ir para Velha</Text>
+                </TouchableOpacity>
+
                 <Animated.Text style={[styles.title, { transform: [{ translateY: titleAnimation }], opacity: opacityAnimation }]}>
                     Jogo da Forca
                 </Animated.Text>
                 <Animated.Text style={[styles.subtitle, { transform: [{ translateY: titleAnimation }], opacity: opacityAnimation }]}>
-                    seu primeiro erro é perdoado
+                    Seu primeiro erro é perdoado
                 </Animated.Text>
                 <Text style={styles.timer}>Tempo: {timeLeft}s</Text>
                 <Text style={styles.score}>Pontuação: {score}</Text>
@@ -296,6 +302,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.4,
         shadowRadius: 4,
     },
+    navigateText: {
+        fontSize: 16,
+        color: '#bf0cb1',
+        marginBottom: 20,
+    },
 });
 
-export default App;
+export default Forca;

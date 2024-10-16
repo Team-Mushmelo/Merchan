@@ -7,7 +7,7 @@ import { useFonts, Bungee_400Regular } from '@expo-google-fonts/bungee';
 import Home from './Home/foru';
 import Ficha from './Ficha';
 import Perfil from './Perfil';
-import game from "./Jogos";
+import game from "./Jogos/inicio";
 import chat from "./chat";
 
 const Tab = createBottomTabNavigator();
