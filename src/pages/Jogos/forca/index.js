@@ -12,7 +12,6 @@ const WORDS = {
     'Pos-Apocaliptico': ["sobrevivente", "deserto", "mutante", "ruinas", "catastrofe", "refugio", "fome", "pandemia", "guerra", "desolacao"],
 };
 
-
 const THEMES = [
     { name: 'Aventura Espacial', icon: 'rocket' },
     { name: 'Fantasia Medieval', icon: 'star' },
@@ -27,13 +26,11 @@ const Forca = () => {
     const [message, setMessage] = useState('');
     const [currentTheme, setCurrentTheme] = useState({ name: '', icon: '' });
     const [isGameActive, setIsGameActive] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(0);
+    const [timeLeft, setTimeLeft] = useState(30);
     const [score, setScore] = useState(0);
-    const [timer, setTimer] = useState(30);
-    const [gameOver, setGameOver] = useState(false);
+    const [firstWrongGuess, setFirstWrongGuess] = useState(true);
     const maxWrongGuesses = 6;
     const symbols = ['O', '-', ']', '-', '-', '<', ' '];
-    const [firstWrongGuess, setFirstWrongGuess] = useState(true);
     const [fontsLoaded] = useFonts({ BungeeRegular: Bungee_400Regular });
 
     // Animações
@@ -45,24 +42,12 @@ const Forca = () => {
     useEffect(() => {
         let timer;
         if (isGameActive && timeLeft > 0) {
-            timer = setInterval(() => {
-                setTimeLeft((prev) => prev - 1);
-            }, 1000);
+            timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
+        } else if (timeLeft === 0) {
+            endGame(true, true); // Tempo esgotado
         }
         return () => clearInterval(timer);
     }, [isGameActive, timeLeft]);
-
-    useEffect(() => {
-        let interval;
-        if (isGameActive && timer > 0) {
-            interval = setInterval(() => {
-                setTimer((prev) => prev - 1);
-            }, 1000);
-        } else if (timer === 0) {
-            endGame(false);
-        }
-        return () => clearInterval(interval);
-    }, [isGameActive, timer]);
 
     // Início do jogo
     const handleStartGame = () => {
@@ -76,73 +61,51 @@ const Forca = () => {
         setMessage('');
         setFirstWrongGuess(true);
         setIsGameActive(true);
-        setGameOver(false);
         setTimeLeft(30);
         setScore(0);
-        setTimer(30);
 
         // Iniciar animações
         Animated.parallel([
-            Animated.timing(titleAnimation, {
-                toValue: 0,
-                duration: 1000,
-                useNativeDriver: true,
-            }),
-            Animated.timing(contentAnimation, {
-                toValue: 0,
-                duration: 1000,
-                useNativeDriver: true,
-            }),
-            Animated.timing(opacityAnimation, {
-                toValue: 1,
-                duration: 1000,
-                useNativeDriver: true,
-            }),
+            Animated.timing(titleAnimation, { toValue: 0, duration: 1000, useNativeDriver: true }),
+            Animated.timing(contentAnimation, { toValue: 0, duration: 1000, useNativeDriver: true }),
+            Animated.timing(opacityAnimation, { toValue: 1, duration: 1000, useNativeDriver: true }),
         ]).start();
     };
 
     const handleGuess = (letter) => {
         if (!isGameActive || guessedLetters.includes(letter) || wrongGuesses >= maxWrongGuesses) return;
-    
+
         const startTime = Date.now(); // Registro do tempo inicial
-        setGuessedLetters([...guessedLetters, letter]);
-    
+        setGuessedLetters((prev) => [...prev, letter]);
+
         if (word.includes(letter)) {
             const letterCount = word.split('').filter((char) => char === letter).length;
-    
+
             // Calcular o tempo que levou para adivinhar a letra
             const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // em segundos
-    
+
             // Pontuação baseada na quantidade de letras corretas e no tempo
             const points = Math.max(0, (100 * letterCount) - elapsedTime); // Deduzir pontos com base no tempo
             setScore((prev) => prev + points);
-    
-            setTimeLeft((prev) => prev + 10);
-            setTimer((prev) => prev + 5);
-    
+
             if (word.split('').every((char) => guessedLetters.includes(char) || char === letter)) {
                 setMessage('Você ganhou!');
                 setIsGameActive(false);
-                setGameOver(true);
             }
         } else {
-            if (firstWrongGuess) {
-                setFirstWrongGuess(false);
-            } else {
-                setWrongGuesses(wrongGuesses + 1);
+            const newWrongGuesses = firstWrongGuess ? wrongGuesses : wrongGuesses + 1;
+            setFirstWrongGuess(false);
+            setWrongGuesses(newWrongGuesses);
+
+            if (newWrongGuesses >= maxWrongGuesses) {
+                endGame(true);
             }
         }
-    
-        if (wrongGuesses + (firstWrongGuess ? 0 : 1) >= maxWrongGuesses) {
-            endGame(true);
-        }
     };
-    
 
-    const endGame = (isLost) => {
-        setMessage(isLost ? `Fim de jogo! A palavra era: ${word}` : 'Você ganhou!');
+    const endGame = (isLost, isTimeUp = false) => {
+        setMessage(`Fim de jogo! ${isTimeUp ? 'O tempo acabou!' : ''} A palavra era: ${word}`);
         setIsGameActive(false);
-        setGameOver(true);
     };
 
     // Renderizar palavra
@@ -171,10 +134,6 @@ const Forca = () => {
     const renderHangman = () => {
         const currentSymbol = symbols.slice(0, wrongGuesses).join(' ');
         return <Text style={styles.hangman}>{currentSymbol}</Text>;
-    };
-
-    const handleRestartGame = () => {
-        handleStartGame();
     };
 
     return (
@@ -245,7 +204,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
     },
     title: {
-        
         fontFamily: 'BungeeRegular',
         fontSize: 32,
         fontWeight: 'bold',
@@ -253,7 +211,6 @@ const styles = StyleSheet.create({
         color: '#40173d',
     },
     subtitle: {
-        
         fontFamily: 'BungeeRegular',
         fontSize: 15,
         marginBottom: 20,

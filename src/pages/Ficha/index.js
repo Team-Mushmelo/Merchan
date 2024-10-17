@@ -106,6 +106,7 @@ const dadosRPG = [
 ];
 
 export default function Comunidade() {
+    const [selectedCharacter, setSelectedCharacter] = useState(null); // Adicione um estado para o personagem selecionado
     const [characterName, setCharacterName] = useState('');
     const [characterClass, setCharacterClass] = useState('');
     const [level, setLevel] = useState('');
@@ -340,42 +341,42 @@ export default function Comunidade() {
 </View>
 
 
-                {savedCharacters.map((character, index) => (
-                    <TouchableOpacity
-                        key={index}
-                        style={styles.showModalButton}
-                        onPress={() => {
-                            setModalVisible(true);
-                            setSavedCharacters([character]);
-                        }}
-                    >
-                        <Text style={styles.showModalButtonText}>{character.characterName}</Text>
-                    </TouchableOpacity>
-                ))}
+{savedCharacters.map((character, index) => (
+    <TouchableOpacity
+        key={index}
+        style={styles.showModalButton}
+        onPress={() => {
+            setModalVisible(true);
+            setSelectedCharacter(character); // Defina o personagem selecionado aqui
+        }}
+    >
+        <Text style={styles.showModalButtonText}>{character.characterName}</Text>
+    </TouchableOpacity>
+))}
             </ScrollView>
 
             <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => setModalVisible(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Personagem Criado</Text>
-                        {savedCharacters.length > 0 && (
-                            <View>
-                                {Object.entries(savedCharacters[savedCharacters.length - 1]).map(([key, value]) => (
-                                    <Text key={key} style={styles.modalText}>{`${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`}</Text>
-                                ))}
-                            </View>
-                        )}
-                        <TouchableOpacity style={styles.closeModalButton} onPress={() => setModalVisible(false)}>
-                            <Text style={styles.closeModalButtonText}>Fechar</Text>
-                        </TouchableOpacity>
-                    </View>
+    animationType="slide"
+    transparent={true}
+    visible={modalVisible}
+    onRequestClose={() => setModalVisible(false)}
+>
+    <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Personagem Criado</Text>
+            {selectedCharacter && ( // Use o estado do personagem selecionado
+                <View>
+                    {Object.entries(selectedCharacter).map(([key, value]) => (
+                        <Text key={key} style={styles.modalText}>{`${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`}</Text>
+                    ))}
                 </View>
-            </Modal>
+            )}
+            <TouchableOpacity style={styles.closeModalButton} onPress={() => setModalVisible(false)}>
+                <Text style={styles.closeModalButtonText}>Fechar</Text>
+            </TouchableOpacity>
+        </View>
+    </View>
+</Modal>
         </View>
     );
 }

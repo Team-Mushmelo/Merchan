@@ -203,10 +203,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   inputContainer: {
+    outlineWidth: 0,
     flexDirection: 'row',
     alignItems: 'center',
   },
   input: {
+    outlineWidth: 0,
     flex: 1,
     height: 50,
     borderColor: '#bf0cb1',
@@ -293,31 +295,38 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   commentContainer: {
+    outlineWidth: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   comment: {
+    outlineWidth: 0,
     fontSize: 14,
     color: '#40173d',
     marginLeft: 10,
   },
   commentUser: {
+    outlineWidth: 0,
     color: '#b0b0b0',
     fontWeight: 'bold',
   },
   commentText: {
+    outlineWidth: 0,
     color: '#40173d',
   },
   commentButtons: {
+    outlineWidth: 0,
     flexDirection: 'row',
     alignItems: 'center',
   },
   commentLikeText: {
+    outlineWidth: 0,
     fontSize: 14,
     color: '#40173d',
   },
   commentInput: {
+    outlineWidth: 0,
     height: 40,
     borderColor: '#bf0cb1',
     borderWidth: 1,
