@@ -75,15 +75,7 @@ export default function Routes() {
                 }}
             />
            
-           <Tab.Screen
-                name='chat'
-                component={chat}
-                options={{
-                    tabBarIcon: ({ size, color }) => (
-                        <Entypo name='game-controller' size={size} color={color} />
-                    ),
-                }}
-            />
+          
 
             <Tab.Screen
                 name='Perfil'

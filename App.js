@@ -5,6 +5,7 @@ import { StatusBar, SafeAreaView, Image } from 'react-native';
 import Logo from './assets/splash.png';
 import { useFonts, OpenSans_400Regular, OpenSans_700Bold } from '@expo-google-fonts/open-sans';
 import { Bungee_400Regular } from '@expo-google-fonts/bungee';
+
 // Importação das páginas principais
 import Routes from './src/pages/Routes';
 import PaginaLogar from './src/pages/PaginaLogar';
@@ -12,9 +13,11 @@ import Modo from './src/pages/Modo';
 import Recuperacao from './src/pages/Recuperacao';
 import Preferencias from './src/pages/Preferencias';
 import FinalLogin from './src/pages/Final_Login';
-import Forca from './src/pages/Jogos/forca'; // Certifique-se de que está exportando corretamente
-import Velha from './src/pages/Jogos/velha'; // Certifique-se de que está exportando corretamente
-import inicio from './src/pages/Jogos/inicio'; // Certifique-se de que está exportando corretamente
+import Forca from './src/pages/Jogos/forca';
+import Velha from './src/pages/Jogos/velha';
+import Inicio from './src/pages/Jogos/inicio';
+import Memoria from './src/pages/Jogos/memoria';
+import Tetris from './src/pages/Jogos/tetris';
 
 const Stack = createStackNavigator();
 
@@ -57,7 +60,9 @@ export default function App() {
             <Stack.Screen name='MeuApp' component={Routes} />
             <Stack.Screen name='forca' component={Forca} />
             <Stack.Screen name='velha' component={Velha} />
-            <Stack.Screen name='inicio' component={inicio} />
+            <Stack.Screen name='tetris' component={Tetris} />
+            <Stack.Screen name='memoria' component={Memoria} />
+            <Stack.Screen name='inicio' component={Inicio} />
           </>
         )}
       </Stack.Navigator>
