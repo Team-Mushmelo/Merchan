@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
     borderRadius: 20,
+    outlineWidth: 0,
   },
   continueButton: {
     flexDirection: 'row',
