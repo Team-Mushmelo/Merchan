@@ -39,6 +39,13 @@ const Inicio = () => {
       >
         <Text style={styles.buttonText}>Jogo da Tetris</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('blackout')}
+      >
+        <Text style={styles.buttonText}>Blackout</Text>
+      </TouchableOpacity>
     </View>
   );
 };

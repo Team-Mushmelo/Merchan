@@ -17,10 +17,15 @@
       "**/*"
     ],
     "android": {
-      "package": "com.example.meuapp"
+      "package": "com.example.meuapp",
+      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE"] 
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Este aplicativo precisa acessar a câmera.",
+        "NSPhotoLibraryUsageDescription": "Este aplicativo precisa acessar a galeria de fotos."
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

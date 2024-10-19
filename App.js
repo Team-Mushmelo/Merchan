@@ -18,6 +18,7 @@ import Velha from './src/pages/Jogos/velha';
 import Inicio from './src/pages/Jogos/inicio';
 import Memoria from './src/pages/Jogos/memoria';
 import Tetris from './src/pages/Jogos/tetris';
+import Blackout from './src/pages/Jogos/blackout';
 
 const Stack = createStackNavigator();
 
@@ -63,6 +64,7 @@ export default function App() {
             <Stack.Screen name='tetris' component={Tetris} />
             <Stack.Screen name='memoria' component={Memoria} />
             <Stack.Screen name='inicio' component={Inicio} />
+            <Stack.Screen name='blackout' component={Blackout} />
           </>
         )}
       </Stack.Navigator>
