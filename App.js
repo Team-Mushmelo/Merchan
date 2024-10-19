@@ -19,6 +19,9 @@ import Inicio from './src/pages/Jogos/inicio';
 import Memoria from './src/pages/Jogos/memoria';
 import Tetris from './src/pages/Jogos/tetris';
 import Blackout from './src/pages/Jogos/blackout';
+import Nintendo from './src/pages/guia/nintendo';
+import PlayStation from './src/pages/guia/playstation';
+import Um from './src/pages/guia/nintendo/um';
 
 const Stack = createStackNavigator();
 
@@ -65,6 +68,9 @@ export default function App() {
             <Stack.Screen name='memoria' component={Memoria} />
             <Stack.Screen name='inicio' component={Inicio} />
             <Stack.Screen name='blackout' component={Blackout} />
+            <Stack.Screen name='nintendo' component={Nintendo} />
+            <Stack.Screen name='playstation' component={PlayStation} />
+            <Stack.Screen name='um' component={Um} />
           </>
         )}
       </Stack.Navigator>

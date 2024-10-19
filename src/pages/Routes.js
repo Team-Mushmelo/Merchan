@@ -8,6 +8,7 @@ import Home from './Home/foru';
 import Ficha from './Ficha';
 import Perfil from './Perfil';
 import game from "./Jogos/inicio";
+import catalogo from "./guia/catalogo";
 import chat from "./chat";
 
 const Tab = createBottomTabNavigator();
@@ -75,7 +76,15 @@ export default function Routes() {
                 }}
             />
            
-          
+           <Tab.Screen
+                name='Guia'
+                component={catalogo}
+                options={{
+                    tabBarIcon: ({ size, color }) => (
+                        <Entypo name='location-pin' size={size} color={color} />
+                    ),
+                }}
+            />
 
             <Tab.Screen
                 name='Perfil'
