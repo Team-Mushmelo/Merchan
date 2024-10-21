@@ -15,18 +15,41 @@ const Inicio = () => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('nintendo')}
-      >
-        <Text style={styles.buttonText}>Nintendo</Text>
+      > <Image
+      source={require('./assets/nintendo.png')} // ajuste o caminho conforme necessário
+      style={styles.imagem}
+    />
       </TouchableOpacity>
 
       
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('playstation')}
-      >
-        <Text style={styles.buttonText}>Playstation</Text>
+      >  <Image
+      source={require('./assets/playst.png')} // ajuste o caminho conforme necessário
+      style={styles.imagem}
+    />
       </TouchableOpacity>
       
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('xbox')}
+      >
+      <Image
+        source={require('./assets/xbox.png')} // ajuste o caminho conforme necessário
+        style={styles.imagem}
+      />
+      </TouchableOpacity>
+
+      
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('sega')}
+      > <Image
+      source={require('./assets/sega.png')} // ajuste o caminho conforme necessário
+      style={styles.imagem}
+    />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -46,8 +69,41 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#40173d',
   },
-  button: {
-    backgroundColor: '#bc0cb1', // Cor de fundo do botão
+  buttonn: {
+    backgroundColor: '#E60012', // Cor de fundo do botão
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginBottom: 20, // Espaçamento entre os botões
+    width: '90%',
+    textAlign: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonp: {
+    backgroundColor: '#F6D600', // Cor de fundo do botão
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginBottom: 20, // Espaçamento entre os botões
+    width: '90%',
+    textAlign: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonx: {
+    backgroundColor: '#1CBA3D', // Cor de fundo do botão
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginBottom: 20, // Espaçamento entre os botões
+    width: '90%',
+    textAlign: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttons: {
+    backgroundColor: '#003DA5', // Cor de fundo do botão
     paddingVertical: 15,
     borderRadius: 10,
     marginBottom: 20, // Espaçamento entre os botões
