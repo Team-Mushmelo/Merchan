@@ -22,6 +22,8 @@ import Blackout from './src/pages/Jogos/blackout';
 import Nintendo from './src/pages/guia/nintendo';
 import PlayStation from './src/pages/guia/playstation';
 import Um from './src/pages/guia/nintendo/um';
+import Xbox from './src/pages/guia/xbox';
+import Sega from './src/pages/guia/sega';
 
 const Stack = createStackNavigator();
 
@@ -70,6 +72,8 @@ export default function App() {
             <Stack.Screen name='blackout' component={Blackout} />
             <Stack.Screen name='nintendo' component={Nintendo} />
             <Stack.Screen name='playstation' component={PlayStation} />
+            <Stack.Screen name='xbox' component={Xbox} />
+            <Stack.Screen name='sega' component={Sega} />
             <Stack.Screen name='um' component={Um} />
           </>
         )}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts, Bungee_400Regular } from '@expo-google-fonts/bungee';
 
@@ -8,47 +8,52 @@ const Inicio = () => {
   
   const [fontsLoaded] = useFonts({ BungeeRegular: Bungee_400Regular });
 
+  if (!fontsLoaded) {
+    return null; // ou um indicador de carregamento
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Guia do bom comprador</Text>
 
       <TouchableOpacity
-        style={styles.button}
+        style={styles.buttonn}
         onPress={() => navigation.navigate('nintendo')}
-      > <Image
-      source={require('./assets/nintendo.png')} // ajuste o caminho conforme necessário
-      style={styles.imagem}
-    />
+      >
+        <Image
+          source={require('../../../../assets/nintendo.png')}
+          style={styles.imagem}
+        />
       </TouchableOpacity>
 
-      
       <TouchableOpacity
-        style={styles.button}
+        style={styles.buttonp}
         onPress={() => navigation.navigate('playstation')}
-      >  <Image
-      source={require('./assets/playst.png')} // ajuste o caminho conforme necessário
-      style={styles.imagem}
-    />
+      >
+        <Image
+          source={require('../../../../assets/playst.png')}
+          style={styles.imagem}
+        />
       </TouchableOpacity>
-      
+
       <TouchableOpacity
-        style={styles.button}
+        style={styles.buttonx}
         onPress={() => navigation.navigate('xbox')}
       >
-      <Image
-        source={require('./assets/xbox.png')} // ajuste o caminho conforme necessário
-        style={styles.imagem}
-      />
+        <Image
+          source={require('../../../../assets/xbox.png')}
+          style={styles.imagem}
+        />
       </TouchableOpacity>
 
-      
       <TouchableOpacity
-        style={styles.button}
+        style={styles.buttons}
         onPress={() => navigation.navigate('sega')}
-      > <Image
-      source={require('./assets/sega.png')} // ajuste o caminho conforme necessário
-      style={styles.imagem}
-    />
+      >
+        <Image
+          source={require('../../../../assets/sega.png')}
+          style={styles.imagem}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -57,66 +62,58 @@ const Inicio = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',  // Centraliza verticalmente
-    alignItems: 'center',       // Centraliza horizontalmente
-    backgroundColor: '#f5f5f5', // Cor de fundo
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
   },
   title: {
     fontFamily: 'BungeeRegular',
     fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 30, // Espaçamento abaixo do título
+    marginBottom: 30,
     textAlign: 'center',
     color: '#40173d',
   },
   buttonn: {
-    backgroundColor: '#E60012', // Cor de fundo do botão
+    backgroundColor: '#E60012',
     paddingVertical: 15,
     borderRadius: 10,
-    marginBottom: 20, // Espaçamento entre os botões
+    marginBottom: 20,
     width: '90%',
-    textAlign: 'center',
-    alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonp: {
-    backgroundColor: '#F6D600', // Cor de fundo do botão
+    backgroundColor: '#F6D600',
     paddingVertical: 15,
     borderRadius: 10,
-    marginBottom: 20, // Espaçamento entre os botões
+    marginBottom: 20,
     width: '90%',
-    textAlign: 'center',
-    alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonx: {
-    backgroundColor: '#1CBA3D', // Cor de fundo do botão
+    backgroundColor: '#1CBA3D',
     paddingVertical: 15,
     borderRadius: 10,
-    marginBottom: 20, // Espaçamento entre os botões
+    marginBottom: 20,
     width: '90%',
-    textAlign: 'center',
-    alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttons: {
-    backgroundColor: '#003DA5', // Cor de fundo do botão
+    backgroundColor: '#003DA5',
     paddingVertical: 15,
     borderRadius: 10,
-    marginBottom: 20, // Espaçamento entre os botões
+    marginBottom: 20,
     width: '90%',
-    textAlign: 'center',
-    alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+  imagem: {
+    width: '100%',
+    height: 100, // Ajuste a altura da imagem conforme necessário
+    resizeMode: 'contain',
   },
 });
 
